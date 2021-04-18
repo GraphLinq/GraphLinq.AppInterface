@@ -126,6 +126,12 @@ const Presale: React.FC<PresaleProps> = ({ }) => {
             </Alert>
             }
 
+            <Alert style={{marginTop: 20, fontWeight: 600}}status="error" variant="left-accent" whiteSpace="pre-wrap">
+                    <AlertIcon />
+                    <i>The presale is ended and the smart-contract do not accept any more transactions, do not send Ethereum, 
+                    you can buy GLQ from <a style={{color: 'blue'}} target="_blank" href="https://app.uniswap.org/#/swap?inputCurrency=0x9F9c8ec3534c3cE16F928381372BfbFBFb9F4D24">Uniswap</a> or any of our listed CEXs.</i>
+                </Alert>
+
             <Box bg='gray.50' h="max" py="12" px={{ sm: '6', lg: '8' }}>
                 <Box maxW={{ sm: 'xl' }} mx={{ sm: 'auto' }} mt="8" w={{ sm: 'full' }}>
                     <Box
