@@ -17,19 +17,11 @@ export default function Option({
     const content = (
         <Button
             id={id}
-            color="currentcolor"
-            variant="outline"
-            verticalAlign="center"
             isActive={active}
-            width="full"
             _active={{ backgroundColor: "indigo.50" }}
             onClick={onClick}
         >
-            {active ? (
-                <Box as="span" w="10px" h="10px" borderRadius="50%" bgColor="green.300" mr={3} />
-            ) : ('')}
-            <Text>{header}</Text>
-            <Spacer />
+            <span>{header}</span>
             <Icon as={(WalletIcons as any)[icon]} w={6} h={6} />
         </Button>
     )

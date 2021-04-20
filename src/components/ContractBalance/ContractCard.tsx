@@ -20,29 +20,13 @@ export const ContractCard: React.FC<ContractCardProps> = ({ }) => {
     }, [account])
 
     return (
-        <Box mx={2} my={2} borderWidth="0px" borderRadius="lg" bgColor="brand.400" color="white">
-            <Box py="2" px="4">
-                <Box
-                    mt="1"
-                    fontSize="md"
-                    fontWeight="medium"
-                    as="h4"
-                    lineHeight="tight"
-                    color="gray.50"
-                >
-                    Cloud Contract Balance
-                </Box>
-                <Text fontSize="2xl" fontWeight="bold" lineHeight="10" whiteSpace="pre-wrap">
-                    {balance.amount}
-                    <Box as="span" color="gray.100" fontWeight="semibold" fontSize="sm">
-                        {" GLQ"}
-                    </Box>
-                </Text>
-                <ButtonGroup size="sm" colorScheme="whiteAlpha">
-                    <ModalDeposit />
-                    <ModalWithdraw />
-                </ButtonGroup>
-            </Box>
-        </Box>
+        <div className="bal">
+            <h2>Cloud Contract Balance</h2>
+            <div className="val in"><strong>{balance.amount}</strong> GLQ</div>
+            <div className="act">
+                <ModalDeposit />
+                <ModalWithdraw />
+            </div>
+        </div>
     );
 }

@@ -8,7 +8,6 @@ import { NetworkContextName } from './constants/index';
 import getLibrary from './utils/getLibrary';
 
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react"
-import theme from "./theme"
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
@@ -18,10 +17,9 @@ if ('ethereum' in window) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <ColorModeScript />
       <Web3ReactProvider getLibrary={getLibrary}>
         <Web3ProviderNetwork getLibrary={getLibrary}>
-          <ChakraProvider theme={theme}>
+          <ChakraProvider>
             <App />
           </ChakraProvider>
         </Web3ProviderNetwork>

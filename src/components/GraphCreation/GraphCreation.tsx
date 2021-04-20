@@ -154,14 +154,13 @@ export const GraphCreation = (props: any) => {
 
     return (
         <>
-            <Button onClick={onOpen} {...props}>{props.children}</Button>
+            <button onClick={onOpen} {...props}>{props.children}</button>
             <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader bgColor="gray.50" borderTopRadius="md">
+                <ModalOverlay className="ov" />
+                <ModalContent className="mod mod-cre">
+                    <header>
                         {step ?
-                            <Flex align="center">
-                                <Icon as={FiEdit} w="5" h="5" mr="2" />
+                            <Flex className="fd in fal fa-pencil">
                                 <Editable defaultValue={graphName} w="lg">
                                     <EditablePreview />
                                     <EditableInput value={graphName} onChange={(e) => { setGraphName(e.target.value) }} />
@@ -172,8 +171,8 @@ export const GraphCreation = (props: any) => {
                                 Settings Deployment
                             </Box>
                         }
-                    </ModalHeader>
-                    <ModalCloseButton />
+                    </header>
+                    <ModalCloseButton className="clo" />
                     <ModalBody>
                         {success &&
                             <Alert
@@ -204,8 +203,8 @@ export const GraphCreation = (props: any) => {
                             </Alert>
                         }
                         {step &&
-                            <SimpleGrid columns={3} spacing="40px" {...group}>
-                                <RadioCard clickable={true} key="blank" {...getRadioProps({ value: "blank" })}>
+                            <SimpleGrid className="ls-g" {...group}>
+                                <RadioCard className="lg" clickable={true} key="blank" {...getRadioProps({ value: "blank" })}>
                                     <div onClick={() => { window.open("https://ide.graphlinq.io", "_blank") }}><BlankCard /></div>
                                 </RadioCard>
                                 {templates.map((template) => {
@@ -229,37 +228,33 @@ export const GraphCreation = (props: any) => {
                         </Alert>
 
                     </ModalBody>
-                    <ModalFooter bgColor="gray.50" borderBottomRadius="md">
+                    <ModalFooter className="fot">
                         {fileUpload.loaded &&
-                            <Box>
-                                <Text fontSize="xs">Graph file uploaded successfully: size of <b>{(fileUpload.file as any).size} bytes</b> (name: {(fileUpload.file as any).name})</Text>
+                            <Box className="inf">
+                                <p>Graph file uploaded successfully: size of <b>{(fileUpload.file as any).size} bytes</b> (name: {(fileUpload.file as any).name})</p>
                             </Box>
                         }
-
                         {!fileUpload.loaded && template.loaded &&
-                            <Box>
-                                <Text fontSize="xs"><b>{(template.template as any).title}</b> selected, go to IDE to setup variables and deploy the graph here by importing the file.</Text>
+                            <Box className="inf">
+                                <p><b>{(template.template as any).title}</b> selected, go to IDE to setup variables and deploy the graph here by importing the file.</p>
                             </Box>
                         }
-
                         <input ref={inputFileRef as any} id="files" hidden={true} type="file" onClick={onInputClick} onChange={onFileChange} />
-                        {!fileUpload.loaded && <Button onClick={() => { (inputFileRef as any).current.click() }} htmlFor="files" variant="outline" colorScheme="brand" mr={3} hidden={!step}>Import .GLQ</Button>}
-
+                        {!fileUpload.loaded && <Button onClick={() => { (inputFileRef as any).current.click() }} htmlFor="files" className="sbt" hidden={!step}>Import .GLQ</Button>}
                         {!step || fileUpload.loaded &&
-                            <Button onClick={() => { resetEntry() }} variant="outline" colorScheme="brand" mr={3}>Reset</Button>}
-
+                            <Button onClick={() => { resetEntry() }} className="sbt">Reset</Button>}
                         {!step &&
-                            <Button variant="outline" colorScheme="brand" mr={3} onClick={() => { setSuccess(""); setStep(!step); }}>Previous</Button>
+                            <Button className="sbt" mr={3} onClick={() => { setSuccess(""); setStep(!step); }}>Previous</Button>
                         }
                         {!success &&
                         <div>
                              {fileUpload.loaded && !step &&
-                             <Button colorScheme="brand" onClick={() => updateStep()}>Next</Button>}
+                             <Button className="bt" onClick={() => updateStep()}>Next</Button>}
                              {fileUpload.loaded && step &&
-                             <Button colorScheme="brand" onClick={() => updateStep()}>Create</Button>}
+                             <Button className="bt" onClick={() => updateStep()}>Create</Button>}
 
                             {!fileUpload.loaded && template.loaded &&
-                             <Button colorScheme="brand" onClick={() =>  {
+                             <Button className="bt" onClick={() =>  {
                                 var host = window.location.hostname.replace('app.', '')
                                 console.log(host)
                                 Cookies.set('graph', template.template.bytes, { domain: host });

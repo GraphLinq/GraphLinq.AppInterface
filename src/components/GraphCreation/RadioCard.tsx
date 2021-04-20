@@ -8,7 +8,7 @@ export const RadioCard = (props: any) => {
     const checkbox = getCheckboxProps()
 
     return (
-        <Box as="label">
+        <label>
             <input {...input} />
             {!props.fileLoaded && props.clickable ? 
             <Box
@@ -42,8 +42,6 @@ export const RadioCard = (props: any) => {
                 
             </Box>
             }
-                
-            
-        </Box>
+        </label>
     );
 }

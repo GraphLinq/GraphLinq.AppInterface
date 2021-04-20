@@ -66,7 +66,7 @@ export const ModalWithdraw: React.FC<ModalWithdrawProps> = ({ }) => {
 
     return (
         <>
-            <Button ref={finalRef as any} onClick={onOpen} rightIcon={<Icon as={FiArrowDownLeft} />}>Withdraw</Button>
+            <button className="sbt" ref={finalRef as any} onClick={onOpen}>Withdraw <i className="fal fa-long-arrow-down"></i></button>
             <Modal finalFocusRef={finalRef as any} isOpen={isOpen} onClose={onClose} key="test" isCentered>
                 <ModalOverlay />
                 <ModalContent>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Image, Badge, useRadio } from '@chakra-ui/react';
-import TemplateLogo from "../../assets/template_logo.png"
+import TemplateLogo from "../../assets/radio/r-02.svg"
+import TemplateLogoSelect from "../../assets/radio/r-03.svg"
 
 interface TemplateCardProps {
     TemplateImageUrl: string,
@@ -12,28 +13,25 @@ export const TemplateCard: React.FC<TemplateCardProps> = (props) => {
 
     return (
         <>
-            <Box
-                h="90px"
-                maxH="90px"
-                bgImage={"url('" + TemplateLogo + "')"}
-                bgPosition="center"
-                bgRepeat="no-repeat"
-            />
-
-            <Box p="2">
-                <Box d="flex" alignItems="baseline">
-                    <Box
-                        color="gray.600"
-                        fontWeight="semibold"
-                        letterSpacing="wide"
-                        fontSize="xs"
-                        textTransform="capitalize"
-                        ml="2"
-                    >
-                        {props.TemplateTitle}
-                    </Box>
-                </Box>
-            </Box>
+            <div className="lgc">
+                <Box
+                    className="lg-nsl"
+                    h="50px"
+                    maxH="50px"
+                    bgImage={"url('" + TemplateLogo + "')"}
+                    bgPosition="center"
+                    bgRepeat="no-repeat"
+                />
+                <Box
+                    className="lg-sl"
+                    h="50px"
+                    maxH="50px"
+                    bgImage={"url('" + TemplateLogoSelect + "')"}
+                    bgPosition="center"
+                    bgRepeat="no-repeat"
+                />
+                {props.TemplateTitle}
+            </div>
         </>
     );
 }

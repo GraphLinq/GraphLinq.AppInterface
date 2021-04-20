@@ -19,7 +19,7 @@ import { HiOutlineDatabase, HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { FiGithub, FiMessageCircle, FiMessageSquare, FiBookOpen, FiExternalLink } from "react-icons/fi";
 import { GraphStateEnum } from '../../enums/graphState';
 import { NavLink } from 'react-router-dom';
-
+import { GraphCreation } from '../GraphCreation/GraphCreation';
 
 interface HeaderProps {
 
@@ -35,60 +35,54 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
     const { account, connector } = useWeb3React();
     let amountBalance = useSelector((state: any) => state.modals.balance.amount);
     return (
-        <Flex as="header" bgColor="white" py={4} px={6} boxShadow="0 5px 6px -7px rgb(0 0 0 / 60%), 0 2px 4px -5px rgb(0 0 0 / 6%)">
-            <Spacer />
-            {account !== undefined && (
-                <Box mr={2}>
-                    <Button
-                    as={NavLink}
-                    exact
-                    to="private-sale"
-                    leftIcon={<HiOutlineDatabase />}
-                    size="sm"
-                    colorScheme="brand"
-                    bgGradient="linear(to-r, indigo.500,brand.500)"
-                    variant="solid"
-                    px={4}
-                    mr={2}
-                    rounded="full"
-                    animation={`${pulse} 2s cubic-bezier(.4,0,.6,1) infinite`}
-                    >
-                        Private Sale
-                    </Button>
-                    <Tag size="lg" colorScheme="brand" borderRadius="full" mr={2}>
-                        <TagLabel>{amountBalance} GLQ</TagLabel>
-                    </Tag>
-                    <Tag size="lg" colorScheme="brand" borderRadius="full">
-                        {connector && <StatusIcon connector={connector} />}
-                        <TagLabel>{shortenAddress(account)}</TagLabel>
-                    </Tag>
-                </Box>
-            )}
-            <Menu>
-                <MenuButton
-                    as={IconButton}
-                    colorScheme="gray"
-                    aria-label="Links"
-                    icon={<Icon as={HiOutlineDotsHorizontal} w={5} h={5} />}
-                    textColor="gray.700"
-                    size="sm"
-                />
-                <MenuList>
-                    <MenuItem as={Link} icon={<FiBookOpen />} href="https://docs.graphlinq.io/" isExternal>
-                        Documentation
-                    </MenuItem>
-                    <MenuItem as={Link} icon={<FiMessageCircle />} href="https://discord.gg/k3tqWzub" isExternal>
-                        Discord
-                    </MenuItem>
-                    <MenuItem as={Link} icon={<FiMessageSquare />} href="https://t.me/graphlinq" isExternal>
-                        Telegram
-                    </MenuItem>
-                    <MenuItem as={Link} icon={<FiGithub />} href="https://github.com/GraphLinq/GraphLinq" isExternal>
-                        Github
-                    </MenuItem>
-                </MenuList>
-            </Menu>
-        </Flex>
+        <header id="h">
+            <div className="l">
+                <GraphCreation className="bt btm">
+                    Make a Graph <i className="fal fa-plus-circle"></i>
+                </GraphCreation>
+            </div>  
+            <div className="r">
+                {account !== undefined && (
+                    <div className="rt">
+                        <Button
+                        as={NavLink}
+                        exact
+                        to="private-sale"
+                        className="bt"
+                        >
+                            Private Sale
+                            <i className="fal fa-database"></i>
+                        </Button>
+                        <div className="gl in">{amountBalance} GLQ</div>
+                        <div className="ad in">
+                            {shortenAddress(account)}
+                        </div>
+                    </div>
+                )}
+                <Menu>
+                    <MenuButton
+                        as={IconButton}
+                        aria-label="Links"
+                        icon={<Icon as={HiOutlineDotsHorizontal} w={5} h={5} />}
+                        className="mn"
+                    />
+                    <MenuList className="mnv">
+                        <MenuItem as={Link} icon={<FiBookOpen />} href="https://docs.graphlinq.io/" isExternal>
+                            Documentation
+                        </MenuItem>
+                        <MenuItem as={Link} icon={<FiMessageCircle />} href="https://discord.gg/k3tqWzub" isExternal>
+                            Discord
+                        </MenuItem>
+                        <MenuItem as={Link} icon={<FiMessageSquare />} href="https://t.me/graphlinq" isExternal>
+                            Telegram
+                        </MenuItem>
+                        <MenuItem as={Link} icon={<FiGithub />} href="https://github.com/GraphLinq/GraphLinq" isExternal>
+                            Github
+                        </MenuItem>
+                    </MenuList>
+                </Menu>
+            </div>
+        </header>
     );
 }
 

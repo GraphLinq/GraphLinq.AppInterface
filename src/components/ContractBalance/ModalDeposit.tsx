@@ -79,7 +79,7 @@ export const ModalDeposit: React.FC<ModalDepositProps> = ({ }) => {
 
     return (
         <>
-            <Button ref={finalRef as any} onClick={onOpen} rightIcon={<Icon as={FiArrowUpRight} />}>Deposit</Button>
+            <button className="sbt" ref={finalRef as any} onClick={onOpen}>Deposit <i className="fal fa-long-arrow-up"></i></button>
             <Modal finalFocusRef={finalRef as any} isOpen={isOpen} onClose={onClose} key="test" isCentered>
                 <ModalOverlay />
                 <ModalContent>
