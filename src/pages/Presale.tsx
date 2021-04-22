@@ -85,7 +85,7 @@ const Presale: React.FC<PresaleProps> = ({ }) => {
 
     return (
         <>
-            <Box maxW={{ sm: 'xl' }} mx={{ sm: 'auto' }} mt="8" w={{ sm: 'full' }}>
+            <Box maxW={{ sm: 'xl' }} mx={{ sm: 'auto' }} w={{ sm: 'full' }}>
                 <h1 className="tc">{access ? "Private Pre-sale Round" : "Private Pre-sale Round Access"}</h1>
                 <Alert status="info">
                     <i className="fal fa-info-circle"></i>

@@ -37,6 +37,13 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
     return (
         <header id="h">
             <div className="l">
+                <button className="bnv" data-nav="" onClick={()=>{document.body.classList.toggle('onav')}}>
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path className="l-1" d="M0,42h62c13,0,6,26-4,16L35,35"></path>
+                        <path className="l-2" d="M0,50h70"></path>
+                        <path className="l-3" d="M0,58h62c13,0,6-26-4-16L35,65"></path>
+                    </svg>
+                </button>
                 <GraphCreation className="bt btm">
                     Make a Graph <i className="fal fa-plus-circle"></i>
                 </GraphCreation>

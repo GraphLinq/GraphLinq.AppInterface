@@ -161,7 +161,7 @@ export const GraphCard: React.FC<GraphCardProps> = ({
                         <Link fontWeight="semibold" textColor="brand.800" href={GraphIDELink} isExternal>
                             {GraphInfo?.alias}
                         </Link>
-                        <Text as="samp" fontSize="xs" textColor="gray.400" maxWidth="200px" isTruncated>{GraphInfo?.hashGraph}</Text>
+                        <Text as="samp" className="hash" maxWidth="200px" isTruncated>{GraphInfo?.hashGraph}</Text>
                     </Flex>
                     <Spacer />
                 </Box>
@@ -181,19 +181,19 @@ export const GraphCard: React.FC<GraphCardProps> = ({
                 }
                 <Box display="flex" width="200px" px={2}>
                     <Skeleton isLoaded={!isLoading}>
-                        <Text fontSize="sm" textColor="gray.600">{GraphInfo?.lastExecutionCost || "—"} GLQ</Text>
+                        <Text className="txx">{GraphInfo?.lastExecutionCost || "—"} GLQ</Text>
                         <Spacer />
                     </Skeleton>
                 </Box>
                 <Box display="flex" width="160px" px={2}>
                     <Skeleton isLoaded={!isLoading}>
-                        <Text fontSize="sm" textColor="gray.600">{(GraphInfo?.state === GraphStateEnum.Started) ? timeSinceExecution(GraphInfo?.loadedAt) : "—"}</Text>
+                        <Text className="txx">{(GraphInfo?.state === GraphStateEnum.Started) ? timeSinceExecution(GraphInfo?.loadedAt) : "—"}</Text>
                         <Spacer />
                     </Skeleton>
                 </Box>
                 <Box display="flex" width="160px" px={2}>
                     <Skeleton isLoaded={!isLoading}>
-                        <Text fontSize="sm" textColor="gray.600">{GraphInfo?.createdAt.toLocaleString()}</Text>
+                        <Text className="txx">{GraphInfo?.createdAt.toLocaleString()}</Text>
                     </Skeleton>
                     <Spacer />
                 </Box>
