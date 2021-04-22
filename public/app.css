@@ -173,11 +173,11 @@
     body .mnv > *{transition:.2s;font-size:14px;padding:10px 18px;background:transparent!important;text-decoration:none!important;box-shadow:0 0 0!important;}
     body .mnv > * i{color:#2334ff;font-size:14px;margin-right:10px;top:-1px;}
     body .mnv > * i.fa-times-circle,
-    body .mnv > * i.fa-trash{color:#ff294c;}
+    body .mnv > * i.fa-trash{color:#ff294c;}       
     body .mnv > * i.fa-play{color:#59b819;}        
     body .mnv > * i.fa-pause,
     body .mnv > * i.fa-stop,
-    body .mnv > * i.fa-sync{color:#2334ff;}
+    body .mnv > * i.fa-sync{color:#2334ff;} 
     body .mnv > * svg{color:#2334ff;font-size:16px;}
     body .mnv > *:hover{background-color:#26204b!important;color:#ece7fd;box-shadow:0 0 0;}
 
@@ -305,8 +305,14 @@
     body .table article a{line-height:1;font-size:14px;}
     body .table article:hover{background-color:#201b40!important;}
     body .table article .bt{width:105px!important;min-width:105px!important;}
+    body .table article .play{animation:run 1s infinite linear;background-color:#59b819;width:10px;height:10px;border-radius:50%;} 
     body .table .txx{color:#aba1ca;font-size:12px;line-height:1;}
     body .table .hash{color:#453e68;font-size:11px;margin-top:5px;line-height:1;}
+
+    @keyframes run{
+        0%{box-shadow:0 0 0 rgba(89,184,25,.8);}
+        100%{box-shadow:0 0 0 10px rgba(89,184,25,0);}
+    }
 
     body .load{height:0;top:150px;}
 

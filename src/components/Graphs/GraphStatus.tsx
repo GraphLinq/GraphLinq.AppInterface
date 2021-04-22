@@ -23,7 +23,7 @@ function StatusIcon({ status }: any) {
     if (status === GraphStateEnum.Starting || status === GraphStateEnum.Started) { /* running */
         return (
             <Tooltip hasArrow arrowSize={10} label="Running" bg="gray.900" color="white" size="xs" placement="top">
-                <i className="tool fal fa-play"></i>
+                <i className="tool play"></i>
             </Tooltip >
         );
     }
