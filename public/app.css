@@ -56,8 +56,8 @@
 /*----------------------------------------------------< PRESET APP >---------------------------------------------------*/
 
     /* * */
-        html, body.chakra-ui-light{background-color:#0c0a17;color:#aba1ca;width:100%;height:100%;overflow-x:hidden;font-family:'Gilroy', sans-serif!important;font-weight:400;}
-        body.chakra-ui-light{overflow-y:scroll}
+        html, body.chakra-ui-light{background-color:#0c0a17;color:#aba1ca;width:100%;height:100%;overflow:hidden;font-family:'Gilroy', sans-serif!important;font-weight:400;}
+        /*body.chakra-ui-light{overflow-y:scroll}*/
         body hr{opacity:.1!important;}
 
     /* alert */
@@ -117,7 +117,7 @@
 
 /************* auth **************/
     
-    #auth{}
+    #auth{overflow-y:auto;overflow-x:hidden;padding-bottom:35px;height:100vh;}
     
     #auth .auth-h{height:calc(120px + 30 * (100vw - 320px) / 1080);display:flex;align-items:center;justify-content:center;width:100vw;}
     #auth .auth-h img{width:calc(230px + 50 * (100vw - 320px) / 1080);max-width:80%;}
