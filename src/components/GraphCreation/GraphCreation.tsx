@@ -175,31 +175,16 @@ export const GraphCreation = (props: any) => {
                     <ModalCloseButton className="clo" />
                     <ModalBody>
                         {success &&
-                            <Alert
-                                style={{ marginBottom: "15px", marginTop: "15px" }}
-                                status="success"
-                                variant="subtle"
-                                flexDirection="column"
-                                alignItems="center"
-                                justifyContent="center"
-                                textAlign="center"
-                                height="200px"
-                            >
-                                <AlertIcon boxSize="40px" mr={0} />
-                                <AlertTitle mt={4} mb={1} fontSize="lg">
-                                    Graph Successfully started, Congratulations!
-                                </AlertTitle>
-                                <AlertDescription maxWidth="sm">
-                                    {graphName} execution unique hash :
-                                    <Text fontSize="xs" px="2">
-                                        <span style={{ color: "blue" }}>{success}</span>
-                                    </Text>
-                                </AlertDescription>
+                            <Alert status="success">
+                                <i className="fal fa-check-circle"></i> 
+                                <p>Graph Successfully started, Congratulations!</p>
+                                <p><small> {graphName} execution unique hash : {success}</small></p>
                             </Alert>
                         }
                         {error &&
                             <Alert style={{ marginBottom: "15px", marginTop: "15px" }} status="error">
-                                <AlertIcon />{error}
+                                <i className="fal fa-times-circle"></i> 
+                                <p>{error}</p>
                             </Alert>
                         }
                         {step &&
@@ -221,10 +206,9 @@ export const GraphCreation = (props: any) => {
 
                         {!step && fileUpload.loaded &&
                             <TemplateFile name={graphName} file={fileUpload.file as any} />}
-
-                        <Alert style={{ marginTop: 15, marginBottom: 15 }} status="info">
-                            <AlertIcon />
-                            <p>Template system are still in development, you can import a GLQ file generated directly from our <a style={{ color: 'blue' }} target="_blank" href="https://ide.graphlinq.io">IDE</a> (File -&gt; Save Graph). </p>
+                        <Alert status="info">
+                            <i className="fal fa-info-circle"></i> 
+                            <p>Template system are still in development, you can import a GLQ file generated directly from our <a style={{ color: '#3907ff' }} target="_blank" href="https://ide.graphlinq.io">IDE</a> (File -&gt; Save Graph). </p>
                         </Alert>
 
                     </ModalBody>

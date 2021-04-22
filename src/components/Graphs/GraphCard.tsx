@@ -153,22 +153,7 @@ export const GraphCard: React.FC<GraphCardProps> = ({
     }
 
     return (
-        <MotionBox
-            as="article"
-            w="full"
-            bgColor="gray.50"
-            border="1px"
-            borderColor="gray.300"
-            borderRadius="md"
-            py={4} px={8}
-            transition={{
-                type: 'spring',
-                duration: 2,
-                bounce: 0.5,
-            }}
-            whileHover={{ scale: 1.03, backgroundColor: "white", boxShadow: 'rgb(238 238 255 / 50%) 0px 2px 14px 8px' }}
-            _hover={{ borderColor: "brand.800" }}
-        >
+        <MotionBox as="article">
             <Flex alignItems="center">
                 <Box flex="1 1 0%" display="flex" alignItems="center" px={2}>
                     <GraphStatus state={GraphInfo?.state ?? 0} />
@@ -212,61 +197,41 @@ export const GraphCard: React.FC<GraphCardProps> = ({
                     </Skeleton>
                     <Spacer />
                 </Box>
-                <Button
-                    leftIcon={<Icon as={HiOutlineEye} w={5} h={5} />}
-                    onClick={onLogsOpen}
-                    mr={3}
-                    textColor="gray.700"
-                    size="md"
-                    variant="outline"
-                    px={2}
-                >
-                    View Logs
+                <Button onClick={onLogsOpen} mr={3} className="bt">
+                    View Logs <i className="fal fa-eye"></i>
                 </Button>
 
                 <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside" size="full">
-                    <ModalOverlay />
-                    <ModalContent mx={8}>
-                        <ModalHeader bgColor="gray.800" textColor="white" borderTopRadius="md">Logs</ModalHeader>
-                        <ModalCloseButton color="white" />
-                        <ModalBody bgColor="gray.900" textColor="gray.200">
+                    <ModalOverlay className="ov"/>
+                    <ModalContent className="mod mod-log">
+                        <header><h2>Logs</h2></header>
+                        <ModalCloseButton className="clo" />
+                        <ModalBody>
                             {logs === undefined && <Text textColor="amber.500">No logs available...</Text>}
                             {logs !== undefined && logs.map((x: Log, i: number) => {
                                 return <Text textColor={getColorLog(x.type)} key={`txt-${i}`}>[{x.type}] ({new Date(x.timestamp).toLocaleString()}):<br /> {x.message}</Text>
                             })}
                             <div ref={bottomRef}></div>
                         </ModalBody>
-                        <ModalFooter bgColor="gray.800" textColor="white" borderBottomRadius="md">
-                            <Button colorScheme="blackAlpha" onClick={onLogsClose}>Close</Button>
+                        <ModalFooter className="fot">
+                            <Button className="sbt" onClick={onLogsClose}>Close</Button>
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
                 <Menu>
                     <MenuButton
                         as={IconButton}
-                        aria-label="Options"
+                        aria-label="Links"
                         icon={<Icon as={HiOutlineDotsHorizontal} w={5} h={5} />}
-                        textColor="gray.700"
-                        size="md"
-                        variant="outline"
-                        isLoading={isLoading}
-                        disabled={isLoading}
+                        className="mn"
                     />
-                    <Portal>
-                        <MenuList>
-                            <MenuItem textColor="emerald.500" onClick={() => { deployGraph() }}>Start</MenuItem>
-                            <MenuItem onClick={() => { changeGraphState(GraphStateEnum.Restarting) }}>Force restart</MenuItem>
-                            <MenuItem onClick={() => { changeGraphState(GraphStateEnum.Stopped) }}>Stop</MenuItem>
-                            <MenuItem onClick={() => { removeGraph() }} textColor="red.500">Delete</MenuItem>
-                            <MenuDivider />
-                            {/* <MenuItem onClick={() => {
-                                var host = window.location.hostname.replace('app.', '')
-                                Cookies.set('graph', GraphInfo?.lastLoadedBytes ?? "", { domain: host });
-                                window.open(`https://ide.graphlinq.io/?loadGraph`, "_blank")
-                            }}>Edit</MenuItem> */}
-                            <MenuItem onClick={() => { exportGlqFile() }}textColor="amber.500">Export as .GLQ File</MenuItem>
-                        </MenuList>
-                    </Portal>
+                    <MenuList className="mnv">
+                        <MenuItem onClick={() => { deployGraph() }}><i className="fal fa-play"></i> Start</MenuItem>
+                        <MenuItem onClick={() => { changeGraphState(GraphStateEnum.Restarting) }}><i className="fal fa-play"></i> Force restart</MenuItem>
+                        <MenuItem onClick={() => { changeGraphState(GraphStateEnum.Stopped) }}><i className="fal fa-stop"></i> Stop</MenuItem>
+                        <MenuItem onClick={() => { exportGlqFile() }}><i className="fal fa-file"></i> Export as .GLQ File</MenuItem>
+                        <MenuItem onClick={() => { removeGraph() }}><i className="fal fa-trash"></i> Delete</MenuItem>
+                    </MenuList>
                 </Menu>
             </Flex>
         </MotionBox>

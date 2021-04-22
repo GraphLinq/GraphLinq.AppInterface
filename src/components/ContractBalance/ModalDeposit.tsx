@@ -81,45 +81,32 @@ export const ModalDeposit: React.FC<ModalDepositProps> = ({ }) => {
         <>
             <button className="sbt" ref={finalRef as any} onClick={onOpen}>Deposit <i className="fal fa-long-arrow-up"></i></button>
             <Modal finalFocusRef={finalRef as any} isOpen={isOpen} onClose={onClose} key="test" isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader bgColor="brand.50" borderTopRadius="md">Deposit</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody bgColor="brand.100" borderBottomRadius="md">
+                <ModalOverlay className="ov" />
+                <ModalContent className="mod mod-dep">
+                    <header><h2>Deposit</h2></header>
+                    <ModalCloseButton className="clo" />
+                    <ModalBody class="fred">
                         <Stack spacing={3} p="4">
                             {error &&
                             <Alert status="error">
-                                <AlertIcon />{error}
+                                <i className="fal fa-times-circle"></i> 
+                                <p>{error}</p>
                             </Alert>
                             }
                             {!success && pending &&
                             <Alert status="info">
-                                <AlertIcon />{pending}
+                                <i className="fal fa-info-circle"></i> 
+                                <p>{pending}</p>
                             </Alert>
                             }
                             {success &&
-                             <Alert
-                                status="success"
-                                variant="subtle"
-                                flexDirection="column"
-                                alignItems="center"
-                                justifyContent="center"
-                                textAlign="center"
-                                height="200px"
-                            >
-                                <AlertIcon boxSize="40px" mr={0} />
-                                <AlertTitle mt={4} mb={1} fontSize="lg">
-                                    Deposit successfully completed !
-                                </AlertTitle>
-                                <AlertDescription maxWidth="sm">
-                                    Transaction hash :
-                            <Text fontSize="xs" isTruncated px="2">
-                                        <a style={{color: 'blue'}} href={`https://etherscan.com/tx/${success}`} target="_blank">{success}</a>
-                            </Text>
-                                </AlertDescription>
+                            <Alert status="success" className="alert-m">
+                                <i className="fal fa-check-circle"></i> 
+                                <p>Deposit successfully completed !
+                                <br/><small>Transaction hash : <a href={`https://etherscan.com/tx/${success}`} target="_blank">{success}</a></small></p>
                             </Alert>
                             }
-                            <NumberInput
+                            <NumberInput className="fd in"
                                 placeholder="GLQ Amount"
                                 onChange={(value) => { setAmountDeposit(parse(value)) }}
                                 value={format(amountDeposit)}
@@ -127,16 +114,15 @@ export const ModalDeposit: React.FC<ModalDepositProps> = ({ }) => {
                                 defaultValue={0}
                                 min={0}
                                 borderColor="brand.300"
-                                focusBorderColor="brand.500"
+                                focusBorderColor="#3907ff"
                                 step={0.1}>
-
                                 <NumberInputField />
                                 <NumberInputStepper>
-                                    <NumberIncrementStepper color="brand.500" />
-                                    <NumberDecrementStepper color="brand.500" />
+                                    <NumberIncrementStepper color="#3907ff" />
+                                    <NumberDecrementStepper color="#3907ff" />
                                 </NumberInputStepper>
                             </NumberInput>
-                            <Button onClick={doDeposit} colorScheme="brand" size="lg"> Deposit</Button>
+                            <Button onClick={doDeposit} className="bt">Deposit</Button>
                         </Stack>
                     </ModalBody>
                 </ModalContent>

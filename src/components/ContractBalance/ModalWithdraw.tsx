@@ -68,78 +68,51 @@ export const ModalWithdraw: React.FC<ModalWithdrawProps> = ({ }) => {
         <>
             <button className="sbt" ref={finalRef as any} onClick={onOpen}>Withdraw <i className="fal fa-long-arrow-down"></i></button>
             <Modal finalFocusRef={finalRef as any} isOpen={isOpen} onClose={onClose} key="test" isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader bgColor="brand.50" borderTopRadius="md">Withdraw</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody bgColor="brand.100" borderBottomRadius="md">
+                <ModalOverlay className="ov" />
+                <ModalContent className="mod mod-dep">
+                    <header><h2>Withdraw</h2></header>
+                    <ModalCloseButton className="clo" />
+                    <ModalBody class="fred">
                         <Stack spacing={3} p="4">
                             {error &&
                             <Alert status="error">
-                                <AlertIcon />{error}
+                                <i className="fal fa-times-circle"></i> 
+                                <p>{error}</p>
                             </Alert>
                             }
-                           {!success && pending &&
+                            {!success && pending &&
                             <Alert status="info">
-                                <AlertIcon />{pending}
+                                <i className="fal fa-info-circle"></i> 
+                                <p>{pending}</p>
                             </Alert>
                             }
                             {success &&
-                             <Alert
-                                status="success"
-                                variant="subtle"
-                                flexDirection="column"
-                                alignItems="center"
-                                justifyContent="center"
-                                textAlign="center"
-                                height="200px"
-                            >
-                                <AlertIcon boxSize="40px" mr={0} />
-                                <AlertTitle mt={4} mb={1} fontSize="lg">
-                                    Withdraw successfully completed !
-                                </AlertTitle>
-                                <AlertDescription maxWidth="sm">
-                                    Transaction hash :
-                            <Text fontSize="xs" isTruncated px="2">
-                                        <a style={{color: 'blue'}} href={`https://etherscan.com/tx/${success}`} target="_blank">{success}</a>
-                            </Text>
-                                </AlertDescription>
+                            <Alert status="success">
+                                <i className="fal fa-check-circle"></i>
+                                <p>Withdraw successfully completed !</p>
+                                <p><small>Transaction hash : <a href={`https://etherscan.com/tx/${success}`} target="_blank">{success}</a></small></p>
                             </Alert>
                             }
-                            <Alert
-                                status="info"
-                                variant="subtle"
-                                flexDirection="column"
-                                alignItems="center"
-                                justifyContent="center"
-                                textAlign="center"
-                                height="200px"
-                            >
-                                <AlertIcon boxSize="40px" mr={0} />
-                                <AlertDescription maxWidth="sm">
-                                    <div style={{paddingTop: 20}}>
-                                        You currently have <b>{dueBalance} GLQ</b> of execution cost from executed graphs to burn.
-                                    </div>
-                                </AlertDescription>
+                            <Alert status="info" className="alert-m">
+                                <i className="fal fa-info-circle"></i>
+                                <p>You currently have <b>{dueBalance} GLQ</b> of execution cost from executed graphs to burn.</p>
                             </Alert>
-                            <NumberInput
+                            <NumberInput className="fd in"
                                 placeholder="GLQ Amount"
                                 onChange={(value) => { setAmountWithdraw(parse(value)) }}
                                 value={format(amountWithdraw)}
                                 size="lg"
                                 defaultValue={0}
                                 min={0}
-                                borderColor="brand.300"
-                                focusBorderColor="brand.500"
-                                step={0.1}
-                            >
+                                focusBorderColor="#3907ff"
+                                step={0.1}>
                                 <NumberInputField />
                                 <NumberInputStepper>
-                                    <NumberIncrementStepper color="brand.500" />
-                                    <NumberDecrementStepper color="brand.500" />
+                                    <NumberIncrementStepper color="#3907ff" />
+                                    <NumberDecrementStepper color="#3907ff" />
                                 </NumberInputStepper>
                             </NumberInput>
-                            <Button onClick={doWithdraw} colorScheme="brand" size="lg">Withdraw</Button>
+                            <Button onClick={doWithdraw} className="bt">Withdraw</Button>
                         </Stack>
                     </ModalBody>
                 </ModalContent>

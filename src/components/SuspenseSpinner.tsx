@@ -11,8 +11,8 @@ export const SuspenseSpinner: React.FC<SuspenseSpinnerProps> = ({ }) => {
             <Spinner
                 thickness="5px"
                 speed="0.65s"
-                emptyColor="gray.200"
-                color="brand.500"
+                emptyColor="#2334ff"
+                color="#15122b"
                 size="xl"
             />
         </Center>

@@ -50,76 +50,62 @@ const Graphs: React.FC<GraphsProps> = ({ }) => {
     }, [account])
 
     return (
-        <Grid px={24}>
-            <Heading as="h1" size="lg" fontWeight="semibold" textColor="gray.700" my={12}>Graphs</Heading>
-            <Box
-                w="full" py={2} px={6}
-                bgColor="brand.500"
-                borderRadius="md"
-                mb={6}
-            >
-                <Flex alignItems="center">
-                    <Text fontSize="md" textColor="brand.50">
-                        Below is the list of your Graphs. You can view logs, stop or delete each one of them.
-                        </Text>
-                    <Spacer />
-                    <GraphCreation
-                        colorScheme="brand"
-                        rightIcon={<Icon w={5} h={5} as={HiPlus} />}
-                    >
-                        New Graph
-                    </GraphCreation>
-                </Flex>
-            </Box>
-
+        <>
+            <h1>
+                Graphs
+                <GraphCreation className="bt">
+                    New Graph <i className="fal fa-plus-circle"></i>
+                </GraphCreation>
+            </h1>
+            <Alert status="info">
+                <i className="fal fa-info-circle"></i> 
+                <p>Below is the list of your Graphs. You can view logs, stop or delete each one of them.</p>
+            </Alert>
             {reachable && !loaded &&
             <SuspenseSpinner/>}
-
             {!reachable &&
-             <Alert status="error" variant="left-accent" whiteSpace="pre-wrap">
-             <AlertIcon />
-             The engine main-net network can't be reached, please try again later or contact the <i>GraphLinq Support</i>.
-         </Alert>}
-
+            <Alert status="info">
+                <i className="fal fa-times-circle"></i> 
+                <p>The engine main-net network can't be reached, please try again later or contact the <i>GraphLinq Support</i>.</p>
+            </Alert>
+            }
             {graphsList.length == 0 && loaded &&
-                <Alert status="warning" variant="left-accent" whiteSpace="pre-wrap">
-                    <AlertIcon />
-                    You don't have created or deployed any graph yet, refer to our 
-                    <Box
-                        as="a"
-                        target="_blank"
-                        marginStart="1"
-                        href="https://docs.graphlinq.io/graph"
-                        color='amber.600'
-                        _hover={{ color: 'amber.700' }}
-                        display={{ base: 'block', sm: 'revert' }}
-                    >documentation</Box> to start your journey.
+                <Alert status="info">
+                    <i className="fal fa-exclamation-triangle"></i> 
+                    <p>You don't have created or deployed any graph yet, refer to our <Box
+                            as="a"
+                            target="_blank"
+                            marginStart="1"
+                            href="https://docs.graphlinq.io/graph"
+                            color='amber.600'
+                            _hover={{ color: 'amber.700' }}
+                            display={{ base: 'block', sm: 'revert' }}
+                        >documentation</Box> to start your journey.</p>
                 </Alert>
             }
-
             {graphsList.length > 0 &&
-            <div>
-                <Box py={3} px={8}>
+            <div className="table">
+                <Box py={3} px={8} className="th">
                     <Flex alignItems="center">
                         <Box flex="1 1 0%" display="flex" px={2}>
-                            <Text fontSize="xs" textColor="gray.500">Name :</Text>
+                            <Text fontSize="xs">Name :</Text>
                             <Spacer />
                         </Box>
                         <Box display="flex" width="48px" minH="48px" justifyContent="center" px={2} />
                         <Box display="flex" width="200px" px={2}>
-                            <Text fontSize="xs" textColor="gray.500">Hosted API :</Text>
+                            <Text fontSize="xs">Hosted API :</Text>
                             <Spacer />
                         </Box>
                         <Box display="flex" width="200px" px={2}>
-                            <Text fontSize="xs" textColor="gray.500">Execution cost :</Text>
+                            <Text fontSize="xs">Execution cost :</Text>
                             <Spacer />
                         </Box>
                         <Box display="flex" width="160px" px={2}>
-                            <Text fontSize="xs" textColor="gray.500">Running since :</Text>
+                            <Text fontSize="xs">Running since :</Text>
                             <Spacer />
                         </Box>
                         <Box display="flex" width="160px" px={2}>
-                            <Text fontSize="xs" textColor="gray.500">Created :</Text>
+                            <Text fontSize="xs">Created :</Text>
                             <Spacer />
                         </Box>
                         <Box display="flex" width="135px" minH="48px" justifyContent="center" px={2} />
@@ -133,7 +119,7 @@ const Graphs: React.FC<GraphsProps> = ({ }) => {
                 </VStack>
             </div>
             }
-        </Grid>
+        </>
     );
 }
 
