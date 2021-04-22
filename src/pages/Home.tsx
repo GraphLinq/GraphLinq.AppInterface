@@ -44,7 +44,10 @@ const Home: React.FC<HomeProps> = ({}) => {
         }, 10)
 
         setTimeout(() => {
-            (document as any).querySelector('.grph').style.opacity = 1;
+            const property = (document as any).querySelector('.grph')
+            if (property != null) {
+                property.style.opacity = 1;
+            }
         }, 1000)
     }
     useEffect(() => {
