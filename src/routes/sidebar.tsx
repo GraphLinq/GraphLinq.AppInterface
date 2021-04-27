@@ -20,6 +20,11 @@ const routes = [
       icon: 'HiOutlineDatabase',
       name: 'Private Sale',
     },
+    {
+      path: '/app/buy-glq',
+      icon: 'HiOutlineShoppingCart',
+      name: 'Buy GLQ',
+    },
   ]
   
   export default routes

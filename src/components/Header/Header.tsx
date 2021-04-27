@@ -54,6 +54,15 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
                         <Button
                         as={NavLink}
                         exact
+                        to="buy-glq"
+                        className="bt"
+                        >
+                            Buy GLQ with FIAT
+                            <i className="fal fa-database"></i>
+                        </Button>
+                        <Button
+                        as={NavLink}
+                        exact
                         to="private-sale"
                         className="bt"
                         >

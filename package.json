@@ -19,6 +19,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@transak/transak-sdk": "^1.0.28",
     "@web3-react/core": "^6.1.1",
     "babel-plugin-jsx-control-statements": "^4.1.0",
     "ethers": "^5.0.31",

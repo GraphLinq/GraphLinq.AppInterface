@@ -3,6 +3,7 @@ import { lazy } from 'react'
 const Home = lazy(() => import('../pages/Home'))
 const Graphs = lazy(() => import('../pages/Graphs'))
 const Presale = lazy(() => import('../pages/Presale'))
+const BuyGlq = lazy(() => import('../pages/BuyGlq'))
 const Page404 = lazy(() => import('../pages/404'))
 
 /**
@@ -23,6 +24,10 @@ const routes = [
   {
     path: '/private-sale',
     component: Presale,
+  },
+  {
+    path: '/buy-glq',
+    component: BuyGlq,
   },
   {
     path: '/404',
