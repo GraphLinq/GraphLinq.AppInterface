@@ -1,6 +1,6 @@
-import React from 'react'
-import transakSDK from '@transak/transak-sdk'
+import React, { useEffect } from 'react'
 import { useWeb3React } from "@web3-react/core";
+import { Alert, Box } from '@chakra-ui/react';
 
 interface BuyGlqProps {
 
@@ -10,37 +10,24 @@ const BuyGlq: React.FC<BuyGlqProps> = ({ }) => {
 
     const { account } = useWeb3React();
 
-    let transak = new transakSDK({
-        apiKey: process.env.REACT_APP_TRANSAK_API_KEY,  // Your API Key
-        environment: process.env.REACT_APP_TRANSAK_ENV, // STAGING/PRODUCTION
-        defaultCryptoCurrency: 'GLQ',
-        walletAddress: account, // Your customer's wallet address
-        themeColor: '2334ff', // App theme color
-        fiatCurrency: '', // INR/GBP
-        email: '', // Your customer's email address
-        redirectURL: '',
-        hostURL: window.location.origin,
-        widgetHeight: '550px',
-        widgetWidth: '450px'
-    });
-    
-    transak.init();
-    
-    // To get all the events
-    transak.on(transak.ALL_EVENTS, (data: any) => {
-        console.log(data)
-    });
-    
-    // This will trigger when the user marks payment is made.
-    transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData: any) => {
-        console.log(orderData);
-        transak.close();
-    });
+    const apiKey = process.env.REACT_APP_TRANSAK_API_KEY
 
     return (
-        <>
-            <h1>Buy GLQ with FIAT</h1>
-        </>
+        <Box maxW={{ sm: 'xl' }} mx={{ sm: 'auto' }} w={{ sm: 'full' }}>
+            <h1 className="tc">Buy GLQ with FIAT</h1>
+            <Box className="priv">
+                <Alert status="warning">
+                    <i className="fal fa-info-circle"></i>
+                    <p>You can buy GLQ token with fiat from the secure gateway crypto provider <a href="https://transak.com" target="_blank">Transak.com,</a> with only a 1% fee from your bank withdrawal or card payment.</p>
+                </Alert>
+                <iframe
+                    id="transakOnOffRampWidget"
+                    src={
+                        "https://global.transak.com?apiKey=" + apiKey +
+                        "&amp;cryptoCurrencyCode=GLQ&defaultCryptoCurrency=GLQ&cryptoCurrencyList=GLQ&hideMenu=true&themeColor=2334ff&walletAddress=" + account}
+                    style={{ width: 520, height: 580, borderRadius: 16, overflow: "hidden" }} scrolling="no"></iframe>
+            </Box>
+        </Box>
     );
 }
 

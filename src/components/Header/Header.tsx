@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
                         className="bt"
                         >
                             Buy GLQ with FIAT
-                            <i className="fal fa-database"></i>
+                            <i className="fal fa-shopping-cart"></i>
                         </Button>
                         <Button
                         as={NavLink}
