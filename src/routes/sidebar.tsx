@@ -13,17 +13,22 @@ const routes = [
     {
       path: '/app/graphs',
       icon: 'HiOutlinePuzzle',
-      name: 'Graphs',
+      name: 'My Graphs',
     },
     {
-      path: '/app/private-sale',
-      icon: 'HiOutlineDatabase',
-      name: 'Private Sale',
+      path: '/app/templates',
+      icon: 'HiOutlineDocumentText',
+      name: 'Graph Templates',
     },
     {
       path: '/app/buy-glq',
       icon: 'HiOutlineShoppingCart',
       name: 'Buy GLQ',
+    },
+    {
+      path: '/app/private-sale',
+      icon: 'HiOutlineDatabase',
+      name: 'Private Sale',
     },
   ]
   

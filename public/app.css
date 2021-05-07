@@ -278,7 +278,7 @@
 /************* list graph bloc **************/
     
     body .ls-g{display:flex;flex-wrap:wrap;text-align:center;margin:-7px;margin-bottom:10px;}
-    body .ls-g > *{width:33.33%;padding:7px;}
+    body .ls-g > *{width:20%;padding:7px;}
     body .ls-g > * > div{height:100%;box-shadow:0 0 0;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 2px calc(5px + 5 * (100vw - 320px) / 1080) rgba(16,112,255,0);padding:15px;transition:background-color .3s, box-shadow .3s;cursor:pointer;background-color:#201b40;border-radius:calc(20px + 3 * (100vw - 320px) / 1080);}
     body .ls-g > * > input:checked + div{box-shadow:0 3px calc(15px + 5 * (100vw - 320px) / 1080) rgba(16,112,255,.3);}
     body .ls-g > * > div:hover{background-color:#2b2456;}
@@ -290,7 +290,7 @@
     body .ls-g input,body .ls-g .lg-sl,
     body .ls-g > * > input:checked + div .lg-nsl{display:none;}
     body .ls-g > * > input:checked + div .lg-sl{display:block;}
-    body .ls-g .lgc{padding:5px 0;font-size:11px;line-height:1.1;}
+    body .ls-g .lgc{padding:5px 0;font-size:0.85rem;line-height:1.1;}
     body .ls-g .lgc > div{margin:0 auto 10px;width:50px!important;height:50px!important;}
 
 

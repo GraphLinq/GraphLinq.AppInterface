@@ -4,6 +4,7 @@ const Home = lazy(() => import('../pages/Home'))
 const Graphs = lazy(() => import('../pages/Graphs'))
 const Presale = lazy(() => import('../pages/Presale'))
 const BuyGlq = lazy(() => import('../pages/BuyGlq'))
+const Templates = lazy(() => import('../pages/Templates'))
 const Page404 = lazy(() => import('../pages/404'))
 
 /**
@@ -20,6 +21,10 @@ const routes = [
   {
     path: '/graphs',
     component: Graphs,
+  },
+  {
+    path: '/templates',
+    component: Templates,
   },
   {
     path: '/private-sale',

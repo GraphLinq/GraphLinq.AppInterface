@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
@@ -6,7 +6,6 @@ import { CustomRoute } from "./routes/types";
 
 import { useActiveWeb3React } from "./hooks/";
 import Web3ReactManager from "./web3/web3Manager";
-import Auth from "./pages/Auth"
 import Layout from "./containers/Layout"
 
 const AppWrapper = () => {

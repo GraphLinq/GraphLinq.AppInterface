@@ -1,8 +1,7 @@
-import { Alert, AlertTitle, AlertDescription, AlertIcon, Box, Button, Divider, Flex, Heading, Input, Progress, Spacer, Stat, StatHelpText, StatLabel, StatNumber, Text, useClipboard, VStack } from '@chakra-ui/react';
+import { Alert, Box, Button, Divider, Flex, Input, Progress, Spacer, Stat, StatHelpText, StatLabel, StatNumber, useClipboard, VStack } from '@chakra-ui/react';
 import React, { useEffect } from 'react'
 import { usePresaleContract } from '../hooks/useContract';
 import { useWeb3React } from "@web3-react/core";
-import { getDecimalsAmount } from '../utils';
 import { utils } from 'ethers';
 import ManagerProvider from '../providers/manager';
 

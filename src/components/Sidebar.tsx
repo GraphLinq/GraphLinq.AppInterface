@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, VStack, Icon, Link, Button, Text, Image, Divider, Flex } from '@chakra-ui/react';
+import { Box, Icon, Link, Image, Spacer } from '@chakra-ui/react';
 import { NavLink, Route } from 'react-router-dom';
 import routes from '../routes/sidebar'
 import * as Icons from 'react-icons/hi'
@@ -18,12 +18,13 @@ const IconSidebar = ({ icon, ...props }: any) => {
 export const Sidebar: React.FC<SidebarProps> = ({ }) => {
     return (
         <aside id="a">
+            <Box as="nav" id="n" h="100vh">
+                <Box display="flex" flexDirection="column" h="full">
             <div className="lo">
                <Image src={GLQLogo}/>
             </div>
             <ContractCard />
-            <nav id="n">
-                <ul>
+                    <Box as="ul">
                     {routes.map((route: any) => (
                         <li>
                             <Link
@@ -38,8 +39,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ }) => {
                             </Link>
                         </li>
                     ))}
-                </ul>
-            </nav>
+                    </Box>
+                    <Box as="ul" mt="auto" mb="1rem">
+                    <li>
+                        <Link href="https://ide.graphlinq.io/" isExternal>
+                            <IconSidebar icon="HiOutlineTerminal" w={4} h={4} />
+                            IDE
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://analytics.graphlinq.io/" isExternal>
+                            <IconSidebar icon="HiOutlineTrendingUp" w={4} h={4} />
+                            Analytics
+                        </Link>
+                    </li>
+                    </Box>
+                </Box>
+            </Box>
         </aside>
     );
 }

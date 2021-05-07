@@ -7,7 +7,13 @@ import colors from "./colors"
 import Tooltip from "./components/tooltip"
 
 const overrides = {
+  initialColorMode: "dark",
+  useSystemColorMode: false,
   colors,
+  fonts:  {
+    heading: "Gilroy",
+    body: "Gilroy",
+  },
   // Other foundational style overrides go here
   components: {
     Tooltip,

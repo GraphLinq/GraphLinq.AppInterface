@@ -113,7 +113,6 @@ export const ModalDeposit: React.FC<ModalDepositProps> = ({ }) => {
                                 size="lg"
                                 defaultValue={0}
                                 min={0}
-                                borderColor="brand.300"
                                 focusBorderColor="#3907ff"
                                 step={0.1}>
                                 <NumberInputField />

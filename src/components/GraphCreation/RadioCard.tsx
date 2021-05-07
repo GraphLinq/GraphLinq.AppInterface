@@ -20,7 +20,6 @@ export const RadioCard = (props: any) => {
                 cursor="pointer"
                 _checked={{
                     borderWidth:"2px",
-                    borderColor: "brand.600",
                 }}>
                 {props.children}
            </Box>
@@ -35,7 +34,6 @@ export const RadioCard = (props: any) => {
                 overflow="hidden"
                 _checked={{
                     borderWidth:"2px",
-                    borderColor: "brand.600",
                 }}>
                 
                 {props.children}

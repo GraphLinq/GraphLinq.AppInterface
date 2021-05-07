@@ -39,7 +39,7 @@ function timeSinceExecution(date: any): string {
 export const GraphCard: React.FC<GraphCardProps> = ({
     GraphInfo = undefined,
     GraphName = "Default",
-    GraphIDELink = "https://ide.graphlinq.io/graphId",
+    GraphIDELink = "https://ide.graphlinq.io/",
     GraphExecCost = null,
     GraphExecTime = "—",
     GraphCreation = "—",
@@ -158,7 +158,7 @@ export const GraphCard: React.FC<GraphCardProps> = ({
                 <Box flex="1 1 0%" display="flex" alignItems="center" px={2}>
                     <GraphStatus state={GraphInfo?.state ?? 0} />
                     <Flex flexDirection="column">
-                        <Link fontWeight="semibold" textColor="brand.800" href={GraphIDELink} isExternal>
+                        <Link fontWeight="semibold" textColor="#aba1ca" href={GraphIDELink} isExternal>
                             {GraphInfo?.alias}
                         </Link>
                         <Text as="samp" className="hash" maxWidth="200px" isTruncated>{GraphInfo?.hashGraph}</Text>
@@ -171,7 +171,7 @@ export const GraphCard: React.FC<GraphCardProps> = ({
                 <Box display="flex" width="200px" px={2}>
                     <Skeleton isLoaded={!isLoading}>
                     
-                        <Link fontSize="xs" fontWeight="semibold" textColor="brand.800" href={`https://api-hosted.graphlinq.io/${GraphInfo?.hashGraph}`} isExternal>
+                        <Link fontSize="xs" fontWeight="semibold" textColor="#aba1ca" href={`https://api-hosted.graphlinq.io/${GraphInfo?.hashGraph}`} isExternal>
                         api-hosted.graphlinq.io/{GraphInfo?.hashGraph.substr(0, 6)}..
                         </Link>
                           

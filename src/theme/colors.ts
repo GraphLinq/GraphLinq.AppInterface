@@ -11,7 +11,7 @@ const colors = {
         800: "#5B21B6",
         900: "#4C1D95",
     },
-    indigo: {
+    /* indigo: {
         50: "#EEF2FF",
         100: "#E0E7FF",
         200: "#C7D2FE",
@@ -58,7 +58,7 @@ const colors = {
         700: "#B45309",
         800: "#92400E",
         900: "#78350F",
-    },
+    }, */
 };
 
 export default colors;

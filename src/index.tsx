@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -8,6 +8,7 @@ import { NetworkContextName } from './constants/index';
 import getLibrary from './utils/getLibrary';
 
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react"
+import theme from './theme'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
@@ -17,13 +18,14 @@ if ('ethereum' in window) {
 
 ReactDOM.render(
   <React.StrictMode>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <Web3ProviderNetwork getLibrary={getLibrary}>
-          <ChakraProvider>
-            <App />
-          </ChakraProvider>
-        </Web3ProviderNetwork>
-      </Web3ReactProvider>
+    <ColorModeScript />
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <Web3ProviderNetwork getLibrary={getLibrary}>
+        <ChakraProvider theme={theme}>
+          <App />
+        </ChakraProvider>
+      </Web3ProviderNetwork>
+    </Web3ReactProvider>
   </React.StrictMode>,
   document.getElementById("root"));
 
