@@ -39,7 +39,7 @@ const Home: React.FC<HomeProps> = ({}) => {
                 .highcharts-markers > *{fill:#3907ff!important}
                 .highcharts-tooltip-box > *:not(text){fill:#201b40!important;stroke:none;!important;}
                 .highcharts-tooltip-box > text{fill:#aba1ca!important;stroke:none!important;}
-                .highcharts-tooltip-box > text tspan:last-child{fill:#3907ff!important;stroke:none!important;}
+                .highcharts-tooltip-box > text tspan:last-child{fill:#aba1ca!important;stroke:none!important;}
             `;
         }, 10)
 
