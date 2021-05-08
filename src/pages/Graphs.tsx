@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Heading, VStack, Box, Flex, Text, Spacer, HStack, IconButton, Icon, Button, Alert, AlertIcon, Center } from '@chakra-ui/react';
+import { VStack, Box, Flex, Text, Spacer, Alert } from '@chakra-ui/react';
 import { GraphCard } from '../components/Graphs/GraphCard';
-import { HiPlus } from 'react-icons/hi';
 import { GraphResponse } from '../providers/responses/graph';
 import { useDispatch, useSelector } from "react-redux";
 import { useWeb3React } from "@web3-react/core";
 
 import GraphService from '../services/graphService';
 import { GRAPH_UPDATE } from '../redux/actions';
-import { GraphStateEnum } from '../enums/graphState';
 import { SuspenseSpinner } from '../components/SuspenseSpinner';
 import { GraphCreation } from '../components/GraphCreation/GraphCreation';
 

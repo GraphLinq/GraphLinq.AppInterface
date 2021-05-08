@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { Flex, Box } from '@chakra-ui/react';
 import { Header } from '../components/Header/Header';
@@ -9,11 +9,7 @@ import routes from '../routes';
 import Page404 from '../pages/404';
 import { SuspenseSpinner } from '../components/SuspenseSpinner';
 
-interface LayoutProps {
-
-}
-
-const Layout: React.FC<LayoutProps> = ({ }) => {
+const Layout = () => {
     return (
         <Flex minH="100vh" h="100vh" bgColor="gray.50">
             <Sidebar />

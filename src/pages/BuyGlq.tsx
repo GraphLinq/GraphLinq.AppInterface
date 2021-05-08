@@ -1,12 +1,7 @@
-import React, { useEffect } from 'react'
 import { useWeb3React } from "@web3-react/core";
 import { Alert, Box } from '@chakra-ui/react';
 
-interface BuyGlqProps {
-
-}
-
-const BuyGlq: React.FC<BuyGlqProps> = ({ }) => {
+const BuyGlq = () => {
 
     const { account } = useWeb3React();
 
@@ -18,9 +13,10 @@ const BuyGlq: React.FC<BuyGlqProps> = ({ }) => {
             <Box className="priv">
                 <Alert status="warning">
                     <i className="fal fa-info-circle"></i>
-                    <p>You can buy GLQ token with fiat from the secure gateway crypto provider <a href="https://transak.com" target="_blank">Transak.com,</a> with only a 1% fee from your bank withdrawal or card payment.</p>
+                    <p>You can buy GLQ token with fiat from the secure gateway crypto provider <a href="https://transak.com" target="_blank" rel="noreferrer">Transak.com,</a> with only a 1% fee from your bank withdrawal or card payment.</p>
                 </Alert>
                 <iframe
+                    title="Buy GLQ with FIAT - Transak"
                     id="transakOnOffRampWidget"
                     src={
                         "https://global.transak.com?apiKey=" + apiKey +

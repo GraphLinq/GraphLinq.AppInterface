@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Spacer, Box, Avatar, Tag, TagLabel, Icon, IconButton, Menu, MenuButton, MenuItem, MenuList, Portal, Link, Button, keyframes } from '@chakra-ui/react';
+import { Avatar, Icon, IconButton, Menu, MenuButton, MenuItem, MenuList, Link, Button, keyframes } from '@chakra-ui/react';
 
 import { WalletConnectIcon, CoinbaseWalletIcon, FortmaticIcon, PortisIcon } from "../../assets/icons";
 import Identicon from "./identicon";
@@ -15,9 +15,8 @@ import {
 import { shortenAddress } from "../../utils/index";
 import { useWeb3React } from "@web3-react/core";
 import { useSelector } from "react-redux";
-import { HiOutlineDatabase, HiOutlineDotsHorizontal } from 'react-icons/hi';
-import { FiGithub, FiMessageCircle, FiMessageSquare, FiBookOpen, FiExternalLink } from "react-icons/fi";
-import { GraphStateEnum } from '../../enums/graphState';
+import { HiOutlineDotsHorizontal } from 'react-icons/hi';
+import { FiGithub, FiMessageCircle, FiMessageSquare, FiBookOpen } from "react-icons/fi";
 import { NavLink } from 'react-router-dom';
 import { GraphCreation } from '../GraphCreation/GraphCreation';
 

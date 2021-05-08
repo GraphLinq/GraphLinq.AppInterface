@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Icon, Link, Image, Spacer } from '@chakra-ui/react';
+import { Box, Icon, Link, Image } from '@chakra-ui/react';
 import { NavLink, Route } from 'react-router-dom';
 import routes from '../routes/sidebar'
 import * as Icons from 'react-icons/hi'
@@ -25,8 +25,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ }) => {
             </div>
             <ContractCard />
                     <Box as="ul">
-                    {routes.map((route: any) => (
-                        <li>
+                    {routes.map((route: any, i: number) => (
+                        <li key={i}>
                             <Link
                                 as={NavLink}
                                 exact

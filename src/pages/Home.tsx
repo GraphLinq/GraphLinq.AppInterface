@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect } from 'react'
-import { Alert, AlertIcon, Grid, Heading } from '@chakra-ui/react';
+import React, { useEffect } from 'react'
+import { Alert } from '@chakra-ui/react';
 
 import { SuspenseSpinner } from '../components/SuspenseSpinner';
 

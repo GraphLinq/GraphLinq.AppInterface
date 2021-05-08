@@ -1,13 +1,8 @@
-import React from 'react'
-import { Heading, Text, Box, Button, Tabs, TabList, Tab, TabPanels, TabPanel, Spacer, Image, Center, Icon } from '@chakra-ui/react';
+import { Box, Tabs, TabList, Tab, TabPanels, TabPanel, Image } from '@chakra-ui/react';
 import GLQLogo from "../assets/logo.svg"
 import WalletManager from "../components/BrowserWallet/WalletManager"
 
-interface AuthProps {
-
-}
-
-const Auth: React.FC<AuthProps> = ({ }) => {
+const Auth = () => {
     return (
         <Box id="auth">
             <div className="auth-h">
@@ -41,7 +36,7 @@ const Auth: React.FC<AuthProps> = ({ }) => {
             </div>
             <div className="auth-f">
                 New to GraphLinq Wallet ?
-                <a target="_blank" href="https://docs.graphlinq.io/wallet">Learn more</a>
+                <a target="_blank" href="https://docs.graphlinq.io/wallet" rel="noreferrer">Learn more</a>
             </div>
         </Box>
     );

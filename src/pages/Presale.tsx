@@ -3,34 +3,15 @@ import React, { useEffect } from 'react'
 import { usePresaleContract } from '../hooks/useContract';
 import { useWeb3React } from "@web3-react/core";
 import { utils } from 'ethers';
-import ManagerProvider from '../providers/manager';
-
-interface PresaleProps {
-
-}
 
 const GLQRate = 715000
 
-const Presale: React.FC<PresaleProps> = ({ }) => {
+const Presale = () => {
 
-    const [value, setValue] = React.useState("");
     const [access, setAccess] = React.useState(true);
     const [error, setError] = React.useState("");
     const [pending, setPending] = React.useState("");
     const [success, setSuccess] = React.useState("");
-
-    const handleChange = (event: any) => setValue(event.target.value)
-    const checkAccess = async () => {
-        const data = await ManagerProvider.checkPresalePwd(value)
-        console.log(data)
-        if (data.success) {
-            setError("")
-            setAccess(true)
-        } else {
-            setError("Invalid password access for the Private Sale round, please try again.")
-        }
-    };
-
 
     const { account } = useWeb3React();
     const contract = usePresaleContract(process.env.REACT_APP_PRIVATE_PRESALE_CONTRACT);
@@ -89,7 +70,7 @@ const Presale: React.FC<PresaleProps> = ({ }) => {
                 <Alert status="info">
                     <i className="fal fa-info-circle"></i>
                     <p>The presale is ended and the smart-contract do not accept any more transactions, do not send Ethereum, 
-                        you can buy GLQ from <a target="_blank" href="https://app.uniswap.org/#/swap?inputCurrency=0x9F9c8ec3534c3cE16F928381372BfbFBFb9F4D24">Uniswap</a> or any of our listed CEXs.</p>
+                        you can buy GLQ from <a target="_blank" rel="noreferrer" href="https://app.uniswap.org/#/swap?inputCurrency=0x9F9c8ec3534c3cE16F928381372BfbFBFb9F4D24">Uniswap</a> or any of our listed CEXs.</p>
                 </Alert>
                 {error &&
                 <Alert status="error">
@@ -105,7 +86,7 @@ const Presale: React.FC<PresaleProps> = ({ }) => {
                 <Alert status="success">
                     <i className="fal fa-check-circle"></i>
                     <p>You successfully claimed your GLQ tokens from the Private sale, Congratulations!</p>
-                    <p><small>Transaction hash : <a href={`https://etherscan.com/tx/${success}`} target="_blank">{success}</a></small></p>
+                    <p><small>Transaction hash : <a href={`https://etherscan.com/tx/${success}`} target="_blank" rel="noreferrer">{success}</a></small></p>
                 </Alert>
                 }
                 <Box className="priv">
@@ -142,10 +123,10 @@ const Presale: React.FC<PresaleProps> = ({ }) => {
                         </p>
                         <Divider />
                         <span style={{ paddingTop: 10, float: 'right', color: '#3907ff' }}>
-                            <a target="_blank" href="https://graphlinq.io/Cybersecurity_Audit_CTDSEC_GraphLinq_Presale.pdf">
+                            <a target="_blank" href="https://graphlinq.io/Cybersecurity_Audit_CTDSEC_GraphLinq_Presale.pdf" rel="noreferrer">
                                 &gt; Review the full contract audit here
                                 </a>
-                            <a style={{marginLeft: "4rem"}} target="_blank" href="https://github.com/GraphLinq/GraphLinq/blob/master/NodeBlock.GraphLinqPrivateSaleContract/contracts/GraphLinqPrivateSale.sol">
+                            <a style={{marginLeft: "4rem"}} target="_blank" href="https://github.com/GraphLinq/GraphLinq/blob/master/NodeBlock.GraphLinqPrivateSaleContract/contracts/GraphLinqPrivateSale.sol" rel="noreferrer">
                                 &gt; View contract github
                                 </a>
                         </span>
