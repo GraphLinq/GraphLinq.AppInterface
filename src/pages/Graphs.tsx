@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { VStack, Box, Flex, Text, Spacer, Alert } from '@chakra-ui/react';
+import { VStack, Box, Flex, Text, Spacer, Alert, Link } from '@chakra-ui/react';
 import { GraphCard } from '../components/Graphs/GraphCard';
 import { GraphResponse } from '../providers/responses/graph';
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import { useWeb3React } from "@web3-react/core";
 import GraphService from '../services/graphService';
 import { GRAPH_UPDATE } from '../redux/actions';
 import { SuspenseSpinner } from '../components/SuspenseSpinner';
-import { GraphCreation } from '../components/GraphCreation/GraphCreation';
+import { NavLink } from 'react-router-dom';
 
 interface GraphsProps {
 
@@ -51,9 +51,9 @@ const Graphs: React.FC<GraphsProps> = ({ }) => {
         <>
             <h1>
                 Graphs
-                <GraphCreation className="bt">
+                <Link as={NavLink} to="/app/templates" className="bt">
                     New Graph <i className="fal fa-plus-circle"></i>
-                </GraphCreation>
+                </Link>
             </h1>
             <Alert status="info">
                 <i className="fal fa-info-circle"></i> 

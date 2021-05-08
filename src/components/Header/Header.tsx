@@ -18,7 +18,6 @@ import { useSelector } from "react-redux";
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { FiGithub, FiMessageCircle, FiMessageSquare, FiBookOpen } from "react-icons/fi";
 import { NavLink } from 'react-router-dom';
-import { GraphCreation } from '../GraphCreation/GraphCreation';
 
 interface HeaderProps {
 
@@ -43,9 +42,9 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
                         <path className="l-3" d="M0,58h62c13,0,6-26-4-16L35,65"></path>
                     </svg>
                 </button>
-                <GraphCreation className="bt btm">
+                <Link as={NavLink} to="/app/templates" className="bt btm">
                     Make a Graph <i className="fal fa-plus-circle"></i>
-                </GraphCreation>
+                </Link>
             </div>  
             <div className="r">
                 {account !== undefined && (

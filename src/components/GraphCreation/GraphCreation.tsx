@@ -11,9 +11,6 @@ import { FiEdit } from 'react-icons/fi';
 import Cookies from 'js-cookie'
 import { GraphTemplate } from '../../providers/responses/templateGraph';
 
-interface GraphCreationProps {
-
-}
 
 export const GraphCreation = (props: any) => {
 

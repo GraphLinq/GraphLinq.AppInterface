@@ -91,7 +91,7 @@ export default class GraphService {
         }
     }
 
-    public static async compressGraph(toCompress: any): Promise<string | undefined>
+    public static async compressGraph(toCompress: any): Promise<string>
     {
         try
         {
@@ -102,11 +102,11 @@ export default class GraphService {
         catch (error)
         {
             console.error(error)
-            return undefined;
+            return error;
         }
     }
 
-    public static async decompressGraph(toDecompress: any): Promise<string | undefined>
+    public static async decompressGraph(toDecompress: any): Promise<string>
     {
         try
         {
@@ -117,7 +117,7 @@ export default class GraphService {
         catch (error)
         {
             console.error(error)
-            return undefined;
+            return error;
         }
     }
 
