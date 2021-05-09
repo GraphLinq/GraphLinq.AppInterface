@@ -1,7 +1,12 @@
+import React from 'react'
 import { useWeb3React } from "@web3-react/core";
 import { Alert, Box } from '@chakra-ui/react';
 
-const BuyGlq = () => {
+interface BuyGlqProps {
+
+}
+
+const BuyGlq: React.FC<BuyGlqProps> = ({ }) => {
 
     const { account } = useWeb3React();
 

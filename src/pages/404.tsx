@@ -1,6 +1,11 @@
+import React from 'react'
 import { Alert } from '@chakra-ui/react';
 
-const Page404 = () => {
+interface Page404Props {
+
+}
+
+const Page404: React.FC<Page404Props> = ({}) => {
         return (
             <>
                 <h1>Error 404</h1>

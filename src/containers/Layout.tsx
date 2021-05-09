@@ -9,7 +9,11 @@ import routes from '../routes';
 import Page404 from '../pages/404';
 import { SuspenseSpinner } from '../components/SuspenseSpinner';
 
-const Layout = () => {
+interface LayoutProps {
+
+}
+
+const Layout: React.FC<LayoutProps> = ({ }) => {
     return (
         <Flex minH="100vh" h="100vh" bgColor="gray.50">
             <Sidebar />

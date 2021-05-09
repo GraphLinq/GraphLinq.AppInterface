@@ -1,8 +1,13 @@
+import React from 'react'
 import { Box, Tabs, TabList, Tab, TabPanels, TabPanel, Image } from '@chakra-ui/react';
 import GLQLogo from "../assets/logo.svg"
 import WalletManager from "../components/BrowserWallet/WalletManager"
 
-const Auth = () => {
+interface AuthProps {
+
+}
+
+const Auth: React.FC<AuthProps> = ({ }) => {
     return (
         <Box id="auth">
             <div className="auth-h">
