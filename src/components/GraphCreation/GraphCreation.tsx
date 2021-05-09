@@ -17,7 +17,7 @@ export const GraphCreation = (props: any) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [fileUpload, setFileUpload] = useState({ loaded: false, file: {} })
     const [graphName, setGraphName] = useState("Unnamed Graph")
-    const [template, selectedTemplate] = useState({ loaded: false, template: {bytes: "", idgraphsTemplates: 0} })
+    const [template, selectedTemplate] = useState({ loaded: false, template: { bytes: "", idgraphsTemplates: 0 } })
 
     const inputFileRef = React.createRef()
     const [templates, setTemplates] = useState<GraphTemplate[]>([])
@@ -54,7 +54,7 @@ export const GraphCreation = (props: any) => {
     }
 
     function resetEntry() {
-        selectedTemplate({ loaded: false, template: {bytes: "", idgraphsTemplates: 0} })
+        selectedTemplate({ loaded: false, template: { bytes: "", idgraphsTemplates: 0 } })
         setFileUpload({ loaded: false, file: {} })
         setStep(true)
     }
@@ -118,58 +118,30 @@ export const GraphCreation = (props: any) => {
             <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
                 <ModalOverlay className="ov" />
                 <ModalContent className="mod mod-cre">
-                    <header>
-                        {step ?
-                            <Flex className="fd in fal fa-pencil">
-                                <Editable defaultValue={graphName} w="lg">
-                                    <EditablePreview />
-                                    <EditableInput value={graphName} onChange={(e) => { setGraphName(e.target.value) }} />
-                                </Editable>
-                            </Flex>
-                            :
-                            <Box>
-                                Settings Deployment
-                            </Box>
+                    <ModalHeader mt='0'>
+                        {step
+                        ? <h1>Import a Graph</h1>
+                        : <Box>Settings Deployment</Box>
                         }
-                    </header>
-                    <ModalCloseButton className="clo" />
+                    </ModalHeader>
+                    <ModalCloseButton />
                     <ModalBody>
                         {success &&
                             <Alert status="success">
-                                <i className="fal fa-check-circle"></i> 
+                                <i className="fal fa-check-circle"></i>
                                 <p>Graph Successfully started, Congratulations!</p>
                                 <p><small> {graphName} execution unique hash : {success}</small></p>
                             </Alert>
                         }
                         {error &&
                             <Alert style={{ marginBottom: "15px", marginTop: "15px" }} status="error">
-                                <i className="fal fa-times-circle"></i> 
+                                <i className="fal fa-times-circle"></i>
                                 <p>{error}</p>
                             </Alert>
                         }
-                        {step &&
-                            <SimpleGrid className="ls-g" {...group}>
-                                <RadioCard className="lg" clickable={true} key="blank" {...getRadioProps({ value: "blank" })}>
-                                    <div onClick={() => { window.open("https://ide.graphlinq.io", "_blank") }}><BlankCard /></div>
-                                </RadioCard>
-                                {templates.map((template) => {
-                                    const radio = getRadioProps({ value: template.key })
-                                    return (
-                                        <RadioCard clickable={false} fileLoaded={fileUpload.loaded} key={template.key} {...radio}>
-                                            <TemplateCard TemplateImageUrl={"none"} TemplateImageAlt={template.description} TemplateTitle={template.title} />
-                                        </RadioCard>
-                                    )
-                                })}
-                            </SimpleGrid>}
-                        {/* {!step && !fileUpload.loaded &&
-                            <TemplateVariables />} */}
 
                         {!step && fileUpload.loaded &&
                             <TemplateFile name={graphName} file={fileUpload.file as any} />}
-                        <Alert status="info">
-                            <i className="fal fa-info-circle"></i> 
-                            <p>Template system are still in development, you can import a GLQ file generated directly from our <a style={{ color: '#3907ff' }} target="_blank" href="https://ide.graphlinq.io">IDE</a> (File -&gt; Save Graph). </p>
-                        </Alert>
 
                     </ModalBody>
                     <ModalFooter className="fot">
@@ -186,26 +158,26 @@ export const GraphCreation = (props: any) => {
                         <input ref={inputFileRef as any} id="files" hidden={true} type="file" onClick={onInputClick} onChange={onFileChange} />
                         {!fileUpload.loaded && <Button onClick={() => { (inputFileRef as any).current.click() }} htmlFor="files" className="sbt" hidden={!step}>Import .GLQ</Button>}
                         {!step || fileUpload.loaded &&
-                            <Button onClick={() => { resetEntry() }} className="sbt">Reset</Button>}
+                            <Button onClick={() => { resetEntry() }} className="sbt">Cancel</Button>}
                         {!step &&
                             <Button className="sbt" mr={3} onClick={() => { setSuccess(""); setStep(!step); }}>Previous</Button>
                         }
                         {!success &&
-                        <div>
-                             {fileUpload.loaded && !step &&
-                             <Button className="bt" onClick={() => updateStep()}>Next</Button>}
-                             {fileUpload.loaded && step &&
-                             <Button className="bt" onClick={() => updateStep()}>Create</Button>}
+                            <div>
+                                {fileUpload.loaded && !step &&
+                                    <Button className="bt" onClick={() => updateStep()}>Next</Button>}
+                                {fileUpload.loaded && step &&
+                                    <Button className="bt" onClick={() => updateStep()}>Create</Button>}
 
-                            {!fileUpload.loaded && template.loaded &&
-                             <Button className="bt" onClick={() =>  {
-                                var host = window.location.hostname.replace('app.', '')
-                                console.log(host)
-                                Cookies.set('graph', template.template.bytes, { domain: host });
-                                window.open(`https://ide.graphlinq.io/?loadGraph=${template.template.idgraphsTemplates}`, "_blank")
-                             }}>Go to IDE</Button>}
+                                {!fileUpload.loaded && template.loaded &&
+                                    <Button className="bt" onClick={() => {
+                                        var host = window.location.hostname.replace('app.', '')
+                                        console.log(host)
+                                        Cookies.set('graph', template.template.bytes, { domain: host });
+                                        window.open(`https://ide.graphlinq.io/?loadGraph=${template.template.idgraphsTemplates}`, "_blank")
+                                    }}>Go to IDE</Button>}
 
-                        </div>}
+                            </div>}
 
                         {/* {!success &&
                             <Button colorScheme="brand" onClick={() => updateStep()}>

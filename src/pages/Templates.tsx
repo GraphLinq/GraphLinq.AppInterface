@@ -6,6 +6,7 @@ import { RadioCard } from '../components/GraphCreation/RadioCard';
 import { TemplateCard } from '../components/GraphCreation/TemplateCard';
 import { GraphTemplate } from '../providers/responses/templateGraph';
 import GraphService from '../services/graphService';
+import { GraphCreation } from '../components/GraphCreation/GraphCreation';
 
 interface TemplatesProps {
 
@@ -59,7 +60,12 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
 
     return (
         <>
-            <h1>Template Wizard</h1>
+            <h1>
+                Template Wizard
+                <GraphCreation className="bt">
+                    Import .GLQ <i className="fal fa-upload"></i>
+                </GraphCreation>
+            </h1>
             <Alert status="info">
                 <i className="fal fa-info-circle"></i> GraphLinq’s Instant Deploy Wizard lets you choose a template, fill in variables and deploy it instantly without having to code or making any changes on the IDE.
             </Alert>

@@ -229,7 +229,7 @@
     body .mod .clo svg{width:6px;}
     body .mod .clo:active{transform:scale(.8);}
     body .mod .fot{padding:calc(20px + 5 * (100vw - 320px) / 1080);font-size:11px;background:url(../img/motif.svg) repeat #130f26;background-size:3px;border-radius:0 0 calc(25px + 5 * (100vw - 320px) / 1080) calc(25px + 5 * (100vw - 320px) / 1080);}
-    body .mod header{padding:calc(25px + 5 * (100vw - 320px) / 1080);padding-bottom:0;}
+    body .mod header{margin-top: 0.5rem;padding-bottom:0;}
     body .mod header h2{font-weight:bold;font-size:calc(20px + 5 * (100vw - 320px) / 1080);color:#ece7fd;}
     body .fred > div{justify-content:center!important;}
     body .fred .bt{width:100px;margin:15px auto 20px;}
