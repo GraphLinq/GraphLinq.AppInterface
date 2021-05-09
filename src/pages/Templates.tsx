@@ -1,5 +1,5 @@
-import { Alert, Box, Button, FormControl, FormLabel, Grid, GridItem, Heading, Icon, Input, SimpleGrid, useRadioGroup } from '@chakra-ui/react';
 import React, { Suspense, useEffect, useRef, useState } from 'react'
+import { Alert, Box, Button, FormControl, FormLabel, Grid, GridItem, Heading, Icon, Input, SimpleGrid, useRadioGroup } from '@chakra-ui/react';
 import { HiOutlineInformationCircle } from 'react-icons/hi';
 import { GraphStateEnum } from '../enums/graphState';
 import { RadioCard } from '../components/GraphCreation/RadioCard';
@@ -33,7 +33,6 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
             const template = templates.find(x => x.key === e)
             if (template !== undefined) {
                 selectedTemplate({ loaded: true, template: template })
-                console.log(template)
             }
         },
     })

@@ -1,10 +1,10 @@
 import { lazy } from 'react'
 
-const Home = lazy(() => import('../pages/Home'))
+const Home = lazy(() => import('../pages/Templates'))
 const Graphs = lazy(() => import('../pages/Graphs'))
-const Presale = lazy(() => import('../pages/Presale'))
+const PriceMonitoring = lazy(() => import('../pages/Home'))
 const BuyGlq = lazy(() => import('../pages/BuyGlq'))
-const Templates = lazy(() => import('../pages/Templates'))
+const Presale = lazy(() => import('../pages/Presale'))
 const Page404 = lazy(() => import('../pages/404'))
 
 /**
@@ -16,7 +16,7 @@ const Page404 = lazy(() => import('../pages/404'))
 const routes = [
   {
     path: '/home', // the url
-    component: Templates, // view rendered
+    component: Home, // view rendered
   },
   {
     path: '/graphs',
@@ -24,7 +24,7 @@ const routes = [
   },
   {
     path: '/price-monitoring',
-    component: Home,
+    component: PriceMonitoring,
   },
   {
     path: '/private-sale',
