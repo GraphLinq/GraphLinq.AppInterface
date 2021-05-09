@@ -15,7 +15,7 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
 
     const [fileUpload, setFileUpload] = useState({ loaded: false, file: {} })
     const [graphName, setGraphName] = useState("")
-    const [template, selectedTemplate] = useState({ loaded: false, template: { bytes: "", idgraphsTemplates: 0 } })
+    const [template, selectedTemplate] = useState({ loaded: false, template: { bytes: "", idgraphsTemplates: 0, title: "", description: "" } })
 
     const [templates, setTemplates] = useState<GraphTemplate[]>([])
 
@@ -52,7 +52,6 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
         fetchGraphData(template.template.bytes)
             .then(data => {
                 setGraphData(JSON.parse(data))
-                console.log("ok")
                 setStep(!step)
                 setIsLoading(false)
             });
@@ -68,19 +67,23 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
                     }
                     {!step &&
                         <Suspense fallback="loading">
-                            <TemplateVars templateData={graphData} step={step} setStep={setStep} />
+                            <TemplateVars templateData={graphData} templateName={template.template.title} templateDesc={template.template.description} step={step} setStep={setStep} />
                         </Suspense>
                     }
                 </GridItem>
-                <GridItem colSpan={1} rounded="xl" w="100%" h="275" bg="#15122b" p="1.5rem" display="flex" flexDirection="column">
+                <GridItem colSpan={1} rounded="xl" w="100%" minH="275" maxH="450px" bg="#15122b" p="1.5rem" display="flex" flexDirection="column">
                     <Box mx="auto" textAlign="center">
                         <Icon as={HiOutlineInformationCircle} color="#2334ff" w={8} h={8} />
                         <Heading size="md" color="#ece7fd" my="0.75rem">How to use a template ?</Heading>
                     </Box>
                     <Box as="ul" textAlign="left" mx="auto" mt="1rel">
+                        <li style={{ marginTop: '.5rem', marginBottom: '.5rem' }}>You can :</li>
                         <li>- Select a template from the list</li>
-                        <li>- Fill in variables</li>
-                        <li>- Deploy in one click</li>
+                        <li>- Fill in required variables</li>
+                        <li style={{ marginTop: '.5rem', marginBottom: '.5rem' }}>Or for more advanced user :</li>
+                        <li>- Select a template</li>
+                        <li>- Download it</li>
+                        <li>- Upload & Edit it in the <a href="https://ide.graphlinq.io/" target="_blank" style={{ color: "#2334ff" }}>IDE</a> to suits their needs</li>
                     </Box>
                     <Box mt="auto" mx="auto" textAlign="center">
                         You can also make your own custom Graph from scratch using our <a href="https://ide.graphlinq.io/" target="_blank" style={{ color: "#2334ff" }}>IDE</a>
@@ -112,7 +115,16 @@ const TemplatesList = (props: any) => {
                 })}
             </SimpleGrid>
             { props.template.loaded /* && props.graphName !== "" */ &&
-                <Button bgColor="#2334ff" color="white" ml="auto" mt="0.75rem" _hover={{ bgColor: "#202cc3" }} onClick={() => props.updateStep()} isLoading={props.isLoading} loadingText="Loading">Next</Button>
+                <Box ml="auto" mt="0.75rem">
+                    <Button as="a"
+                        bgColor="transparent" variant="outline" borderColor="#aba1ca" color="#aba1ca" _hover={{ bgColor: "#2334ff", borderColor: '#2334ff', color: "white" }} mr="1rem"
+                        href={`data:text/plain;charset=utf-8,${encodeURIComponent(props.template.bytes)}`}
+                        download={`${props.template.template.key}.glq`}
+                    >
+                        Download .GLQ
+                    </Button>
+                    <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={() => props.updateStep()} isLoading={props.isLoading} loadingText="Loading">Next</Button>
+                </Box>
             }
         </>
     );
@@ -158,8 +170,6 @@ interface TemplateOutParameter {
     value_is_reference: boolean
 }
 
-const testDecomp = ``
-
 const TemplateVars = (props: any) => {
 
     const [decompTemplate, setDecompTemplate] = useState<TemplateRoot>(props.templateData)
@@ -181,7 +191,7 @@ const TemplateVars = (props: any) => {
 
     useEffect(() => {
         decompTemplate?.nodes
-            .filter(node => node.block_type === "variable")
+            .filter(node => node.block_type === "variable" && node.friendly_name !== "do_not_show")
             .map((node, i: number) => (
                 handleChange(i, node.out_parameters[0].value, node)
             ))
@@ -226,13 +236,9 @@ const TemplateVars = (props: any) => {
 
     async function deployTemplate() {
         setIsLoading(true)
-        //console.log("start compression of:")
-        //console.log(decompTemplate)
         compressGraph(JSON.stringify(decompTemplate))
             .then(data => {
-                //console.log('data: ' + data)
                 deployGraphTemplate(data)
-                //console.log("deployed")
                 setIsLoading(false)
             })
     }
@@ -256,26 +262,27 @@ const TemplateVars = (props: any) => {
                     <p>{error}</p>
                 </Alert>
             }
-            <Heading size="md" color="#ece7fd">{decompTemplate?.name} :</Heading>
+            <Heading size="md" color="#ece7fd" mb="1rem">{props.templateName} :</Heading>
+            <p>{props.templateDesc}</p>
             <form>
                 {decompTemplate?.nodes
-                    .filter(node => node.block_type === "variable")
+                    .filter(node => node.block_type === "variable" && node.friendly_name !== "do_not_show")
                     .map((node, i: number) => (
                         <FormControl my="2.5rem" id={node.id} key={node.id} isRequired>
                             <FormLabel>{node.friendly_name} :</FormLabel>
-                            <Input id={node.id} key={node.id} type="text" variant="flushed" focusBorderColor="#2334ff" placeholder={node.friendly_name} value={fields.get(i) || node.out_parameters[0].value} onChange={(e) => handleChange(i, e.target.value, node)} />
+                            <Input id={node.id} key={node.id} type="text" variant="flushed" focusBorderColor="#2334ff" placeholder={node.friendly_name} value={fields.get(i) || node.out_parameters[0].value || ''} onChange={(e) => handleChange(i, e.target.value, node)} />
                         </FormControl>
                     ))}
             </form>
-            <Box ml="auto" mt="0.75rem">
-                <Button bgColor="transparent" variant="outline" borderColor="#aba1ca" color="#aba1ca" _hover={{ bgColor: "#aba1ca", color: "white" }} mr="1rem" onClick={previous}>Previous</Button>
+            <Box ml="auto" mt="auto">
+                <Button bgColor="transparent" variant="outline" borderColor="#aba1ca" color="#aba1ca" _hover={{ bgColor: "#2334ff", borderColor: '#2334ff', color: "white" }} mr="1rem" onClick={previous}>Previous</Button>
                 <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={deployTemplate} isLoading={isLoading} loadingText="Loading">Deploy</Button>
             </Box>
             {/* <FormControl id="graphName" my="2.5rem">
                 <FormLabel>Test :</FormLabel>
                 <Input type="text" variant="flushed" focusBorderColor="#2334ff" placeholder="placeholder" value={testTemplate} onChange={(e) => { setTestTemplate(e.target.value) }} />
             </FormControl>
-            <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={() => compressGraph(testTemplate).then(data => {console.log(data)})}>Compress</Button> */}
+            <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={() => compressGraph(testTemplate).then(data => { console.log(data) })}>Compress</Button> */}
         </>
     );
 }
