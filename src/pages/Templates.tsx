@@ -92,7 +92,7 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
                         <li style={{ marginTop: '.5rem', marginBottom: '.5rem' }}>Or for more advanced user :</li>
                         <li>- Select a template</li>
                         <li>- Download it</li>
-                        <li>- Upload & Edit it in the <a href="https://ide.graphlinq.io/" target="_blank" style={{ color: "#2334ff" }}>IDE</a> to suits their needs</li>
+                        <li>- Upload & Edit On the <a href="https://ide.graphlinq.io/" target="_blank" style={{ color: "#2334ff" }}>IDE</a> to suit their needs</li>
                     </Box>
                     <Box mt="auto" mx="auto" textAlign="center">
                         You can also make your own custom Graph from scratch using our <a href="https://ide.graphlinq.io/" target="_blank" style={{ color: "#2334ff" }}>IDE</a>
