@@ -162,22 +162,28 @@ const testDecomp = ``
 
 const TemplateVars = (props: any) => {
 
-    const [decompTemplate, setDecompTemplate] = useState<TemplateRoot>()
+    const [decompTemplate, setDecompTemplate] = useState<TemplateRoot>(props.templateData)
     const [compressedTemplate, setCompressedTemplate] = useState<any>()
+
+    const [testTemplate, setTestTemplate] = useState('')
 
     const [fields, setFields] = useState(new Map())
 
-    const handleChange = (i: any, v: any) => {
+    const handleChange = (i: any, v: any, node: TemplateNode) => {
         setFields(new Map(fields.set(i, v)));
+        setDecompTemplate((decompTemplate) => {
+            node.out_parameters[0].value = v
+            return ({
+                ...decompTemplate
+            })
+        })
     }
 
     useEffect(() => {
-        console.log(props.templateData)
-        setDecompTemplate(props.templateData)
         decompTemplate?.nodes
             .filter(node => node.block_type === "variable")
-            .map((node: any, i: number) => (
-                handleChange(i, node.out_parameters[0].value)
+            .map((node, i: number) => (
+                handleChange(i, node.out_parameters[0].value, node)
             ))
     }, [])
 
@@ -218,13 +224,15 @@ const TemplateVars = (props: any) => {
         executeScroll()
     }
 
-    async function deployTemplate () {
+    async function deployTemplate() {
         setIsLoading(true)
+        //console.log("start compression of:")
+        //console.log(decompTemplate)
         compressGraph(JSON.stringify(decompTemplate))
             .then(data => {
-                console.log('data: ' + data)
+                //console.log('data: ' + data)
                 deployGraphTemplate(data)
-                console.log("deployed")
+                //console.log("deployed")
                 setIsLoading(false)
             })
     }
@@ -249,25 +257,25 @@ const TemplateVars = (props: any) => {
                 </Alert>
             }
             <Heading size="md" color="#ece7fd">{decompTemplate?.name} :</Heading>
-            {/* <FormControl id="graphName" my="2.5rem" isRequired>
-                <FormLabel>Test :</FormLabel>
-                <Input type="text" variant="flushed" focusBorderColor="#2334ff" placeholder="placeholder" value={decompTemplate} onChange={(e) => { setDecompTemplate(e.target.value) }} />
-            </FormControl> */}
             <form>
                 {decompTemplate?.nodes
                     .filter(node => node.block_type === "variable")
-                    .map((node: any, i: number) => (
+                    .map((node, i: number) => (
                         <FormControl my="2.5rem" id={node.id} key={node.id} isRequired>
                             <FormLabel>{node.friendly_name} :</FormLabel>
-                            <Input id={node.id} key={node.id} type="text" variant="flushed" focusBorderColor="#2334ff" placeholder={node.friendly_name} value={fields.get(i) || node.out_parameters[0].value} onChange={(e) => handleChange(i, e.target.value)} />
+                            <Input id={node.id} key={node.id} type="text" variant="flushed" focusBorderColor="#2334ff" placeholder={node.friendly_name} value={fields.get(i) || node.out_parameters[0].value} onChange={(e) => handleChange(i, e.target.value, node)} />
                         </FormControl>
                     ))}
             </form>
             <Box ml="auto" mt="0.75rem">
                 <Button bgColor="transparent" variant="outline" borderColor="#aba1ca" color="#aba1ca" _hover={{ bgColor: "#aba1ca", color: "white" }} mr="1rem" onClick={previous}>Previous</Button>
                 <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={deployTemplate} isLoading={isLoading} loadingText="Loading">Deploy</Button>
-                {/* <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} ml="1rem" onClick={() => compressGraph(decompTemplate).then(data => { compressGraph(JSON.stringify(data)) })}>Compress</Button> */}
             </Box>
+            {/* <FormControl id="graphName" my="2.5rem">
+                <FormLabel>Test :</FormLabel>
+                <Input type="text" variant="flushed" focusBorderColor="#2334ff" placeholder="placeholder" value={testTemplate} onChange={(e) => { setTestTemplate(e.target.value) }} />
+            </FormControl>
+            <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={() => compressGraph(testTemplate).then(data => {console.log(data)})}>Compress</Button> */}
         </>
     );
 }
