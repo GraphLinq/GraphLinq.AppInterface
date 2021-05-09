@@ -12,13 +12,13 @@ const routes = [
     },
     {
       path: '/app/graphs',
-      icon: 'HiOutlinePuzzle',
+      icon: 'HiOutlineViewGrid',
       name: 'My Graphs',
     },
     {
-      path: '/app/templates',
-      icon: 'HiOutlineDocumentText',
-      name: 'Graph Templates',
+      path: '/app/price-monitoring',
+      icon: 'HiOutlinePresentationChartLine',
+      name: 'Price Monitoring',
     },
     {
       path: '/app/buy-glq',

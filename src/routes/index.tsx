@@ -16,15 +16,15 @@ const Page404 = lazy(() => import('../pages/404'))
 const routes = [
   {
     path: '/home', // the url
-    component: Home, // view rendered
+    component: Templates, // view rendered
   },
   {
     path: '/graphs',
     component: Graphs,
   },
   {
-    path: '/templates',
-    component: Templates,
+    path: '/price-monitoring',
+    component: Home,
   },
   {
     path: '/private-sale',

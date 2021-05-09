@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
                         <path className="l-3" d="M0,58h62c13,0,6-26-4-16L35,65"></path>
                     </svg>
                 </button>
-                <Link as={NavLink} to="/app/templates" className="bt btm">
+                <Link as={NavLink} to="/app/home" className="bt btm">
                     Make a Graph <i className="fal fa-plus-circle"></i>
                 </Link>
             </div>  

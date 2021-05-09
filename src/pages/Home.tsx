@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Alert } from '@chakra-ui/react';
+import { Alert, Link } from '@chakra-ui/react';
 
 import { SuspenseSpinner } from '../components/SuspenseSpinner';
 
@@ -58,10 +58,12 @@ const Home: React.FC<HomeProps> = ({}) => {
     }, [])
     return (
         <>
-            <h1>Home page</h1>
-            <Alert status="info">
-                <i className="fal fa-info-circle"></i> Welcome on the Beta release of the GraphLinq Protocol interface!
-            </Alert>
+            <h1>
+                Price Monitoring
+                <Link href="https://analytics.graphlinq.io/" to="/app/templates" className="bt">
+                    Go to Analytics <i className="fal fa-arrow-right"></i>
+                </Link>
+            </h1>
             <div className="load">
                <SuspenseSpinner/>
             </div>

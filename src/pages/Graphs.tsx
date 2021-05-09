@@ -51,7 +51,7 @@ const Graphs: React.FC<GraphsProps> = ({ }) => {
         <>
             <h1>
                 Graphs
-                <Link as={NavLink} to="/app/templates" className="bt">
+                <Link as={NavLink} to="/app/home" className="bt">
                     New Graph <i className="fal fa-plus-circle"></i>
                 </Link>
             </h1>

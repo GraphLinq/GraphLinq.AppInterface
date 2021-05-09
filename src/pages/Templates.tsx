@@ -33,6 +33,7 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
             const template = templates.find(x => x.key === e)
             if (template !== undefined) {
                 selectedTemplate({ loaded: true, template: template })
+                console.log(template)
             }
         },
     })
@@ -59,7 +60,10 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
 
     return (
         <>
-            <h1>Templates</h1>
+            <h1>Template Wizard</h1>
+            <Alert status="info">
+                <i className="fal fa-info-circle"></i> GraphLinq’s Instant Deploy Wizard lets you choose a template, fill in variables and deploy it instantly without having to code or making any changes on the IDE.
+            </Alert>
             <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)"]} gap={6}>
                 <GridItem colSpan={2} rounded="xl" w="100%" h="full" bg="#15122b" p="1.5rem" display="flex" flexDirection="column">
                     {step &&
@@ -122,6 +126,13 @@ const TemplatesList = (props: any) => {
                         download={`${props.template.template.key}.glq`}
                     >
                         Download .GLQ
+                    </Button>
+                    <Button as="a"
+                        bgColor="transparent" variant="outline" borderColor="#aba1ca" color="#aba1ca" _hover={{ bgColor: "#2334ff", borderColor: '#2334ff', color: "white" }} mr="1rem"
+                        href={`https://ide.graphlinq.io/?loadGraph=${props.template.template.idgraphsTemplates}`}
+                        target="_blank"
+                    >
+                        Edit on IDE
                     </Button>
                     <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={() => props.updateStep()} isLoading={props.isLoading} loadingText="Loading">Next</Button>
                 </Box>
