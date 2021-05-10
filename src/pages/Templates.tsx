@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { Alert, Box, Button, FormControl, FormLabel, Grid, GridItem, Heading, Icon, Input, SimpleGrid, useRadioGroup } from '@chakra-ui/react';
-import { HiOutlineInformationCircle } from 'react-icons/hi';
+import { HiOutlineCheckCircle, HiOutlineInformationCircle } from 'react-icons/hi';
 import { GraphStateEnum } from '../enums/graphState';
 import { RadioCard } from '../components/GraphCreation/RadioCard';
 import { TemplateCard } from '../components/GraphCreation/TemplateCard';
@@ -267,10 +267,11 @@ const TemplateVars = (props: any) => {
     return (
         <>
             {success &&
-                <Alert status="success" ref={resultRef}>
-                    <i className="fal fa-check-circle"></i>
-                    <p>Graph Successfully started, Congratulations!</p>
-                    <p><small> {decompTemplate?.name || 'Template'} execution unique hash : {success}</small></p>
+                <Alert status="success" mb="1rem" ref={resultRef}>
+                    <Icon as={HiOutlineCheckCircle} color="#59b819" w="8" h="8" />
+                    <p><b>Graph Successfully started, Congratulations !</b><br /><br />
+                    {decompTemplate?.name || 'Template'} execution unique hash : {success}
+                    </p>
                 </Alert>
             }
             {error &&

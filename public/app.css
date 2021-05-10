@@ -69,7 +69,7 @@
         body .chakra-alert i.fa-times-circle{color:#ff294c;}
         body .chakra-alert i.fa-check-circle{color:#59b819;}
         body .chakra-alert i.fa-exclamation-triangle{color:#ff7329;}
-        body .chakra-alert svg{color:#2334ff;margin-right:10px;}
+        body .chakra-alert svg{margin-right:10px;}
         body .chakra-alert button{background:rgba(0,0,0,.2);color:#fff;font-size:11px;right:-3px;border-radius:50px;height:25px;}
         body .chakra-alert button:hover{background-color:rgba(0,0,0,.4);}
         body .chakra-alert a{color:#2334ff;}
