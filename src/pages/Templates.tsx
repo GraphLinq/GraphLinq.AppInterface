@@ -16,7 +16,7 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
 
     const [fileUpload, setFileUpload] = useState({ loaded: false, file: {} })
     const [graphName, setGraphName] = useState("")
-    const [template, selectedTemplate] = useState({ loaded: false, template: { bytes: "", idgraphsTemplates: 0, title: "", description: "" } })
+    const [template, selectedTemplate] = useState({ loaded: false, template: { bytes: "", idgraphsTemplates: 0, title: "", description: "", customImg: "" } })
 
     const [templates, setTemplates] = useState<GraphTemplate[]>([])
 
@@ -34,6 +34,7 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
             const template = templates.find(x => x.key === e)
             if (template !== undefined) {
                 selectedTemplate({ loaded: true, template: template })
+                console.log(template)
             }
         },
     })
@@ -118,7 +119,7 @@ const TemplatesList = (props: any) => {
                     const radio = props.getRadioProps({ value: template.key })
                     return (
                         <RadioCard clickable={false} fileLoaded={props.fileUpload.loaded} key={template.key} {...radio}>
-                            <TemplateCard TemplateImageUrl={"none"} TemplateImageAlt={template.description} TemplateTitle={template.title} />
+                            <TemplateCard TemplateImageUrl={template.customImg} TemplateImageAlt={template.description} TemplateTitle={template.title} />
                         </RadioCard>
                     )
                 })}

@@ -13,25 +13,33 @@ export const TemplateCard: React.FC<TemplateCardProps> = (props) => {
 
     return (
         <>
-            <div className="lgc">
-                <Box
-                    className="lg-nsl"
-                    h="50px"
-                    maxH="50px"
-                    bgImage={"url('" + TemplateLogo + "')"}
-                    bgPosition="center"
-                    bgRepeat="no-repeat"
-                />
-                <Box
-                    className="lg-sl"
-                    h="50px"
-                    maxH="50px"
-                    bgImage={"url('" + TemplateLogoSelect + "')"}
-                    bgPosition="center"
-                    bgRepeat="no-repeat"
-                />
-                {props.TemplateTitle}
-            </div>
+            {props.TemplateImageUrl == "none"
+                ? <div className="lgc">
+                    <Box
+                        className="lg-nsl"
+                        h="50px"
+                        maxH="50px"
+                        bgImage={"url('" + TemplateLogo + "')"}
+                        bgPosition="center"
+                        bgRepeat="no-repeat"
+                    />
+                    <Box
+                        className="lg-sl"
+                        h="50px"
+                        maxH="50px"
+                        bgImage={"url('" + TemplateLogoSelect + "')"}
+                        bgPosition="center"
+                        bgRepeat="no-repeat"
+                    />
+                    {props.TemplateTitle}
+                </div>
+                : <>
+                    <Box textAlign="center">
+                        <Image m="auto" h="100px" src={props.TemplateImageUrl} />
+                        {props.TemplateTitle}
+                    </Box>
+                </>
+            }
         </>
     );
 }
