@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
                             Buy GLQ with FIAT
                             <i className="fal fa-shopping-cart"></i>
                         </Button>
-                        <Button
+                        {/* <Button
                         as={NavLink}
                         exact
                         to="private-sale"
@@ -66,7 +66,7 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
                         >
                             Private Sale
                             <i className="fal fa-database"></i>
-                        </Button>
+                        </Button> */}
                         <div className="gl in">{amountBalance} GLQ</div>
                         <div className="ad in">
                             {shortenAddress(account)}

@@ -204,8 +204,8 @@ export const GraphCard: React.FC<GraphCardProps> = ({
                 <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside" size="full">
                     <ModalOverlay className="ov"/>
                     <ModalContent className="mod mod-log">
-                        <header><h2>Logs</h2></header>
-                        <ModalCloseButton className="clo" />
+                        <ModalHeader mb=".5rem"><h2>Logs</h2></ModalHeader>
+                        <ModalCloseButton />
                         <ModalBody>
                             {logs === undefined && <Text textColor="amber.500">No logs available...</Text>}
                             {logs !== undefined && logs.map((x: Log, i: number) => {

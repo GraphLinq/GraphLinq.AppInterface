@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
-import { Alert, Box, Button, FormControl, FormLabel, Grid, GridItem, Heading, Icon, Input, SimpleGrid, useRadioGroup } from '@chakra-ui/react';
+import { Alert, Box, Button, FormControl, FormLabel, Grid, GridItem, Heading, Icon, Input, SimpleGrid, useRadioGroup, Text } from '@chakra-ui/react';
 import { HiOutlineCheckCircle, HiOutlineInformationCircle } from 'react-icons/hi';
 import { GraphStateEnum } from '../enums/graphState';
 import { RadioCard } from '../components/GraphCreation/RadioCard';
@@ -77,7 +77,7 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
                     }
                     {!step &&
                         <Suspense fallback="loading">
-                            <TemplateVars templateData={graphData} templateName={template.template.title} templateDesc={template.template.description} step={step} setStep={setStep} />
+                            <TemplateVars templateData={graphData} graphName={graphName} templateName={template.template.title} templateDesc={template.template.description} step={step} setStep={setStep} />
                         </Suspense>
                     }
                 </GridItem>
@@ -108,13 +108,13 @@ const TemplatesList = (props: any) => {
 
     return (
         <>
-            <Heading size="md" color="#ece7fd" mt="1rem" mb="2rem">Select a graph template :</Heading>
-            {/* <FormControl id="graphName" my="2.5rem" isRequired>
-                <FormLabel>Graph Name :</FormLabel>
-                <Input type="text" variant="flushed" focusBorderColor="#2334ff" placeholder="New Graph" value={props.graphName} onChange={(e) => { props.setGraphName(e.target.value) }} />
-            </FormControl> */}
-            {/* <Heading size="md" color="#ece7fd" mb="1.75rem">Templates :</Heading> */}
-            <SimpleGrid className="ls-g" {...props.group} height="500px" overflowY="scroll">
+            <Heading size="md" color="#ece7fd" my="1rem">Name Your Graph :</Heading>
+            <FormControl id="graphName" mb="2.5rem" isRequired>
+                {/* <FormLabel>Name your graph :</FormLabel> */}
+                <Input type="text" variant="flushed" focusBorderColor="#2334ff" placeholder="Graph Name" value={props.graphName} onChange={(e) => { props.setGraphName(e.target.value) }} />
+            </FormControl>
+            <Heading size="md" color="#ece7fd" mb="1.75rem">Templates :</Heading>
+            <SimpleGrid className="ls-g" {...props.group} height="400px" overflowY="scroll">
                 {props.templates.map((template: any) => {
                     const radio = props.getRadioProps({ value: template.key })
                     return (
@@ -124,7 +124,7 @@ const TemplatesList = (props: any) => {
                     )
                 })}
             </SimpleGrid>
-            { props.template.loaded /* && props.graphName !== "" */ &&
+            { props.template.loaded && props.graphName !== "" &&
                 <Box ml="auto" mt="0.75rem">
                     <Button as="a"
                         bgColor="transparent" variant="outline" borderColor="#aba1ca" color="#aba1ca" _hover={{ bgColor: "#2334ff", borderColor: '#2334ff', color: "white" }} mr="1rem"
@@ -229,12 +229,12 @@ const TemplateVars = (props: any) => {
     const [success, setSuccess] = useState("");
     const [isLoading, setIsLoading] = useState(false)
 
-    async function deployGraphTemplate(data: any) {
+    async function deployGraphTemplate(data: any, name: any) {
         try {
             const result: String | undefined = await GraphService.deployGraph({
                 state: GraphStateEnum.Starting,
                 bytes: data,
-                alias: decompTemplate?.name || 'no name',
+                alias: name,
                 hash: undefined
             })
 
@@ -255,7 +255,7 @@ const TemplateVars = (props: any) => {
         setIsLoading(true)
         compressGraph(JSON.stringify(decompTemplate))
             .then(data => {
-                deployGraphTemplate(data)
+                deployGraphTemplate(data, props.graphName)
                 setIsLoading(false)
             })
     }
@@ -280,8 +280,9 @@ const TemplateVars = (props: any) => {
                     <p>{error}</p>
                 </Alert>
             }
-            <Heading size="md" color="#ece7fd" mb="1rem">{props.templateName} :</Heading>
-            <p>{props.templateDesc}</p>
+            <Heading size="md" color="#ece7fd" mb="1rem">{props.graphName} :</Heading>
+            <Text size="sm" color="#c4b9e5" mb=".5rem"><b>Template: </b>{props.templateName}</Text>
+            <p><b>Description: </b>{props.templateDesc}</p>
             <form>
                 {decompTemplate?.nodes
                     .filter(node => node.block_type === "variable" && node.friendly_name !== "do_not_show")
