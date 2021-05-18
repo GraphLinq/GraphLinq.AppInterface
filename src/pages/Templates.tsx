@@ -128,7 +128,7 @@ const TemplatesList = (props: any) => {
                 <Box ml="auto" mt="0.75rem">
                     <Button as="a"
                         bgColor="transparent" variant="outline" borderColor="#aba1ca" color="#aba1ca" _hover={{ bgColor: "#2334ff", borderColor: '#2334ff', color: "white" }} mr="1rem"
-                        href={`data:text/plain;charset=utf-8,${encodeURIComponent(props.template.bytes)}`}
+                        href={`data:text/plain;charset=utf-8,${encodeURIComponent(props.template.template.bytes)}`}
                         download={`${props.template.template.key}.glq`}
                     >
                         Download .GLQ
