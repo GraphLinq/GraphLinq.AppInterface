@@ -7,6 +7,7 @@ import { TemplateCard } from '../components/GraphCreation/TemplateCard';
 import { GraphTemplate } from '../providers/responses/templateGraph';
 import GraphService from '../services/graphService';
 import { GraphCreation } from '../components/GraphCreation/GraphCreation';
+import { SuspenseSpinner } from '../components/SuspenseSpinner';
 
 interface TemplatesProps {
 
@@ -17,13 +18,14 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
     const [fileUpload, setFileUpload] = useState({ loaded: false, file: {} })
     const [graphName, setGraphName] = useState("")
     const [template, selectedTemplate] = useState({ loaded: false, template: { bytes: "", idgraphsTemplates: 0, title: "", description: "", customImg: "" } })
-
+    const [templateLoaded, setTemplateLoaded] = useState(false)
     const [templates, setTemplates] = useState<GraphTemplate[]>([])
 
     useEffect(() => {
         const fetchTemplates = async () => {
             const templates: GraphTemplate[] = await GraphService.listGraphsTemplates()
             setTemplates(templates)
+            setTemplateLoaded(true)
         }
         fetchTemplates()
     }, [])
@@ -73,7 +75,7 @@ const Templates: React.FC<TemplatesProps> = ({ }) => {
             <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)"]} gap={6}>
                 <GridItem colSpan={2} rounded="xl" w="100%" h="full" bg="#15122b" p="1.5rem" display="flex" flexDirection="column">
                     {step &&
-                        <TemplatesList isLoading={isLoading} group={group} template={template} templates={templates} getRadioProps={getRadioProps} fileUpload={fileUpload} graphName={graphName} setGraphName={setGraphName} updateStep={updateStep} />
+                        <TemplatesList isLoading={isLoading} templateLoaded={templateLoaded} group={group} template={template} templates={templates} getRadioProps={getRadioProps} fileUpload={fileUpload} graphName={graphName} setGraphName={setGraphName} updateStep={updateStep} />
                     }
                     {!step &&
                         <Suspense fallback="loading">
@@ -110,21 +112,24 @@ const TemplatesList = (props: any) => {
         <>
             <Heading size="md" color="#ece7fd" my="1rem">Name Your Graph :</Heading>
             <FormControl id="graphName" mb="2.5rem" isRequired>
-                {/* <FormLabel>Name your graph :</FormLabel> */}
                 <Input type="text" variant="flushed" focusBorderColor="#2334ff" placeholder="Graph Name" value={props.graphName} onChange={(e) => { props.setGraphName(e.target.value) }} />
             </FormControl>
             <Heading size="md" color="#ece7fd" mb="1.75rem">Templates :</Heading>
-            <SimpleGrid className="ls-g" {...props.group} height="400px" overflowY="scroll">
-                {props.templates.map((template: any) => {
-                    const radio = props.getRadioProps({ value: template.key })
-                    return (
-                        <RadioCard clickable={false} fileLoaded={props.fileUpload.loaded} key={template.key} {...radio}>
-                            <TemplateCard TemplateImageUrl={template.customImg} TemplateImageAlt={template.description} TemplateTitle={template.title} />
-                        </RadioCard>
-                    )
-                })}
-            </SimpleGrid>
-            { props.template.loaded && props.graphName !== "" &&
+            {props.templateLoaded
+                ? < SimpleGrid className="ls-g" {...props.group} height="400px" overflowY="scroll">
+                    {props.templates.map((template: any) => {
+                        const radio = props.getRadioProps({ value: template.key })
+                        return (
+                            <RadioCard clickable={false} fileLoaded={props.fileUpload.loaded} key={template.key} {...radio}>
+                                <TemplateCard TemplateImageUrl={template.customImg} TemplateImageAlt={template.description} TemplateTitle={template.title} />
+                            </RadioCard>
+                        )
+                    })}
+                </SimpleGrid>
+                : <SuspenseSpinner />
+            }
+            {
+                props.template.loaded && props.graphName !== "" &&
                 <Box ml="auto" mt="0.75rem">
                     <Button as="a"
                         bgColor="transparent" variant="outline" borderColor="#aba1ca" color="#aba1ca" _hover={{ bgColor: "#2334ff", borderColor: '#2334ff', color: "white" }} mr="1rem"
@@ -270,7 +275,7 @@ const TemplateVars = (props: any) => {
                 <Alert status="success" mb="1rem" ref={resultRef}>
                     <Icon as={HiOutlineCheckCircle} color="#59b819" w="8" h="8" />
                     <p><b>Graph Successfully started, Congratulations !</b><br /><br />
-                    {decompTemplate?.name || 'Template'} execution unique hash : {success}
+                        {decompTemplate?.name || 'Template'} execution unique hash : {success}
                     </p>
                 </Alert>
             }
