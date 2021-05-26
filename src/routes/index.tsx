@@ -5,6 +5,7 @@ const Graphs = lazy(() => import('../pages/Graphs'))
 const PriceMonitoring = lazy(() => import('../pages/Home'))
 const BuyGlq = lazy(() => import('../pages/BuyGlq'))
 const Presale = lazy(() => import('../pages/Presale'))
+const Staking = lazy(() => import('../pages/Staking'))
 const Page404 = lazy(() => import('../pages/404'))
 
 /**
@@ -29,6 +30,10 @@ const routes = [
   {
     path: '/private-sale',
     component: Presale,
+  },
+  {
+    path: '/staking',
+    component: Staking,
   },
   {
     path: '/buy-glq',
