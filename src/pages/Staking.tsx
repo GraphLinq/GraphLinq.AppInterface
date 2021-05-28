@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Image } from '@chakra-ui/react';
+import { Alert, createStandaloneToast, Image } from '@chakra-ui/react';
 import { useWeb3React } from "@web3-react/core";
 import Trophy from "../assets/trophy.png"
 import T1 from "../assets/t1.gif"
@@ -9,8 +9,10 @@ import T3 from "../assets/t3.gif"
 import { useActiveWeb3React } from '../hooks/index';
 
 import { useStaking } from '../hooks/useStaking';
-import { useStakingContract } from '../hooks/useContract';
+import { useStakingContract, useTokenContract } from '../hooks/useContract';
 
+import { StakingDeposit } from '../components/Staking/StakingDeposit';
+import { StakingModalWithdraw } from '../components/Staking/StakingModalWithdraw';
 import { SuspenseSpinner } from '../components/SuspenseSpinner';
 import { BigNumber } from '@ethersproject/bignumber';
 import TiersAPY from '../contracts/objects/tiersAPY';
@@ -30,6 +32,7 @@ const Staking = () => {
     const [waitingPercentAPR, setWaitingPercentAPR] = useState(0)
     const [walletTier, setWalletTier] = useState(3)
     const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT)
+    
 
     const {balance, refreshBalance} = useStaking()
 
@@ -206,7 +209,8 @@ const Staking = () => {
                                 <p>
                                     <strong>{balance.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                     <small>$0.00</small>
-                                    <button style={{marginTop: 20}} className="bt">Withdraw</button>
+                                    {/* <button style={{marginTop: 20}} className="bt">Withdraw</button> */}
+                                    <StakingModalWithdraw withdrawAmount={balance} stakingContract={stakingContract} refreshBalance={refreshBalance()} />
                                 </p>
                             </div>
                             <div>
@@ -293,12 +297,7 @@ const Staking = () => {
                     <div className="depo">
                         <div>
                             <div className="sub">Stake your GLQ</div>
-                            <form>
-                                <div className="inp val in">
-                                    <input type="text" placeholder="0.00"/>
-                                </div>
-                                <button className="bt">Stake now</button>
-                            </form>
+                            <StakingDeposit />
                         </div>
                     </div>
                     </div>

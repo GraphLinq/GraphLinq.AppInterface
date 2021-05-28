@@ -83,7 +83,7 @@ export const ModalDeposit: React.FC<ModalDepositProps> = ({ }) => {
             <Modal finalFocusRef={finalRef as any} isOpen={isOpen} onClose={onClose} key="test" isCentered>
                 <ModalOverlay className="ov" />
                 <ModalContent className="mod mod-dep">
-                    <header><h2>Deposit</h2></header>
+                    <header><h2>Cloud Balance Deposit</h2></header>
                     <ModalCloseButton className="clo" />
                     <ModalBody class="fred">
                         <Stack spacing={3} p="4">

@@ -70,7 +70,7 @@ export const ModalWithdraw: React.FC<ModalWithdrawProps> = ({ }) => {
             <Modal finalFocusRef={finalRef as any} isOpen={isOpen} onClose={onClose} key="test" isCentered>
                 <ModalOverlay className="ov" />
                 <ModalContent className="mod mod-dep">
-                    <header><h2>Withdraw</h2></header>
+                    <header><h2>Cloud Balance Withdraw</h2></header>
                     <ModalCloseButton className="clo" />
                     <ModalBody class="fred">
                         <Stack spacing={3} p="4">

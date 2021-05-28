@@ -197,8 +197,6 @@ const TemplateVars = (props: any) => {
     const [decompTemplate, setDecompTemplate] = useState<TemplateRoot>(props.templateData)
     const [compressedTemplate, setCompressedTemplate] = useState<any>()
 
-    const [testTemplate, setTestTemplate] = useState('')
-
     const [fields, setFields] = useState(new Map())
 
     const handleChange = (i: any, v: any, node: TemplateNode) => {
@@ -302,12 +300,7 @@ const TemplateVars = (props: any) => {
                 <Button bgColor="transparent" variant="outline" borderColor="#aba1ca" color="#aba1ca" _hover={{ bgColor: "#2334ff", borderColor: '#2334ff', color: "white" }} mr="1rem" onClick={previous}>Previous</Button>
                 <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={deployTemplate} isLoading={isLoading} loadingText="Loading">Deploy</Button>
             </Box>
-            {/* <FormControl id="graphName" my="2.5rem">
-                <FormLabel>Test :</FormLabel>
-                <Input type="text" variant="flushed" focusBorderColor="#2334ff" placeholder="placeholder" value={testTemplate} onChange={(e) => { setTestTemplate(e.target.value) }} />
-            </FormControl>
-            <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={() => compressGraph(testTemplate).then(data => { console.log(data) })}>Compress</Button> */}
-        </>
+            </>
     );
 }
 
