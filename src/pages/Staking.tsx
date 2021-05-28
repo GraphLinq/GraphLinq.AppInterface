@@ -185,7 +185,7 @@ const Staking = () => {
                                             <td>  
                                                 <div className="ladd">
                                                     <div>{staker.wallet}</div>
-                                                    <div><strong>{staker.amount}</strong> GLQ</div>
+                                                    <div><strong>{staker.amount.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ</div>
                                                 </div>
                                             </td>
                                         </tr>)
