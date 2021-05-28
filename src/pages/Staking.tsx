@@ -1,14 +1,99 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { Image } from '@chakra-ui/react';
 import { useWeb3React } from "@web3-react/core";
 import Trophy from "../assets/trophy.png"
 import T1 from "../assets/t1.gif"
 import T2 from "../assets/t2.gif"
 import T3 from "../assets/t3.gif"
+import { useActiveWeb3React } from '../hooks/index';
 
-const GLQRate = 715000
+import { useStaking } from '../hooks/useStaking';
+import { useStakingContract } from '../hooks/useContract';
+
+import { SuspenseSpinner } from '../components/SuspenseSpinner';
+import { BigNumber } from '@ethersproject/bignumber';
+import TiersAPY from '../contracts/objects/tiersAPY';
+import { utils } from 'ethers';
 
 const Staking = () => {
+
+    const { account } = useActiveWeb3React()
+    const [loaded, setLoaded] = useState(false)
+    const [tiersAPY, setTiersAPY] = useState<TiersAPY | undefined>(undefined)
+    const [rank, setRank] = useState(0)
+    const [stakers, setStakers] = useState(0)
+    const [totalStaked, setTotalStaked] = useState(0)
+    const [claimable, setClaimable] = useState(0)
+    const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT)
+
+    const {balance, refreshBalance} = useStaking()
+
+    useEffect(() => {
+        refreshBalance()
+
+        const refreshTiersAPY = async() => {
+            return new Promise(async (res: any, _: any) => { 
+                if (stakingContract == null) { return ;} 
+                const tiers: BigNumber[] = await stakingContract.getTiersAPY()
+                setTiersAPY(new TiersAPY(tiers))
+                res()
+            })
+        }
+
+        const refreshRankPosition = async() => {
+            return new Promise(async (res: any, _: any) => { 
+                if (stakingContract == null) { return ;} 
+                try {
+                    const rank: number = (await stakingContract.getPosition(account)).toString()
+                    setRank(rank)
+                } catch(e) {console.error(e)}
+                res()
+            })
+        }
+
+        const refreshTotalStakers = async() => {
+            return new Promise(async (res: any, _: any) => { 
+                if (stakingContract == null) { return ;} 
+                const stakers: number = (await stakingContract.getTotalStakers()).toString()
+                setStakers(stakers)
+                res()
+            })
+        }
+
+        const refreshClaimable = async() => {
+            return new Promise(async (res: any, _: any) => { 
+                if (stakingContract == null) { return ;} 
+                try {
+                    const claimable: number = (await stakingContract.getGlqToClaim(account)).toString()
+                    setClaimable(parseFloat(utils.formatUnits(claimable, 18)))
+                } catch(e) {console.error(e)}
+      
+                res()
+            })
+        }
+
+        const refreshTotalStaked = async() => {
+            return new Promise(async (res: any, _: any) => { 
+                if (stakingContract == null) { return ;} 
+                const totalStaked: number = (await stakingContract.getTotalStaked()).toString()
+                setTotalStaked(parseFloat(utils.formatUnits(totalStaked, 18)))
+                res()
+            })
+        }
+
+        const loadDatas = async() => {
+            await refreshTiersAPY()
+            await refreshRankPosition()
+            await refreshTotalStakers()
+            await refreshClaimable()
+            await refreshTotalStaked()
+
+            setLoaded(true)
+        }
+
+        loadDatas()
+    }, [])
 
     return (
         <>
@@ -16,164 +101,175 @@ const Staking = () => {
                <header>
                    <div>
                        <h1>Staking Dashboard</h1>
-                       <p>By staking your GLQ you earn rewards and help keep the Graphlinq Network secure.</p>
-                   </div>
-                   <div>
-                       <button className="bt btm">Stake now</button>
+                       <p>Stake now your GLQ, earn rewards and participate in the community activities.</p>
                    </div>
                </header>
-               <div className="stk-m">
-                   <div>
-                       <div className="stk-p">
-                           <div className="stk-pt">
-                               <Image src={Trophy}/>
-                               <div>
-                                   <div className="sub">Your position</div>
-                                   <div className="pos"><strong>247</strong><small>/ 15478</small></div>
-                                   <div className="rank"></div>
-                               </div>    
-                               <div className="evol">
-                                   <strong>158</strong>
-                                   <small>Last week</small>
-                               </div>
-                           </div>
-                           <div className="stk-pc">
-                                <table>
-                                    <tr>
-                                        <th></th>
-                                        <th><span className="sub">Top 3 stakers</span></th>
-                                    </tr>
-                                    <tr>
-                                        <td><Image src={T1}/></td>
-                                        <td>  
-                                            <div className="ladd">
-                                                <div>0e...A4D5X6S94D45</div>
-                                                <div><strong>148,15489,584</strong> GLQ</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><Image src={T2}/></td>
-                                        <td>  
-                                            <div className="ladd">
-                                                <div>0e...A4D5X6S94D45</div>
-                                                <div><strong>148,15489,584</strong> GLQ</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><Image src={T3}/></td>
-                                        <td>  
-                                            <div className="ladd">
-                                                <div>0e...A4D5X6S94D45</div>
-                                                <div><strong>148,15489,584</strong> GLQ</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                           </div>
-                       </div>
-                       <div className="stk-pe">
-                           <div>
-                               <div className="sub">My total supply</div>
-                               <p>
-                                   <strong>0</strong> GLQ
-                                   <small>$0.00</small>
-                               </p>
-                           </div>
-                           <div>
-                               <div className="sub">My supply</div>
-                               <p>
-                                   <strong>0</strong> GLQ
-                                   <small>$0.00</small>
-                               </p>
-                           </div>
-                           <div>
-                               <div className="sub">My claimable rewards</div>
-                               <p>
-                                   <strong>0</strong> GLQ
-                                   <small>$0.00</small>
-                               </p>
-                           </div>
-                       </div>
-                   </div>
-                   <div>
-                       <ul className="uln">
-                           <li>
-                               <div className="sub">Total delegated stake</div>
-                               <div className="nmb">
-                                   <div>
-                                       <strong>10,577,499</strong> GLQ
-                                   </div>
-                                   <div></div>
-                                   <div>
-                                       <strong>$ 969,516,515.15</strong>
-                                   </div>
-                               </div>
-                           </li>
-                           <li>
-                               <div className="sub">Delegated stake</div>
-                               <div className="nmb">
-                                   <div>
-                                       <strong>10,577,499</strong> GLQ
-                                   </div>
-                                   <div></div>
-                                   <div>
-                                       <strong>$ 969,516,515.15</strong>
-                                   </div>
-                               </div>
-                           </li>
-                           <li>
-                               <div className="sub">Top up stake</div>
-                               <div className="nmb">
-                                   <div>
-                                       <strong>10,577,499</strong> GLQ
-                                   </div>
-                                   <div></div>
-                                   <div>
-                                       <strong>$ 969,516,515.15</strong>
-                                   </div>
-                               </div>
-                           </li>
-                       </ul>
-                       <p className="intr">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas deserunt numquam quos incidunt.</p>
-                   </div>
-               </div>
-               <div className="stkb">
-                   <div className="tier">
-                       <h2>Tiers ranking</h2>
-                       <div>
-                           <div className="tro">
-                               <div className="sub">Tier 1</div>
-                               <strong>0,00%</strong>
-                           </div>
-                       </div>
-                       <div>
-                           <div className="tro">
-                               <div className="sub">Tier 2</div>
-                               <strong>0,00%</strong>
-                           </div>
-                       </div>
-                       <div>
-                           <div className="tro act">
-                               <div className="sub">Tier 3</div>
-                               <strong>0,00%</strong>
-                           </div>
-                       </div>
-                   </div>
-                   <div className="depo">
-                       <div>
-                           <div className="sub">Deposit</div>
-                           <form>
-                               <div className="inp val in">
-                                   <input type="text" placeholder="0.00"/>
-                               </div>
-                               <button className="bt">Deposit</button>
-                               <button className="bt">Withdraw</button>
-                           </form>
-                       </div>
-                   </div>
+
+                {!loaded && 
+                <div style={{margin:50}}><SuspenseSpinner/></div>}
+
+                {loaded && <div>
+                <div className="stk-m">
+                    <div>
+                        <div className="stk-p">
+                            <div className="stk-pt">
+                                <Image src={Trophy}/>
+                                <div>
+                                    <div className="sub">Your ranking position</div>
+                                    <div className="pos"><strong>{rank}</strong><small>/ {stakers}</small></div>
+                                    <div className="rank"></div>
+                                </div>    
+                                <div className="evol">
+                                    <strong>158</strong>
+                                    <small>Last week</small>
+                                </div>
+                            </div>
+                            <div className="stk-pc">
+                                    <table>
+                                        <tr>
+                                            <th></th>
+                                            <th><span className="sub">Top 3 stakers</span></th>
+                                        </tr>
+                                        <tr>
+                                            <td><Image src={T1}/></td>
+                                            <td>  
+                                                <div className="ladd">
+                                                    <div>0e...A4D5X6S94D45</div>
+                                                    <div><strong>148,15489,584</strong> GLQ</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><Image src={T2}/></td>
+                                            <td>  
+                                                <div className="ladd">
+                                                    <div>0e...A4D5X6S94D45</div>
+                                                    <div><strong>148,15489,584</strong> GLQ</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><Image src={T3}/></td>
+                                            <td>  
+                                                <div className="ladd">
+                                                    <div>0e...A4D5X6S94D45</div>
+                                                    <div><strong>148,15489,584</strong> GLQ</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                            </div>
+                        </div>
+                        <div className="stk-pe">
+                            <div style={{marginTop:20}}>
+                                <div className="sub">Total Staked GLQ</div>
+                                <p>
+                                    <strong>{totalStaked.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                    <small>$0.00</small>
+                                </p>
+                            </div>
+                            <div>
+                                <div className="sub">My staked GLQ</div>
+                                <p>
+                                    <strong>{balance.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                    <small>$0.00</small>
+                                    <button style={{marginTop: 10}} className="bt">Withdraw</button>
+                                </p>
+                            </div>
+                            <div>
+                                <div className="sub">My claimable rewards</div>
+                                <p>
+                                    <strong>{claimable.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                    <small>$0.00</small>
+                                    <button style={{marginTop: 10}} className="bt">Claim Rewards</button>
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <ul className="uln">
+                            <li>
+                                <div className="sub">Total Staked Tier 1</div>
+                                <div className="nmb">
+                                    <div>
+                                        <strong>10,577,499</strong> GLQ
+                                    </div>
+                                    <div></div>
+                                    <div>
+                                        <strong>$ 969,516,515.15</strong>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div className="sub">Total Staked Tier 2</div>
+                                <div className="nmb">
+                                    <div>
+                                        <strong>10,577,499</strong> GLQ
+                                    </div>
+                                    <div></div>
+                                    <div>
+                                        <strong>$ 969,516,515.15</strong>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div className="sub">Total Staked Tier 3</div>
+                                <div className="nmb">
+                                    <div>
+                                        <strong>10,577,499</strong> GLQ
+                                    </div>
+                                    <div></div>
+                                    <div>
+                                        <strong>$ 969,516,515.15</strong>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <p className="intr">You can stake your GLQ and get rewards claimable in real-time, the more you HODL and the more you rank will top-up to get to the next tier.<br/><br/>
+                        At each withdraw, you will lose your rank advantage in a way to thanks our most active members.
+                        First withdraw will cut 50% of the APY (if you're not in Tier 3), then, the second one will reset your rank to the last place.</p>
+                    </div>
                 </div>
+                <div className="stkb">
+
+                    <div className="tier">
+                        <h2>Tiers ranking</h2>
+                        <div>
+                            <div className="tro">
+                                <div className="sub">Tier 1</div>
+                                <strong>{tiersAPY?.tier_1.toFixed(2)} %</strong>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="tro">
+                                <div className="sub">Tier 2</div>
+                                <strong>{tiersAPY?.tier_2.toFixed(2)} %</strong>
+                            </div>
+                        </div>
+                        <div title="Your current tier APY">
+                            <div className="tro act">
+                                <div className="sub">Tier 3</div>
+                                <strong>{tiersAPY?.tier_3.toFixed(2)} %</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="depo">
+                        <div>
+                            <div className="sub">Stake your GLQ</div>
+                            <form>
+                                <div className="inp val in">
+                                    <input type="text" placeholder="0.00"/>
+                                </div>
+                                <button className="bt">Stake now</button>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>}
+
+
             </div>
         </>
     );

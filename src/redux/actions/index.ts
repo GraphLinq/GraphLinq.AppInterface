@@ -22,3 +22,7 @@ export const UPDATE_BALANCE_CONTRACT = 'updateBalanceContract'
 
 // Graphs
 export const GRAPH_UPDATE = "graphUpdate";
+
+// Staking
+
+export const UPDATE_STAKING_BALANCE = 'updateStakingBalance'
