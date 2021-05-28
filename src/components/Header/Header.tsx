@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
                         <MenuItem as={Link} icon={<FiMessageSquare />} href="https://t.me/graphlinq" isExternal>
                             Telegram
                         </MenuItem>
-                        <MenuItem as={Link} icon={<FiGithub />} href="https://github.com/GraphLinq/GraphLinq" isExternal>
+                        <MenuItem as={Link} icon={<FiGithub />} href="https://github.com/GraphLinq" isExternal>
                             Github
                         </MenuItem>
                     </MenuList>

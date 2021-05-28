@@ -15,16 +15,20 @@ import { SuspenseSpinner } from '../components/SuspenseSpinner';
 import { BigNumber } from '@ethersproject/bignumber';
 import TiersAPY from '../contracts/objects/tiersAPY';
 import { utils } from 'ethers';
+import TopStakers, { Staker } from '../contracts/objects/topStakers';
 
 const Staking = () => {
 
     const { account } = useActiveWeb3React()
     const [loaded, setLoaded] = useState(false)
     const [tiersAPY, setTiersAPY] = useState<TiersAPY | undefined>(undefined)
+    const [topStakers, setTopStakers] = useState<TopStakers | undefined>(undefined)
     const [rank, setRank] = useState(0)
     const [stakers, setStakers] = useState(0)
     const [totalStaked, setTotalStaked] = useState(0)
     const [claimable, setClaimable] = useState(0)
+    const [waitingPercentAPR, setWaitingPercentAPR] = useState(0)
+    const [walletTier, setWalletTier] = useState(3)
     const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT)
 
     const {balance, refreshBalance} = useStaking()
@@ -75,9 +79,44 @@ const Staking = () => {
 
         const refreshTotalStaked = async() => {
             return new Promise(async (res: any, _: any) => { 
+                try {
+                    if (stakingContract == null) { return ;} 
+                    const totalStaked: number = (await stakingContract.getTotalStaked()).toString()
+                    setTotalStaked(parseFloat(utils.formatUnits(totalStaked, 18)))
+                } catch(e) {console.error(e)}
+                res()
+            })
+        }
+
+        const refreshWaitingPercentAPR = async() => {
+            return new Promise(async (res: any, _: any) => { 
                 if (stakingContract == null) { return ;} 
-                const totalStaked: number = (await stakingContract.getTotalStaked()).toString()
-                setTotalStaked(parseFloat(utils.formatUnits(totalStaked, 18)))
+                try {
+                    const percent: number = (await stakingContract.getWaitingPercentAPR(account)).toString()
+                    setWaitingPercentAPR(parseFloat(utils.formatUnits(percent, 18)))
+                 } catch(e) {console.error(e)}
+                res()
+            })
+        }
+        
+        const refreshWalletCurrentTier = async() => {
+            return new Promise(async (res: any, _: any) => { 
+                if (stakingContract == null) { return ;} 
+                try {
+                    const tier: number = (await stakingContract.getWalletCurrentTier(account)).toString()
+                    setWalletTier(tier)
+                } catch(e) {console.error(e)}
+                res()
+            })
+        }
+
+        const refreshTopStakers = async() => {
+            return new Promise(async (res: any, _: any) => { 
+                if (stakingContract == null) { return ;} 
+                const datas: any = await stakingContract.getTopStakers()
+                const stakers: TopStakers = new TopStakers(datas[0], datas[1])
+
+                setTopStakers(stakers)
                 res()
             })
         }
@@ -88,6 +127,9 @@ const Staking = () => {
             await refreshTotalStakers()
             await refreshClaimable()
             await refreshTotalStaked()
+            await refreshWaitingPercentAPR()
+            await refreshWalletCurrentTier()
+            await refreshTopStakers()
 
             setLoaded(true)
         }
@@ -120,8 +162,13 @@ const Staking = () => {
                                     <div className="rank"></div>
                                 </div>    
                                 <div className="evol">
-                                    <strong>158</strong>
-                                    <small>Last week</small>
+                                    <strong>Tier {walletTier}</strong>
+                                    <small>Current Rank</small>
+                                </div>
+
+                                <div className="evol1">
+                                    <strong>214 Ahead</strong>
+                                    <small>Until Next Rank</small>
                                 </div>
                             </div>
                             <div className="stk-pc">
@@ -130,38 +177,24 @@ const Staking = () => {
                                             <th></th>
                                             <th><span className="sub">Top 3 stakers</span></th>
                                         </tr>
-                                        <tr>
+                                        {topStakers !== undefined &&
+                                        topStakers.stakers.map((staker: Staker) => {
+                                            return (
+                                            <tr>
                                             <td><Image src={T1}/></td>
                                             <td>  
                                                 <div className="ladd">
-                                                    <div>0e...A4D5X6S94D45</div>
-                                                    <div><strong>148,15489,584</strong> GLQ</div>
+                                                    <div>{staker.wallet}</div>
+                                                    <div><strong>{staker.amount}</strong> GLQ</div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td><Image src={T2}/></td>
-                                            <td>  
-                                                <div className="ladd">
-                                                    <div>0e...A4D5X6S94D45</div>
-                                                    <div><strong>148,15489,584</strong> GLQ</div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><Image src={T3}/></td>
-                                            <td>  
-                                                <div className="ladd">
-                                                    <div>0e...A4D5X6S94D45</div>
-                                                    <div><strong>148,15489,584</strong> GLQ</div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        </tr>)
+                                        })}
                                     </table>
                             </div>
                         </div>
                         <div className="stk-pe">
-                            <div style={{marginTop:20}}>
+                            <div style={{marginTop:30}}>
                                 <div className="sub">Total Staked GLQ</div>
                                 <p>
                                     <strong>{totalStaked.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
@@ -173,15 +206,17 @@ const Staking = () => {
                                 <p>
                                     <strong>{balance.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                     <small>$0.00</small>
-                                    <button style={{marginTop: 10}} className="bt">Withdraw</button>
+                                    <button style={{marginTop: 20}} className="bt">Withdraw</button>
                                 </p>
                             </div>
                             <div>
                                 <div className="sub">My claimable rewards</div>
                                 <p>
                                     <strong>{claimable.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                    
                                     <small>$0.00</small>
-                                    <button style={{marginTop: 10}} className="bt">Claim Rewards</button>
+                                    <button style={{marginTop: 10, marginBottom: 10}} className="bt">Claim Rewards</button>
+                                    <small>~ {waitingPercentAPR}% of staked GLQ</small>
                                 </p>
                                 
                             </div>
@@ -227,28 +262,28 @@ const Staking = () => {
                             </li>
                         </ul>
                         <p className="intr">You can stake your GLQ and get rewards claimable in real-time, the more you HODL and the more you rank will top-up to get to the next tier.<br/><br/>
-                        At each withdraw, you will lose your rank advantage in a way to thanks our most active members.
-                        First withdraw will cut 50% of the APY (if you're not in Tier 3), then, the second one will reset your rank to the last place.</p>
+                        <u>At each withdraw, you will lose your rank advantage in a way to thanks our most active members.</u><br/>
+                        First withdraw will cut 50% of your APY (if you're not in Tier 3), then, the second one will reset your rank to the last place.</p>
                     </div>
                 </div>
                 <div className="stkb">
 
                     <div className="tier">
                         <h2>Tiers ranking</h2>
-                        <div>
-                            <div className="tro">
+                        <div title={walletTier == 1 ? "You're current tier rewards": ""}>
+                            <div className={walletTier == 1 ? "tro act": "tro"}>
                                 <div className="sub">Tier 1</div>
                                 <strong>{tiersAPY?.tier_1.toFixed(2)} %</strong>
                             </div>
                         </div>
-                        <div>
-                            <div className="tro">
+                        <div title={walletTier == 2 ? "You're current tier rewards": ""}>
+                            <div className={walletTier == 2 ? "tro act": "tro"}>
                                 <div className="sub">Tier 2</div>
                                 <strong>{tiersAPY?.tier_2.toFixed(2)} %</strong>
                             </div>
                         </div>
-                        <div title="Your current tier APY">
-                            <div className="tro act">
+                        <div title={walletTier == 3 ? "You're current tier rewards": ""}>
+                            <div className={walletTier == 3 ? "tro act": "tro"}>
                                 <div className="sub">Tier 3</div>
                                 <strong>{tiersAPY?.tier_3.toFixed(2)} %</strong>
                             </div>

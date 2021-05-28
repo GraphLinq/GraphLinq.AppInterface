@@ -379,11 +379,16 @@
     #stk .depo form .in:after{opacity:.5;content:'GLQ';position:absolute;right:15px;top:50%;transform:translateY(-50%);}
     #stk .depo form .val{height:50px;flex:1;margin-right:15px;}
     #stk .intr{text-align:center;font-size:calc(14px + 2 * (100vw - 320px) / 1080);margin-top:calc(20px + 10 * (100vw - 320px) / 1080);}
-    #stk .evol{position:absolute;right:-25px;top:50%;transform:translateY(-50%);font-size:calc(14px + 2 * (100vw - 320px) / 1080);background-color:#63e50d;border-radius:100px;padding:8px 50px 5px 15px;line-height:1;}
+    #stk .evol{min-width:150px;position:absolute;right:-25px;top:20%;transform:translateY(-50%);font-size:calc(14px + 2 * (100vw - 320px) / 1080);background-color:#2722b1;border-radius:100px;padding:8px 50px 5px 15px;line-height:1;}
     #stk .evol.minus{background-color:#f73d3d;}
-    #stk .evol strong:before{content:'+';}
-    #stk .evol.minus strong:before{content:'-';}
+    /* #stk .evol strong:before{content:'+';}
+    #stk .evol.minus strong:before{content:'-';} */
     #stk .evol small{font-weight:bold;text-transform:uppercase;font-size:10px;position:absolute;left:10px;top:115%;}
+
+
+    #stk .evol1{min-width:150px;position:absolute;right:-25px;top:70%;transform:translateY(-50%);font-size:calc(14px + 2 * (100vw - 320px) / 1080);background-color:#2722b1;border-radius:100px;padding:8px 50px 5px 15px;line-height:1;}
+    #stk .evol1 small{font-weight:bold;text-transform:uppercase;font-size:10px;position:absolute;left:10px;top:115%;}
+
 
     @keyframes trophy{
         0%{transform:scale(.95);}
