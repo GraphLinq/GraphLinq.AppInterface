@@ -50,11 +50,9 @@ export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props:
                 setError(result.toString());
                 return;
             }
-            if (result.success) {
-                setPending("");
-                setError("");
-                setSuccess(result.hash);
-            }
+            setPending("");
+            setError("");
+            setSuccess(result.hash);
 
             setTimeout(() => {
                 props.refreshBalance();

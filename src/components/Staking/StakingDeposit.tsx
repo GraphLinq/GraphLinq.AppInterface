@@ -18,7 +18,7 @@ interface StakingDepositProps {
 export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
     const { account } = useActiveWeb3React();
     const { balance, refreshBalance } = useBalance();
-    const [amountToStake, setAmountToStake] = useState("0.00");
+    const [amountToStake, setAmountToStake] = useState("");
     const toast = createStandaloneToast();
     const [error, setError] = useState("");
     const [pending, setPending] = useState("");
