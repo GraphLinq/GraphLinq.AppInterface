@@ -16,6 +16,8 @@ interface ClaimRewardsProps {
     setPending: any;
     success: any;
     setSuccess: any;
+    tx: number;
+    setTx: any;
 }
 
 export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
@@ -59,6 +61,7 @@ export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
                 position: "bottom-right",
                 render: () => <ToastSuccess description="Rewards successfully claimed !" />,
             });
+            props.setTx(props.tx + 1);
         } catch (e) {
             if (e.data?.originalError.message) {
                 props.setPending("");

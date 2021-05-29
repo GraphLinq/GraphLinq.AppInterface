@@ -20,11 +20,11 @@ import { useStakingContract } from "../../hooks/useContract";
 
 interface StakingModalWithdrawProps {
     withdrawAmount: any;
-    refreshBalance: any;
+    tx: number;
+    setTx: any;
 }
 
 export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props: any) => {
-    const { account } = useActiveWeb3React();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [error, setError] = useState("");
     const [pending, setPending] = useState("");
@@ -53,9 +53,10 @@ export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props:
             setPending("");
             setError("");
             setSuccess(result.hash);
+            props.setTx(props.tx + 1);
 
             setTimeout(() => {
-                props.refreshBalance();
+                props.setTx(props.tx + 1);
             }, 1000);
         } catch (e) {
             if (e.data?.originalError.message) {
