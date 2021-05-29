@@ -39,7 +39,7 @@ export const ToastSuccess: React.FC<ToastSuccessProps> = (props) => {
             >
                 { props.isLink
                 ? props.description
-                : <small>Transaction hash : <a href={`https://etherscan.com/tx/${props.description}`} target="_blank">{props.description}</a></small>
+                : <p>Transaction hash : <a href={`https://etherscan.com/tx/${props.description}`} target="_blank">{props.description}</a></p>
                 }
             </chakra.p>
           </Box>

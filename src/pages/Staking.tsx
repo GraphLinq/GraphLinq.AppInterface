@@ -176,6 +176,7 @@ const Staking = () => {
                             </div>
                             <div className="stk-pc">
                                     <table>
+                                        <tbody>
                                         <tr>
                                             <th></th>
                                             <th><span className="sub">Top 3 stakers</span></th>
@@ -183,7 +184,7 @@ const Staking = () => {
                                         {topStakers !== undefined &&
                                         topStakers.stakers.map((staker: Staker) => {
                                             return (
-                                            <tr>
+                                            <tr key={`${staker.wallet}`}>
                                             <td><Image src={T1}/></td>
                                             <td>  
                                                 <div className="ladd">
@@ -193,6 +194,7 @@ const Staking = () => {
                                             </td>
                                         </tr>)
                                         })}
+                                        </tbody>
                                     </table>
                             </div>
                         </div>
@@ -210,7 +212,7 @@ const Staking = () => {
                                     <strong>{balance.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                     <small>$0.00</small>
                                     {/* <button style={{marginTop: 20}} className="bt">Withdraw</button> */}
-                                    <StakingModalWithdraw withdrawAmount={balance} stakingContract={stakingContract} refreshBalance={refreshBalance()} />
+                                    <StakingModalWithdraw withdrawAmount={balance} refreshBalance={refreshBalance} />
                                 </p>
                             </div>
                             <div>
@@ -297,7 +299,7 @@ const Staking = () => {
                     <div className="depo">
                         <div>
                             <div className="sub">Stake your GLQ</div>
-                            <StakingDeposit />
+                            <StakingDeposit refreshStakingBalance={refreshBalance} />
                         </div>
                     </div>
                     </div>

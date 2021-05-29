@@ -224,7 +224,7 @@
 /************* modal **************/
     
     body .ov{background-color:rgba(9,8,18,.5)}
-    body .mod{max-width:90%;padding:0;border-radius:calc(25px + 5 * (100vw - 320px) / 1080);background:url(../img/motif.svg) repeat, linear-gradient(to bottom, #1d1938, #15122b);background-size:3px;}
+    body .mod{max-width:90%;border-radius:calc(25px + 5 * (100vw - 320px) / 1080);background:url(../img/motif.svg) repeat, linear-gradient(to bottom, #1d1938, #15122b);background-size:3px;}
     body .mod .clo{z-index:10;transition:.1s;box-shadow:0 3px 10px rgba(16,112,255,.5);position:absolute;width:20px;color:#fff;height:20px;font-size:11px;right:0;top:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(to right, #3907ff, #017dff)!important;}
     body .mod .clo svg{width:6px;}
     body .mod .clo:active{transform:scale(.8);}
