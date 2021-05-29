@@ -35,186 +35,187 @@ const Staking = () => {
     const [totalStakedTier3, setTotalStakedTier3] = useState(0);
     const [walletTier, setWalletTier] = useState(3);
     const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT);
+    
+    const [tx, setTx] = useState(0);
 
     const { balance, refreshBalance } = useStaking();
 
+    const refreshTiersAPY = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            const tiers: BigNumber[] = await stakingContract.getTiersAPY();
+            setTiersAPY(new TiersAPY(tiers));
+            res();
+        });
+    };
+
+    const refreshRankPosition = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            try {
+                const rank: number = (await stakingContract.getPosition(account)).toString();
+                setRank(rank);
+            } catch (e) {
+                console.error(e);
+            }
+            res();
+        });
+    };
+
+    const refreshTotalStakers = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            const stakers: number = (await stakingContract.getTotalStakers()).toString();
+            setStakers(stakers);
+            res();
+        });
+    };
+
+    const refreshClaimable = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            try {
+                const claimable: number = (await stakingContract.getGlqToClaim(account)).toString();
+                setClaimable(parseFloat(utils.formatUnits(claimable, 18)));
+            } catch (e) {
+                console.error(e);
+            }
+
+            res();
+        });
+    };
+
+    const refreshTotalStaked = async () => {
+        return new Promise(async (res: any, _: any) => {
+            try {
+                if (stakingContract == null) {
+                    return;
+                }
+                const totalStaked: number = (await stakingContract.getTotalStaked()).toString();
+                setTotalStaked(parseFloat(utils.formatUnits(totalStaked, 18)));
+            } catch (e) {
+                console.error(e);
+            }
+            res();
+        });
+    };
+
+    const refreshWaitingPercentAPR = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            try {
+                const percent: number = (await stakingContract.getWaitingPercentAPR(account)).toString();
+                setWaitingPercentAPR(parseFloat(utils.formatUnits(percent, 18)));
+            } catch (e) {
+                console.error(e);
+            }
+            res();
+        });
+    };
+
+    const refreshWalletCurrentTier = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            try {
+                const tier: number = (await stakingContract.getWalletCurrentTier(account)).toString();
+                setWalletTier(tier);
+            } catch (e) {
+                console.error(e);
+            }
+            res();
+        });
+    };
+
+    const refreshTopStakers = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            const datas: any = await stakingContract.getTopStakers();
+            const stakers: TopStakers = new TopStakers(datas[0], datas[1]);
+
+            setTopStakers(stakers);
+            res();
+        });
+    };
+
+    const refreshTotalStakedTierOne = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            try {
+                const amount: number = (await stakingContract.getTierTotalStaked(1)).toString();
+                setTotalStakedTier1(parseFloat(utils.formatUnits(amount, 18)));
+            } catch (e) {
+                console.error(e);
+            }
+            res();
+        });
+    };
+
+    const refreshTotalStakedTierTwo = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            try {
+                const amount: number = (await stakingContract.getTierTotalStaked(2)).toString();
+                setTotalStakedTier2(parseFloat(utils.formatUnits(amount, 18)));
+            } catch (e) {
+                console.error(e);
+            }
+            res();
+        });
+    };
+
+    const refreshTotalStakedTierThree = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            try {
+                const amount: number = (await stakingContract.getTierTotalStaked(3)).toString();
+                setTotalStakedTier3(parseFloat(utils.formatUnits(amount, 18)));
+            } catch (e) {
+                console.error(e);
+            }
+            res();
+        });
+    };
+
+    const loadDatas = async () => {
+        await refreshTiersAPY();
+        await refreshRankPosition();
+        await refreshTotalStakers();
+        await refreshClaimable();
+        await refreshTotalStaked();
+        await refreshWaitingPercentAPR();
+        await refreshWalletCurrentTier();
+        await refreshTopStakers();
+        await refreshTotalStakedTierOne();
+        await refreshTotalStakedTierTwo();
+        await refreshTotalStakedTierThree();
+
+        setLoaded(true);
+    };
+
     useEffect(() => {
         refreshBalance();
-
-        const refreshTiersAPY = async () => {
-            return new Promise(async (res: any, _: any) => {
-                if (stakingContract == null) {
-                    return;
-                }
-                const tiers: BigNumber[] = await stakingContract.getTiersAPY();
-                setTiersAPY(new TiersAPY(tiers));
-                res();
-            });
-        };
-
-        const refreshRankPosition = async () => {
-            return new Promise(async (res: any, _: any) => {
-                if (stakingContract == null) {
-                    return;
-                }
-                try {
-                    const rank: number = (await stakingContract.getPosition(account)).toString();
-                    setRank(rank);
-                } catch (e) {
-                    console.error(e);
-                }
-                res();
-            });
-        };
-
-        const refreshTotalStakers = async () => {
-            return new Promise(async (res: any, _: any) => {
-                if (stakingContract == null) {
-                    return;
-                }
-                const stakers: number = (await stakingContract.getTotalStakers()).toString();
-                setStakers(stakers);
-                res();
-            });
-        };
-
-        const refreshClaimable = async () => {
-            return new Promise(async (res: any, _: any) => {
-                if (stakingContract == null) {
-                    return;
-                }
-                try {
-                    const claimable: number = (await stakingContract.getGlqToClaim(account)).toString();
-                    setClaimable(parseFloat(utils.formatUnits(claimable, 18)));
-                } catch (e) {
-                    console.error(e);
-                }
-
-                res();
-            });
-        };
-
-        const refreshTotalStaked = async () => {
-            return new Promise(async (res: any, _: any) => {
-                try {
-                    if (stakingContract == null) {
-                        return;
-                    }
-                    const totalStaked: number = (await stakingContract.getTotalStaked()).toString();
-                    setTotalStaked(parseFloat(utils.formatUnits(totalStaked, 18)));
-                } catch (e) {
-                    console.error(e);
-                }
-                res();
-            });
-        };
-
-        const refreshWaitingPercentAPR = async () => {
-            return new Promise(async (res: any, _: any) => {
-                if (stakingContract == null) {
-                    return;
-                }
-                try {
-                    const percent: number = (await stakingContract.getWaitingPercentAPR(account)).toString();
-                    setWaitingPercentAPR(parseFloat(utils.formatUnits(percent, 18)));
-                } catch (e) {
-                    console.error(e);
-                }
-                res();
-            });
-        };
-
-        const refreshWalletCurrentTier = async () => {
-            return new Promise(async (res: any, _: any) => {
-                if (stakingContract == null) {
-                    return;
-                }
-                try {
-                    const tier: number = (await stakingContract.getWalletCurrentTier(account)).toString();
-                    setWalletTier(tier);
-                } catch (e) {
-                    console.error(e);
-                }
-                res();
-            });
-        };
-
-        const refreshTopStakers = async () => {
-            return new Promise(async (res: any, _: any) => {
-                if (stakingContract == null) {
-                    return;
-                }
-                const datas: any = await stakingContract.getTopStakers();
-                const stakers: TopStakers = new TopStakers(datas[0], datas[1]);
-
-                setTopStakers(stakers);
-                res();
-            });
-        };
-
-        const refreshTotalStakedTierOne = async () => {
-            return new Promise(async (res: any, _: any) => {
-                if (stakingContract == null) {
-                    return;
-                }
-                try {
-                    const amount: number = (await stakingContract.getTierTotalStaked(1)).toString();
-                    setTotalStakedTier1(parseFloat(utils.formatUnits(amount, 18)));
-                } catch (e) {
-                    console.error(e);
-                }
-                res();
-            });
-        };
-
-        const refreshTotalStakedTierTwo = async () => {
-            return new Promise(async (res: any, _: any) => {
-                if (stakingContract == null) {
-                    return;
-                }
-                try {
-                    const amount: number = (await stakingContract.getTierTotalStaked(2)).toString();
-                    setTotalStakedTier2(parseFloat(utils.formatUnits(amount, 18)));
-                } catch (e) {
-                    console.error(e);
-                }
-                res();
-            });
-        };
-
-        const refreshTotalStakedTierThree = async () => {
-            return new Promise(async (res: any, _: any) => {
-                if (stakingContract == null) {
-                    return;
-                }
-                try {
-                    const amount: number = (await stakingContract.getTierTotalStaked(3)).toString();
-                    setTotalStakedTier3(parseFloat(utils.formatUnits(amount, 18)));
-                } catch (e) {
-                    console.error(e);
-                }
-                res();
-            });
-        };
-
-        const loadDatas = async () => {
-            await refreshTiersAPY();
-            await refreshRankPosition();
-            await refreshTotalStakers();
-            await refreshClaimable();
-            await refreshTotalStaked();
-            await refreshWaitingPercentAPR();
-            await refreshWalletCurrentTier();
-            await refreshTopStakers();
-            await refreshTotalStakedTierOne();
-            await refreshTotalStakedTierTwo();
-            await refreshTotalStakedTierThree();
-
-            setLoaded(true);
-        };
-
         loadDatas();
-    }, []);
+    }, [tx]);
 
     const [error, setError] = React.useState("");
     const [pending, setPending] = React.useState("");
@@ -305,11 +306,11 @@ const Staking = () => {
                                         <p>
                                             <strong>{balance.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             <small>$0.00</small>
-                                            <StakingModalWithdraw withdrawAmount={balance} refreshBalance={refreshBalance} />
+                                            <StakingModalWithdraw withdrawAmount={balance} tx={tx} setTx={setTx} />
                                         </p>
                                     </div>
                                     <div>
-                                        <ClaimRewards claimable={claimable} waitingPercentAPR={waitingPercentAPR} error={error} setError={setError} pending={pending} setPending={setPending} success={success} setSuccess={setSuccess} />
+                                        <ClaimRewards claimable={claimable} waitingPercentAPR={waitingPercentAPR} tx={tx} setTx={setTx} error={error} setError={setError} pending={pending} setPending={setPending} success={success} setSuccess={setSuccess} />
                                     </div>
                                 </div>
                                 {!success && pending && (
@@ -413,7 +414,7 @@ const Staking = () => {
                             <div className="depo">
                                 <div>
                                     <div className="sub">Stake your GLQ</div>
-                                    <StakingDeposit refreshStakingBalance={refreshBalance} />
+                                    <StakingDeposit tx={tx} setTx={setTx} />
                                 </div>
                             </div>
                         </div>

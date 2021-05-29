@@ -12,7 +12,8 @@ import { useWalletContract } from "../../hooks/useWalletContract";
 import { utils } from "ethers";
 
 interface StakingDepositProps {
-    refreshStakingBalance: any;
+    tx: number;
+    setTx: any;
 }
 
 export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
@@ -99,10 +100,10 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
                 render: () => <ToastSuccess title="Deposit successfully completed !" description={result.hash} isLink />,
             });
 
+            props.setTx(props.tx + 1);
             refreshBalanceContract();
-            props.refreshStakingBalance();
         } catch (e) {
-            console.error(e);
+            //console.error(e);
             if (e.data?.message) {
                 setPending("");
                 setError(`Error: ${e.data?.message}`);
