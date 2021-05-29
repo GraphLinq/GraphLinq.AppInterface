@@ -51,7 +51,6 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
             const allowance = await tokenContract.allowance(account, process.env.REACT_APP_STAKING_CONTRACT);
             const wei = utils.parseEther("10000000");
             if (parseFloat(allowance) < parseFloat(decimalAmount)) {
-                //console.log(`${allowance} vs ${decimalAmount}`);
                 setPending("Allowance pending, please allow the use of your token balance for the contract...");
                 toast({
                     position: "bottom-right",
