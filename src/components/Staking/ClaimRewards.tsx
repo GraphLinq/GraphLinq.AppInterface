@@ -42,6 +42,7 @@ export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
                 render: () => <ToastInfo description="Waiting for confirmations..." />,
             });
             await result.wait();
+            console.log(result);
             if (result instanceof String) {
                 props.setPending("");
                 props.setError(result.toString());
@@ -51,15 +52,13 @@ export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
                 });
                 return;
             }
-            if (result.success) {
-                props.setPending("");
-                props.setError("");
-                props.setSuccess(result.hash);
-                toast({
-                    position: "bottom-right",
-                    render: () => <ToastSuccess description="Rewards successfully claimed !" />,
-                });
-            }
+            props.setPending("");
+            props.setError("");
+            props.setSuccess(result.hash);
+            toast({
+                position: "bottom-right",
+                render: () => <ToastSuccess description="Rewards successfully claimed !" />,
+            });
         } catch (e) {
             if (e.data?.originalError.message) {
                 props.setPending("");
