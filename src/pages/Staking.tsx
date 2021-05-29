@@ -377,14 +377,9 @@ const Staking = () => {
                                     </li>
                                 </ul>
                                 <p className="intr">
-                                    You can stake your GLQ and get rewards claimable in real-time, the more you HODL and the more you rank will top-up to get to
-                                    the next tier.
-                                    <br />
-                                    <br />
-                                    <u>At each withdraw, you will lose your rank advantage in a way to thanks our most active members.</u>
-                                    <br />
-                                    First withdraw will cut 50% of your APY (if you're not in Tier 3), then, the second one will reset your rank to the last
-                                    place.
+                                Stake Your GLQ to get claimable rewards in real-time. The more you HODL, the more your rank is likely to get to the next tier with higher APY.
+                                <br/><br/><u>At each withdrawal you will loose your rank advantages,  benefitting the hodlers the most.</u>
+                                <br/><br/>Your first withdrawal will decrease your APY by half (if you're not on tier 3), and the second will take you back to the last tier with the least APY.
                                 </p>
                             </div>
                         </div>
