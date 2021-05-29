@@ -10,7 +10,7 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({}) => {
     const applyCss = () => {
         setTimeout(() => {
-            const host = (document as any).querySelector("coingecko-coin-compare-chart-widget").shadowRoot;
+            const host = (document as any)?.querySelector("coingecko-coin-compare-chart-widget")?.shadowRoot;
             if(host == null || host.querySelector(".highcharts-background") == null){
                 applyCss()
                 return;

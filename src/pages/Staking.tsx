@@ -30,6 +30,9 @@ const Staking = () => {
     const [totalStaked, setTotalStaked] = useState(0);
     const [claimable, setClaimable] = useState(0);
     const [waitingPercentAPR, setWaitingPercentAPR] = useState(0);
+    const [totalStakedTier1, setTotalStakedTier1] = useState(0);
+    const [totalStakedTier2, setTotalStakedTier2] = useState(0);
+    const [totalStakedTier3, setTotalStakedTier3] = useState(0);
     const [walletTier, setWalletTier] = useState(3);
     const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT);
 
@@ -149,6 +152,51 @@ const Staking = () => {
             });
         };
 
+        const refreshTotalStakedTierOne = async () => {
+            return new Promise(async (res: any, _: any) => {
+                if (stakingContract == null) {
+                    return;
+                }
+                try {
+                    const amount: number = (await stakingContract.getTierTotalStaked(1)).toString();
+                    setTotalStakedTier1(parseFloat(utils.formatUnits(amount, 18)));
+                } catch (e) {
+                    console.error(e);
+                }
+                res();
+            });
+        };
+
+        const refreshTotalStakedTierTwo = async () => {
+            return new Promise(async (res: any, _: any) => {
+                if (stakingContract == null) {
+                    return;
+                }
+                try {
+                    const amount: number = (await stakingContract.getTierTotalStaked(2)).toString();
+                    setTotalStakedTier2(parseFloat(utils.formatUnits(amount, 18)));
+                } catch (e) {
+                    console.error(e);
+                }
+                res();
+            });
+        };
+
+        const refreshTotalStakedTierThree = async () => {
+            return new Promise(async (res: any, _: any) => {
+                if (stakingContract == null) {
+                    return;
+                }
+                try {
+                    const amount: number = (await stakingContract.getTierTotalStaked(3)).toString();
+                    setTotalStakedTier3(parseFloat(utils.formatUnits(amount, 18)));
+                } catch (e) {
+                    console.error(e);
+                }
+                res();
+            });
+        };
+
         const loadDatas = async () => {
             await refreshTiersAPY();
             await refreshRankPosition();
@@ -158,6 +206,9 @@ const Staking = () => {
             await refreshWaitingPercentAPR();
             await refreshWalletCurrentTier();
             await refreshTopStakers();
+            await refreshTotalStakedTierOne();
+            await refreshTotalStakedTierTwo();
+            await refreshTotalStakedTierThree();
 
             setLoaded(true);
         };
@@ -291,7 +342,7 @@ const Staking = () => {
                                         <div className="sub">Total Staked Tier 1</div>
                                         <div className="nmb">
                                             <div>
-                                                <strong>10,577,499</strong> GLQ
+                                                <strong>{totalStakedTier1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             </div>
                                             <div></div>
                                             <div>
@@ -303,7 +354,7 @@ const Staking = () => {
                                         <div className="sub">Total Staked Tier 2</div>
                                         <div className="nmb">
                                             <div>
-                                                <strong>10,577,499</strong> GLQ
+                                                <strong>{totalStakedTier2.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             </div>
                                             <div></div>
                                             <div>
@@ -315,7 +366,7 @@ const Staking = () => {
                                         <div className="sub">Total Staked Tier 3</div>
                                         <div className="nmb">
                                             <div>
-                                                <strong>10,577,499</strong> GLQ
+                                            <strong>{totalStakedTier3.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             </div>
                                             <div></div>
                                             <div>

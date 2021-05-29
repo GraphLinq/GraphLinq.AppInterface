@@ -38,10 +38,10 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
 
         const asNumber: number = parseFloat(amountToStake);
         if (asNumber <= 0) {
-            setError(`Invalid amount to deposit on the balance contract: ${asNumber} GLQ`);
+            setError(`Invalid amount to deposit on the staking contract: ${asNumber} GLQ`);
             toast({
                 position: "bottom-right",
-                render: () => <ToastError description={`Invalid amount to deposit on the balance contract: ${asNumber} GLQ`} />,
+                render: () => <ToastError description={`Invalid amount to deposit on the staking contract: ${asNumber} GLQ`} />,
             });
             return;
         }

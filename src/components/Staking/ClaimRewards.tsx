@@ -35,7 +35,7 @@ export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
                 });
                 return;
             }
-            const result = await stakingContract.withdrawGlq();
+            const result = await stakingContract.claimGlq();
             props.setPending("Waiting for confirmations...");
             toast({
                 position: "bottom-right",
@@ -57,7 +57,7 @@ export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
                 props.setSuccess(result.hash);
                 toast({
                     position: "bottom-right",
-                    render: () => <ToastSuccess description="Reward successfully claimed !" />,
+                    render: () => <ToastSuccess description="Rewards successfully claimed !" />,
                 });
             }
         } catch (e) {
