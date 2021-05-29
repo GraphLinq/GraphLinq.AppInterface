@@ -212,10 +212,40 @@ const Staking = () => {
         setLoaded(true);
     };
 
+    const [stakersAhead, setStakersAhead] = useState(0)
+
     useEffect(() => {
         refreshBalance();
         loadDatas();
-    }, [tx]);
+        /* const totalIndex = 100 * 10;
+        const currentIndex = 1 * 10; */
+        let ahead;
+        const totalIndex = stakers * 1e18;
+        const currentIndex = rank * 1e18;
+        const t1MaxIndex = (totalIndex/100)*15;
+        const t2MaxIndex = (totalIndex/100)*55;
+        const t3MaxIndex = totalIndex - (t1MaxIndex + t2MaxIndex);
+
+        /* console.log(`totalIndex: ${totalIndex}`)
+        console.log(`currentIndex: ${currentIndex}`)
+        console.log(`t1MaxIndex: ${t1MaxIndex}`);
+        console.log(`t2MaxIndex: ${t2MaxIndex}`);
+        console.log(`t3MaxIndex: ${t3MaxIndex}`); */
+        
+        if (currentIndex <= t1MaxIndex) {
+            ahead = ((currentIndex % totalIndex) / 1e18) - 1;
+            //console.log(`t1 ahead: ${ahead}`);
+        } else if (currentIndex > t1MaxIndex && currentIndex <= t2MaxIndex) {
+            ahead = (currentIndex % t1MaxIndex) / 1e18;
+            //console.log(`t2 ahead: ${ahead}`);
+        } else {
+            ahead = (currentIndex % t2MaxIndex) / 1e18;
+            //console.log(`t3 ahead: ${ahead}`);
+        }
+        
+        setStakersAhead(ahead)
+
+    }, [tx, stakers]);
 
     const [error, setError] = React.useState("");
     const [pending, setPending] = React.useState("");
@@ -258,7 +288,7 @@ const Staking = () => {
                                         </div>
 
                                         <div className="evol1">
-                                            <strong>214 Ahead</strong>
+                                            <strong>{stakersAhead} Ahead</strong>
                                             <small>Until Next Rank</small>
                                         </div>
                                     </div>

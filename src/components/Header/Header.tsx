@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Icon, IconButton, Menu, MenuButton, MenuItem, MenuList, Link, Button, keyframes } from '@chakra-ui/react';
+import { Avatar, Icon, IconButton, Menu, MenuButton, MenuItem, MenuList, Link, Button, keyframes, chakra } from '@chakra-ui/react';
 
 import { WalletConnectIcon, CoinbaseWalletIcon, FortmaticIcon, PortisIcon } from "../../assets/icons";
 import Identicon from "./identicon";
@@ -45,6 +45,11 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
                 <Link as={NavLink} to="/app/home" className="bt btm">
                     Make a Graph <i className="fal fa-plus-circle"></i>
                 </Link>
+                <chakra.div ml="1rem" rounded="full" textAlign="center" bgColor="#090812" px="1rem" py=".5rem">
+                <chakra.p fontSize="sm">
+                    GLQ : <b>$0.03246</b>
+                </chakra.p>
+                </chakra.div>
             </div>  
             <div className="r">
                 {account !== undefined && (
