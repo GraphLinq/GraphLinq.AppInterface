@@ -198,16 +198,16 @@ const Staking = () => {
 
     function formatCur(num: number, min: number, max: number) {
         const formatConfig = {
-          style: "currency",
-          currency: "USD",
-          minimumFractionDigits: min,
-          maximumFractionDigits: max,
-          currencyDisplay: "symbol",
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: min,
+            maximumFractionDigits: max,
+            currencyDisplay: "symbol",
         };
         const curFormatter = new Intl.NumberFormat("en-US", formatConfig);
-      
+
         return curFormatter.format(num);
-      }
+    }
 
     const [glqPrice, setGlqPrice] = useState(0);
     const [t3StakedUsdValue, setT3StakedUsdValue] = useState(0);
@@ -230,7 +230,7 @@ const Staking = () => {
     const refreshTotalStakedTierThreeUsd = async () => {
         return new Promise(async (res: any, _: any) => {
             try {
-                const value = totalStakedTier3 * glqPrice
+                const value = totalStakedTier3 * glqPrice;
                 setT3StakedUsdValue(value);
             } catch (error) {
                 console.error(error);
@@ -240,7 +240,7 @@ const Staking = () => {
     };
     const refreshTotalStakedTierTwoUsd = async () => {
         try {
-            const value = totalStakedTier2 * glqPrice
+            const value = totalStakedTier2 * glqPrice;
             setT2StakedUsdValue(value);
         } catch (error) {
             console.error(error);
@@ -248,13 +248,13 @@ const Staking = () => {
     };
     const refreshTotalStakedTierOneUsd = async () => {
         try {
-            const value = totalStakedTier1 * glqPrice
+            const value = totalStakedTier1 * glqPrice;
             setT1StakedUsdValue(value);
         } catch (error) {
             console.error(error);
         }
     };
-    
+
     const loadDatas = async () => {
         await refreshTiersAPY();
         await refreshRankPosition();
@@ -356,11 +356,13 @@ const Staking = () => {
                                                     </th>
                                                 </tr>
                                                 {topStakers !== undefined &&
-                                                    topStakers.stakers.map((staker: Staker) => {
+                                                    topStakers.stakers.map((staker: Staker, i: any) => {
                                                         return (
                                                             <tr key={`${staker.wallet}`}>
                                                                 <td>
-                                                                    <Image src={T1} />
+                                                                    {i === 0 && <Image src={T1} />}
+                                                                    {i === 1 && <Image src={T2} />}
+                                                                    {i === 2 && <Image src={T3} />}
                                                                 </td>
                                                                 <td>
                                                                     <div className="ladd">
@@ -441,12 +443,7 @@ const Staking = () => {
                                                 <strong>{totalStakedTier1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             </div>
                                             <div></div>
-                                            <div>
-                                                { loaded
-                                                ? <strong>{formatCur(t1StakedUsdValue, 0, 2)}</strong>
-                                                : "test"
-                                                }
-                                            </div>
+                                            <div>{loaded ? <strong>{formatCur(t1StakedUsdValue, 0, 2)}</strong> : "test"}</div>
                                         </div>
                                     </li>
                                     <li>
