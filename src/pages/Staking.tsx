@@ -196,6 +196,65 @@ const Staking = () => {
         });
     };
 
+    function formatCur(num: number, min: number, max: number) {
+        const formatConfig = {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: min,
+          maximumFractionDigits: max,
+          currencyDisplay: "symbol",
+        };
+        const curFormatter = new Intl.NumberFormat("en-US", formatConfig);
+      
+        return curFormatter.format(num);
+      }
+
+    const [glqPrice, setGlqPrice] = useState(0);
+    const [t3StakedUsdValue, setT3StakedUsdValue] = useState(0);
+    const [t2StakedUsdValue, setT2StakedUsdValue] = useState(0);
+    const [t1StakedUsdValue, setT1StakedUsdValue] = useState(0);
+
+    const refreshGlqPrice = async () => {
+        return new Promise(async (res: any, _: any) => {
+            try {
+                let response = await fetch("https://api.graphlinq.io/front/token");
+                let responseJson = await response.json();
+                setGlqPrice(responseJson.uni.glqPrice.toFixed(5));
+            } catch (error) {
+                console.error(error);
+            }
+            res();
+        });
+    };
+
+    const refreshTotalStakedTierThreeUsd = async () => {
+        return new Promise(async (res: any, _: any) => {
+            try {
+                const value = totalStakedTier3 * glqPrice
+                setT3StakedUsdValue(value);
+            } catch (error) {
+                console.error(error);
+            }
+            res();
+        });
+    };
+    const refreshTotalStakedTierTwoUsd = async () => {
+        try {
+            const value = totalStakedTier2 * glqPrice
+            setT2StakedUsdValue(value);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const refreshTotalStakedTierOneUsd = async () => {
+        try {
+            const value = totalStakedTier1 * glqPrice
+            setT1StakedUsdValue(value);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    
     const loadDatas = async () => {
         await refreshTiersAPY();
         await refreshRankPosition();
@@ -208,6 +267,10 @@ const Staking = () => {
         await refreshTotalStakedTierOne();
         await refreshTotalStakedTierTwo();
         await refreshTotalStakedTierThree();
+        await refreshGlqPrice();
+        await refreshTotalStakedTierThreeUsd();
+        await refreshTotalStakedTierTwoUsd();
+        await refreshTotalStakedTierOneUsd();
 
         setLoaded(true);
     };
@@ -236,7 +299,7 @@ const Staking = () => {
         }
 
         setStakersAhead(Math.round(ahead));
-    }, [tx, stakers]);
+    }, [tx, stakers, glqPrice]);
 
     const [error, setError] = React.useState("");
     const [pending, setPending] = React.useState("");
@@ -379,7 +442,10 @@ const Staking = () => {
                                             </div>
                                             <div></div>
                                             <div>
-                                                <strong>$ 969,516,515.15</strong>
+                                                { loaded
+                                                ? <strong>{formatCur(t1StakedUsdValue, 0, 2)}</strong>
+                                                : "test"
+                                                }
                                             </div>
                                         </div>
                                     </li>
@@ -391,7 +457,7 @@ const Staking = () => {
                                             </div>
                                             <div></div>
                                             <div>
-                                                <strong>$ 969,516,515.15</strong>
+                                                <strong>{formatCur(t2StakedUsdValue, 0, 2)}</strong>
                                             </div>
                                         </div>
                                     </li>
@@ -403,7 +469,7 @@ const Staking = () => {
                                             </div>
                                             <div></div>
                                             <div>
-                                                <strong>$ 969,516,515.15</strong>
+                                                <strong>{formatCur(t3StakedUsdValue, 0, 2)}</strong>
                                             </div>
                                         </div>
                                     </li>
