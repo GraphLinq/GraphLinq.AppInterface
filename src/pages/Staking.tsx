@@ -35,7 +35,7 @@ const Staking = () => {
     const [totalStakedTier3, setTotalStakedTier3] = useState(0);
     const [walletTier, setWalletTier] = useState(3);
     const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT);
-    
+
     const [tx, setTx] = useState(0);
 
     const { balance, refreshBalance } = useStaking();
@@ -212,39 +212,30 @@ const Staking = () => {
         setLoaded(true);
     };
 
-    const [stakersAhead, setStakersAhead] = useState(0)
+    const [stakersAhead, setStakersAhead] = useState(0);
 
     useEffect(() => {
         refreshBalance();
         loadDatas();
-        /* const totalIndex = 100 * 10;
-        const currentIndex = 1 * 10; */
+
         let ahead;
-        const totalIndex = stakers * 1e18;
-        const currentIndex = rank * 1e18;
-        const t1MaxIndex = (totalIndex/100)*15;
-        const t2MaxIndex = (totalIndex/100)*55;
-        const t3MaxIndex = totalIndex - (t1MaxIndex + t2MaxIndex);
+        const totalIndex = stakers;
+        const currentIndex = rank;
+        const t1MaxIndex = totalIndex * 0.15;
+        const t2MaxIndex = t1MaxIndex + totalIndex * 0.55;
+        const t3MaxIndex = t2MaxIndex + totalIndex * 0.3;
 
-        /* console.log(`totalIndex: ${totalIndex}`)
-        console.log(`currentIndex: ${currentIndex}`)
-        console.log(`t1MaxIndex: ${t1MaxIndex}`);
-        console.log(`t2MaxIndex: ${t2MaxIndex}`);
-        console.log(`t3MaxIndex: ${t3MaxIndex}`); */
-        
         if (currentIndex <= t1MaxIndex) {
-            ahead = ((currentIndex % totalIndex) / 1e18) - 1;
-            //console.log(`t1 ahead: ${ahead}`);
-        } else if (currentIndex > t1MaxIndex && currentIndex <= t2MaxIndex) {
-            ahead = (currentIndex % t1MaxIndex) / 1e18;
-            //console.log(`t2 ahead: ${ahead}`);
+            ahead = currentIndex - 1;
+        } else if (currentIndex <= t2MaxIndex) {
+            ahead = currentIndex - t1MaxIndex;
+        } else if (currentIndex <= t3MaxIndex) {
+            ahead = currentIndex - t2MaxIndex;
         } else {
-            ahead = (currentIndex % t2MaxIndex) / 1e18;
-            //console.log(`t3 ahead: ${ahead}`);
+            ahead = 0;
         }
-        
-        setStakersAhead(ahead)
 
+        setStakersAhead(Math.round(ahead));
     }, [tx, stakers]);
 
     const [error, setError] = React.useState("");
@@ -340,7 +331,18 @@ const Staking = () => {
                                         </p>
                                     </div>
                                     <div>
-                                        <ClaimRewards claimable={claimable} waitingPercentAPR={waitingPercentAPR} tx={tx} setTx={setTx} error={error} setError={setError} pending={pending} setPending={setPending} success={success} setSuccess={setSuccess} />
+                                        <ClaimRewards
+                                            claimable={claimable}
+                                            waitingPercentAPR={waitingPercentAPR}
+                                            tx={tx}
+                                            setTx={setTx}
+                                            error={error}
+                                            setError={setError}
+                                            pending={pending}
+                                            setPending={setPending}
+                                            success={success}
+                                            setSuccess={setSuccess}
+                                        />
                                     </div>
                                 </div>
                                 {!success && pending && (
@@ -397,7 +399,7 @@ const Staking = () => {
                                         <div className="sub">Total Staked Tier 3</div>
                                         <div className="nmb">
                                             <div>
-                                            <strong>{totalStakedTier3.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                                <strong>{totalStakedTier3.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             </div>
                                             <div></div>
                                             <div>
