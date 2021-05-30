@@ -92,12 +92,14 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
                 position: "bottom-right",
                 render: () => <ToastInfo description="Waiting for confirmations..." />,
             });
-            await result.wait();
-            setSuccess(result.hash);
-            toast({
-                position: "bottom-right",
-                render: () => <ToastSuccess title="Deposit successfully completed !" description={result.hash} isLink />,
-            });
+            const txReceipt = await result.wait();
+            if (txReceipt.status === 1) {
+                setSuccess(txReceipt.transactionHash);
+                toast({
+                    position: "bottom-right",
+                    render: () => <ToastSuccess title="Deposit successfully completed !" description={txReceipt.transactionHash} isLink />,
+                });
+            }
 
             props.setTx(props.tx + 1);
             refreshBalanceContract();

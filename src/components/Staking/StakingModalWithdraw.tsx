@@ -44,16 +44,18 @@ export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props:
             }
             const result = await stakingContract.withdrawGlq();
             setPending("Waiting for confirmations...");
-            await result.wait();
+            const txReceipt = await result.wait();
             if (result instanceof String) {
                 setPending("");
                 setError(result.toString());
                 return;
             }
-            setPending("");
-            setError("");
-            setSuccess(result.hash);
-            props.setTx(props.tx + 1);
+            if (txReceipt.status === 1) {
+                setPending("");
+                setError("");
+                setSuccess(txReceipt.transactionHash);
+                props.setTx(props.tx + 1);
+            }
 
             setTimeout(() => {
                 props.setTx(props.tx + 1);
