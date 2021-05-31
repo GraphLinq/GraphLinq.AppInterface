@@ -18,6 +18,7 @@ interface ClaimRewardsProps {
     setSuccess: any;
     tx: number;
     setTx: any;
+    rewardValue: string
 }
 
 export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
@@ -89,7 +90,7 @@ export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
             <div className="sub">My claimable rewards</div>
             <p>
                 <strong>{props.claimable.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
-                <small>$0.00</small>
+                <small>{props.rewardValue}</small>
                 <button style={{ marginTop: 10, marginBottom: 10 }} className="bt" onClick={doClaim}>
                     Claim Rewards
                 </button>
