@@ -384,14 +384,14 @@ const Staking = () => {
                                         <div className="sub">Total Staked GLQ</div>
                                         <p>
                                             <strong>{totalStaked.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
-                                            <small>$0.00</small>
+                                            <small>{formatCur(totalStaked * glqPrice, 0, 2)}</small>
                                         </p>
                                     </div>
                                     <div>
                                         <div className="sub">My staked GLQ</div>
                                         <p>
                                             <strong>{balance.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
-                                            <small>$0.00</small>
+                                            <small>{formatCur(balance * glqPrice, 0, 2)}</small>
                                             <StakingModalWithdraw withdrawAmount={balance} tx={tx} setTx={setTx} />
                                         </p>
                                     </div>
@@ -407,6 +407,7 @@ const Staking = () => {
                                             setPending={setPending}
                                             success={success}
                                             setSuccess={setSuccess}
+                                            rewardValue={formatCur(claimable * glqPrice, 0, 2)}
                                         />
                                     </div>
                                 </div>
