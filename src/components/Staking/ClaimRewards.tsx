@@ -43,8 +43,16 @@ export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
                 position: "bottom-right",
                 render: () => <ToastInfo description="Waiting for confirmations..." />,
             });
-            await result.wait();
-            console.log(result);
+            const txReceipt = await result.wait();
+            if (txReceipt.status === 1) {
+                props.setPending("");
+                props.setError("");
+                props.setSuccess(txReceipt.transactionHash);
+                toast({
+                    position: "bottom-right",
+                    render: () => <ToastSuccess description="Rewards successfully claimed !" />,
+                });
+            }
             if (result instanceof String) {
                 props.setPending("");
                 props.setError(result.toString());
@@ -54,13 +62,6 @@ export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
                 });
                 return;
             }
-            props.setPending("");
-            props.setError("");
-            props.setSuccess(result.hash);
-            toast({
-                position: "bottom-right",
-                render: () => <ToastSuccess description="Rewards successfully claimed !" />,
-            });
             props.setTx(props.tx + 1);
         } catch (e) {
             if (e.data?.originalError.message) {

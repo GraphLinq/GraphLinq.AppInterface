@@ -29,31 +29,39 @@ export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props:
     const [error, setError] = useState("");
     const [pending, setPending] = useState("");
     const [success, setSuccess] = useState("");
+    const [disabled, setDisabled] = useState(false);
     const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT);
 
     async function doWithdraw() {
         try {
+            setDisabled(true);
             if (props.withdrawAmount <= 0) {
                 setError(`Invalid amount to withdraw from the staking contract: ${props.withdrawAmount} GLQ`);
+                setDisabled(false);
                 return;
             }
 
             setPending("Pending, waiting for server response...");
             if (stakingContract == null) {
+                setDisabled(false);
                 return;
             }
             const result = await stakingContract.withdrawGlq();
             setPending("Waiting for confirmations...");
-            await result.wait();
+            const txReceipt = await result.wait();
             if (result instanceof String) {
                 setPending("");
                 setError(result.toString());
+                setDisabled(false);
                 return;
             }
-            setPending("");
-            setError("");
-            setSuccess(result.hash);
-            props.setTx(props.tx + 1);
+            if (txReceipt.status === 1) {
+                setPending("");
+                setError("");
+                setSuccess(txReceipt.transactionHash);
+                props.setTx(props.tx + 1);
+                onClose();
+            }
 
             setTimeout(() => {
                 props.setTx(props.tx + 1);
@@ -68,6 +76,7 @@ export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props:
                 setPending("");
                 setError(`Error: ${e.message}`);
             }
+            setDisabled(false);
         }
     }
 
@@ -116,7 +125,7 @@ export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props:
                         Are you sure you want to withdraw all your staked GLQ ?
                     </ModalBody>
                     <ModalFooter className="fot">
-                        <Button className="bt" style={{ padding: 15, fontSize: "15px" }} onClick={doWithdraw}>
+                        <Button className="bt" style={{ padding: 15, fontSize: "15px" }} onClick={doWithdraw} isDisabled={disabled}>
                             Yes, I'm sure
                         </Button>
                         <Button colorScheme="base" style={{ padding: 15, fontSize: "15px", fontWeight: 500 }} onClick={onClose}>

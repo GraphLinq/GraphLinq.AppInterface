@@ -35,7 +35,7 @@ const Staking = () => {
     const [totalStakedTier3, setTotalStakedTier3] = useState(0);
     const [walletTier, setWalletTier] = useState(3);
     const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT);
-    
+
     const [tx, setTx] = useState(0);
 
     const { balance, refreshBalance } = useStaking();
@@ -196,6 +196,65 @@ const Staking = () => {
         });
     };
 
+    function formatCur(num: number, min: number, max: number) {
+        const formatConfig = {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: min,
+            maximumFractionDigits: max,
+            currencyDisplay: "symbol",
+        };
+        const curFormatter = new Intl.NumberFormat("en-US", formatConfig);
+
+        return curFormatter.format(num);
+    }
+
+    const [glqPrice, setGlqPrice] = useState(0);
+    const [t3StakedUsdValue, setT3StakedUsdValue] = useState(0);
+    const [t2StakedUsdValue, setT2StakedUsdValue] = useState(0);
+    const [t1StakedUsdValue, setT1StakedUsdValue] = useState(0);
+
+    const refreshGlqPrice = async () => {
+        return new Promise(async (res: any, _: any) => {
+            try {
+                let response = await fetch("https://api.graphlinq.io/front/token");
+                let responseJson = await response.json();
+                setGlqPrice(responseJson.uni.glqPrice.toFixed(5));
+            } catch (error) {
+                console.error(error);
+            }
+            res();
+        });
+    };
+
+    const refreshTotalStakedTierThreeUsd = async () => {
+        return new Promise(async (res: any, _: any) => {
+            try {
+                const value = totalStakedTier3 * glqPrice;
+                setT3StakedUsdValue(value);
+            } catch (error) {
+                console.error(error);
+            }
+            res();
+        });
+    };
+    const refreshTotalStakedTierTwoUsd = async () => {
+        try {
+            const value = totalStakedTier2 * glqPrice;
+            setT2StakedUsdValue(value);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const refreshTotalStakedTierOneUsd = async () => {
+        try {
+            const value = totalStakedTier1 * glqPrice;
+            setT1StakedUsdValue(value);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const loadDatas = async () => {
         await refreshTiersAPY();
         await refreshRankPosition();
@@ -208,44 +267,39 @@ const Staking = () => {
         await refreshTotalStakedTierOne();
         await refreshTotalStakedTierTwo();
         await refreshTotalStakedTierThree();
+        await refreshGlqPrice();
+        await refreshTotalStakedTierThreeUsd();
+        await refreshTotalStakedTierTwoUsd();
+        await refreshTotalStakedTierOneUsd();
 
         setLoaded(true);
     };
 
-    const [stakersAhead, setStakersAhead] = useState(0)
+    const [stakersAhead, setStakersAhead] = useState(0);
 
     useEffect(() => {
         refreshBalance();
         loadDatas();
-        /* const totalIndex = 100 * 10;
-        const currentIndex = 1 * 10; */
+
         let ahead;
-        const totalIndex = stakers * 1e18;
-        const currentIndex = rank * 1e18;
-        const t1MaxIndex = (totalIndex/100)*15;
-        const t2MaxIndex = (totalIndex/100)*55;
-        const t3MaxIndex = totalIndex - (t1MaxIndex + t2MaxIndex);
+        const totalIndex = stakers;
+        const currentIndex = rank;
+        const t1MaxIndex = totalIndex * 0.15;
+        const t2MaxIndex = t1MaxIndex + totalIndex * 0.55;
+        const t3MaxIndex = t2MaxIndex + totalIndex * 0.3;
 
-        /* console.log(`totalIndex: ${totalIndex}`)
-        console.log(`currentIndex: ${currentIndex}`)
-        console.log(`t1MaxIndex: ${t1MaxIndex}`);
-        console.log(`t2MaxIndex: ${t2MaxIndex}`);
-        console.log(`t3MaxIndex: ${t3MaxIndex}`); */
-        
         if (currentIndex <= t1MaxIndex) {
-            ahead = ((currentIndex % totalIndex) / 1e18) - 1;
-            //console.log(`t1 ahead: ${ahead}`);
-        } else if (currentIndex > t1MaxIndex && currentIndex <= t2MaxIndex) {
-            ahead = (currentIndex % t1MaxIndex) / 1e18;
-            //console.log(`t2 ahead: ${ahead}`);
+            ahead = currentIndex - 1;
+        } else if (currentIndex <= t2MaxIndex) {
+            ahead = currentIndex - t1MaxIndex;
+        } else if (currentIndex <= t3MaxIndex) {
+            ahead = currentIndex - t2MaxIndex;
         } else {
-            ahead = (currentIndex % t2MaxIndex) / 1e18;
-            //console.log(`t3 ahead: ${ahead}`);
+            ahead = 0;
         }
-        
-        setStakersAhead(ahead)
 
-    }, [tx, stakers]);
+        setStakersAhead(Math.round(ahead));
+    }, [tx, stakers, glqPrice]);
 
     const [error, setError] = React.useState("");
     const [pending, setPending] = React.useState("");
@@ -302,11 +356,13 @@ const Staking = () => {
                                                     </th>
                                                 </tr>
                                                 {topStakers !== undefined &&
-                                                    topStakers.stakers.map((staker: Staker) => {
+                                                    topStakers.stakers.map((staker: Staker, i: any) => {
                                                         return (
                                                             <tr key={`${staker.wallet}`}>
                                                                 <td>
-                                                                    <Image src={T1} />
+                                                                    {i === 0 && <Image src={T1} />}
+                                                                    {i === 1 && <Image src={T2} />}
+                                                                    {i === 2 && <Image src={T3} />}
                                                                 </td>
                                                                 <td>
                                                                     <div className="ladd">
@@ -340,7 +396,18 @@ const Staking = () => {
                                         </p>
                                     </div>
                                     <div>
-                                        <ClaimRewards claimable={claimable} waitingPercentAPR={waitingPercentAPR} tx={tx} setTx={setTx} error={error} setError={setError} pending={pending} setPending={setPending} success={success} setSuccess={setSuccess} />
+                                        <ClaimRewards
+                                            claimable={claimable}
+                                            waitingPercentAPR={waitingPercentAPR}
+                                            tx={tx}
+                                            setTx={setTx}
+                                            error={error}
+                                            setError={setError}
+                                            pending={pending}
+                                            setPending={setPending}
+                                            success={success}
+                                            setSuccess={setSuccess}
+                                        />
                                     </div>
                                 </div>
                                 {!success && pending && (
@@ -376,9 +443,7 @@ const Staking = () => {
                                                 <strong>{totalStakedTier1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             </div>
                                             <div></div>
-                                            <div>
-                                                <strong>$ 969,516,515.15</strong>
-                                            </div>
+                                            <div>{loaded ? <strong>{formatCur(t1StakedUsdValue, 0, 2)}</strong> : "test"}</div>
                                         </div>
                                     </li>
                                     <li>
@@ -389,7 +454,7 @@ const Staking = () => {
                                             </div>
                                             <div></div>
                                             <div>
-                                                <strong>$ 969,516,515.15</strong>
+                                                <strong>{formatCur(t2StakedUsdValue, 0, 2)}</strong>
                                             </div>
                                         </div>
                                     </li>
@@ -397,11 +462,11 @@ const Staking = () => {
                                         <div className="sub">Total Staked Tier 3</div>
                                         <div className="nmb">
                                             <div>
-                                            <strong>{totalStakedTier3.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                                <strong>{totalStakedTier3.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             </div>
                                             <div></div>
                                             <div>
-                                                <strong>$ 969,516,515.15</strong>
+                                                <strong>{formatCur(t3StakedUsdValue, 0, 2)}</strong>
                                             </div>
                                         </div>
                                     </li>
