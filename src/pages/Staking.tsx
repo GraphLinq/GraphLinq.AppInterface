@@ -252,7 +252,7 @@ const Staking = () => {
             } catch (error) {
                 console.error(error);
             }
-            await res();
+            res();
         });
     };
     const refreshTotalStakedTierTwoUsd = async () => {
@@ -263,7 +263,7 @@ const Staking = () => {
             } catch (error) {
                 console.error(error);
             }
-            await res();
+            res();
         });
     };
 
@@ -275,7 +275,7 @@ const Staking = () => {
             } catch (error) {
                 console.error(error);
             }
-            await res();
+            res();
         });
     };
 
