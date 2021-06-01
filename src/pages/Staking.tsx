@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, createStandaloneToast, Image, Spacer, Spinner } from "@chakra-ui/react";
+import { Alert, Box, Button, Image, Spacer, Spinner } from "@chakra-ui/react";
 import { useWeb3React } from "@web3-react/core";
 import Trophy from "../assets/trophy.png";
 import T1 from "../assets/t1.gif";
@@ -35,6 +35,7 @@ const Staking = () => {
     const [totalStakedTier3, setTotalStakedTier3] = useState(0);
     const [walletTier, setWalletTier] = useState(3);
     const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT);
+    const oldStakingContract = useStakingContract(process.env.REACT_APP_OLD_STAKING_CONTRACT);
 
     const [tx, setTx] = useState(0);
 
@@ -235,24 +236,31 @@ const Staking = () => {
             } catch (error) {
                 console.error(error);
             }
-            res();
+            await res();
         });
     };
     const refreshTotalStakedTierTwoUsd = async () => {
-        try {
-            const value = totalStakedTier2 * glqPrice;
-            setT2StakedUsdValue(value);
-        } catch (error) {
-            console.error(error);
-        }
+        return new Promise(async (res: any, _: any) => {
+            try {
+                const value = totalStakedTier2 * glqPrice;
+                setT2StakedUsdValue(value);
+            } catch (error) {
+                console.error(error);
+            }
+            await res();
+        });
     };
+
     const refreshTotalStakedTierOneUsd = async () => {
-        try {
-            const value = totalStakedTier1 * glqPrice;
-            setT1StakedUsdValue(value);
-        } catch (error) {
-            console.error(error);
-        }
+        return new Promise(async (res: any, _: any) => {
+            try {
+                const value = totalStakedTier1 * glqPrice;
+                setT1StakedUsdValue(value);
+            } catch (error) {
+                console.error(error);
+            }
+            await res();
+        });
     };
 
     const loadDatas = async () => {
@@ -297,23 +305,80 @@ const Staking = () => {
         } else {
             ahead = 0;
         }
-        if (ahead < 0) { ahead = 0 }
+        if (ahead < 0) {
+            ahead = 0;
+        }
 
         setStakersAhead(Math.round(ahead));
     }, [tx, stakers, glqPrice]);
 
-    const [error, setError] = React.useState("");
-    const [pending, setPending] = React.useState("");
-    const [success, setSuccess] = React.useState("");
+    const [error, setError] = useState("");
+    const [pending, setPending] = useState("");
+    const [success, setSuccess] = useState("");
+
+    const [dataRefreshed, setDataRefreshed] = useState(true);
 
     useEffect(() => {
-        const interval = setInterval(() => {
+        const interval = setInterval(async () => {
+            setDataRefreshed(false);
             refreshBalance();
-            loadDatas();
-        }, 60000);
+            await refreshTiersAPY();
+            await refreshRankPosition();
+            await refreshTotalStakers();
+            await refreshClaimable();
+            await refreshTotalStaked();
+            await refreshWaitingPercentAPR();
+            await refreshWalletCurrentTier();
+            await refreshTopStakers();
+            await refreshTotalStakedTierOne();
+            await refreshTotalStakedTierTwo();
+            await refreshTotalStakedTierThree();
+            await refreshGlqPrice();
+            await refreshTotalStakedTierThreeUsd();
+            await refreshTotalStakedTierTwoUsd();
+            await refreshTotalStakedTierOneUsd();
+            setDataRefreshed(true);
+        }, 60000); //one minute
 
         return () => clearInterval(interval);
     }, []);
+
+    async function migrateFunds() {
+        try {
+            setPending("Pending, waiting for server response...");
+            if (oldStakingContract == null) {
+                return;
+            }
+            const result = await oldStakingContract.emergencyWithdraw();
+            setPending("Waiting for confirmations...");
+            const txReceipt = await result.wait();
+            if (result instanceof String) {
+                setPending("");
+                setError(result.toString());
+                return;
+            }
+            if (txReceipt.status === 1) {
+                setPending("");
+                setError("");
+                setSuccess(txReceipt.transactionHash);
+                setTx(tx + 1);
+            }
+
+            setTimeout(() => {
+                setTx(tx + 1);
+            }, 1000);
+        } catch (e) {
+            if (e.data?.originalError.message) {
+                setPending("");
+                setError(`Error: ${e.data?.originalError.message}`);
+                return;
+            }
+            if (e.message) {
+                setPending("");
+                setError(`Error: ${e.message}`);
+            }
+        }
+    }
 
     return (
         <>
@@ -393,14 +458,26 @@ const Staking = () => {
                                     <div style={{ marginTop: 30 }}>
                                         <div className="sub">Total Staked GLQ</div>
                                         <p>
-                                            <strong>{totalStaked.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                            <strong>
+                                                {totalStaked
+                                                    .toFixed(2)
+                                                    .toString()
+                                                    .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}
+                                            </strong>{" "}
+                                            GLQ
                                             <small>{formatCur(totalStaked * glqPrice, 0, 2)}</small>
                                         </p>
                                     </div>
                                     <div>
                                         <div className="sub">My staked GLQ</div>
                                         <p>
-                                            <strong>{balance.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                            <strong>
+                                                {balance
+                                                    .toFixed(2)
+                                                    .toString()
+                                                    .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}
+                                            </strong>{" "}
+                                            GLQ
                                             <small>{formatCur(balance * glqPrice, 0, 2)}</small>
                                             <StakingModalWithdraw withdrawAmount={balance} tx={tx} setTx={setTx} claimable={claimable} />
                                         </p>
@@ -451,21 +528,43 @@ const Staking = () => {
                                         <div className="sub">Total Staked Tier 1</div>
                                         <div className="nmb">
                                             <div>
-                                                <strong>{totalStakedTier1.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                                <strong>
+                                                    {totalStakedTier1
+                                                        .toFixed(2)
+                                                        .toString()
+                                                        .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}
+                                                </strong>{" "}
+                                                GLQ
                                             </div>
                                             <div></div>
-                                            <div><strong>{formatCur(t1StakedUsdValue, 0, 2)}</strong></div>
+                                            <div>
+                                                {!dataRefreshed ? (
+                                                    <Spinner thickness="2px" speed="0.65s" emptyColor="#15122b" color="blue.600" size="md" />
+                                                ) : (
+                                                    <strong>{formatCur(t1StakedUsdValue, 0, 2)}</strong>
+                                                )}
+                                            </div>
                                         </div>
                                     </li>
                                     <li>
                                         <div className="sub">Total Staked Tier 2</div>
                                         <div className="nmb">
                                             <div>
-                                                <strong>{totalStakedTier2.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                                <strong>
+                                                    {totalStakedTier2
+                                                        .toFixed(2)
+                                                        .toString()
+                                                        .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}
+                                                </strong>{" "}
+                                                GLQ
                                             </div>
                                             <div></div>
                                             <div>
-                                                <strong>{formatCur(t2StakedUsdValue, 0, 2)}</strong>
+                                                {!dataRefreshed ? (
+                                                    <Spinner thickness="2px" speed="0.65s" emptyColor="#15122b" color="blue.600" size="md" />
+                                                ) : (
+                                                    <strong>{formatCur(t2StakedUsdValue, 0, 2)}</strong>
+                                                )}
                                             </div>
                                         </div>
                                     </li>
@@ -473,19 +572,35 @@ const Staking = () => {
                                         <div className="sub">Total Staked Tier 3</div>
                                         <div className="nmb">
                                             <div>
-                                                <strong>{totalStakedTier3.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                                <strong>
+                                                    {totalStakedTier3
+                                                        .toFixed(2)
+                                                        .toString()
+                                                        .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}
+                                                </strong>{" "}
+                                                GLQ
                                             </div>
                                             <div></div>
                                             <div>
-                                                <strong>{formatCur(t3StakedUsdValue, 0, 2)}</strong>
+                                                {!dataRefreshed ? (
+                                                    <Spinner thickness="2px" speed="0.65s" emptyColor="#15122b" color="blue.600" size="md" />
+                                                ) : (
+                                                    <strong>{formatCur(t3StakedUsdValue, 0, 2)}</strong>
+                                                )}
                                             </div>
                                         </div>
                                     </li>
                                 </ul>
                                 <p className="intr">
-                                Stake Your GLQ to get claimable rewards in real-time. The more you HODL, the more your rank is likely to get to the next tier with higher APY.
-                                <br/><br/><u>At each withdrawal you will loose your rank advantages,  benefitting the hodlers the most.</u>
-                                <br/><br/>Your first withdrawal will decrease your APY by half (if you're not on tier 3), and the second will take you back to the last tier with the least APY.
+                                    Stake Your GLQ to get claimable rewards in real-time. The more you HODL, the more your rank is likely to get to the next
+                                    tier with higher APY.
+                                    <br />
+                                    <br />
+                                    <u>At each withdrawal you will loose your rank advantages, benefitting the hodlers the most.</u>
+                                    <br />
+                                    <br />
+                                    Your first withdrawal will decrease your APY by half (if you're not on tier 3), and the second will take you back to the
+                                    last tier with the least APY.
                                 </p>
                             </div>
                         </div>
@@ -515,7 +630,16 @@ const Staking = () => {
                             <div className="depo">
                                 <div>
                                     <div className="sub">Stake your GLQ</div>
-                                    <StakingDeposit tx={tx} setTx={setTx} />
+                                        <StakingDeposit tx={tx} setTx={setTx} />
+                                    <Box w="full" m="auto" mt="1rem">
+                                        {totalStaked > 0 ? (
+                                            <Button size="sm" rounded="full" colorScheme="red" onClick={migrateFunds}>
+                                                Migrate from v1
+                                            </Button>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Box>
                                 </div>
                             </div>
                         </div>
