@@ -384,14 +384,14 @@ const Staking = () => {
                                     <div style={{ marginTop: 30 }}>
                                         <div className="sub">Total Staked GLQ</div>
                                         <p>
-                                            <strong>{totalStaked.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                            <strong>{totalStaked.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             <small>{formatCur(totalStaked * glqPrice, 0, 2)}</small>
                                         </p>
                                     </div>
                                     <div>
                                         <div className="sub">My staked GLQ</div>
                                         <p>
-                                            <strong>{balance.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                            <strong>{balance.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             <small>{formatCur(balance * glqPrice, 0, 2)}</small>
                                             <StakingModalWithdraw withdrawAmount={balance} tx={tx} setTx={setTx} />
                                         </p>
@@ -442,17 +442,17 @@ const Staking = () => {
                                         <div className="sub">Total Staked Tier 1</div>
                                         <div className="nmb">
                                             <div>
-                                                <strong>{totalStakedTier1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                                <strong>{totalStakedTier1.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             </div>
                                             <div></div>
-                                            <div>{loaded ? <strong>{formatCur(t1StakedUsdValue, 0, 2)}</strong> : "test"}</div>
+                                            <div><strong>{formatCur(t1StakedUsdValue, 0, 2)}</strong></div>
                                         </div>
                                     </li>
                                     <li>
                                         <div className="sub">Total Staked Tier 2</div>
                                         <div className="nmb">
                                             <div>
-                                                <strong>{totalStakedTier2.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                                <strong>{totalStakedTier2.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             </div>
                                             <div></div>
                                             <div>
@@ -464,7 +464,7 @@ const Staking = () => {
                                         <div className="sub">Total Staked Tier 3</div>
                                         <div className="nmb">
                                             <div>
-                                                <strong>{totalStakedTier3.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                                <strong>{totalStakedTier3.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             </div>
                                             <div></div>
                                             <div>

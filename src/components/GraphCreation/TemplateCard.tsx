@@ -36,7 +36,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = (props) => {
                 : <>
                     <Box textAlign="center">
                         <Image m="auto" h="100px" src={props.TemplateImageUrl} />
-                        {props.TemplateTitle}test
+                        {props.TemplateTitle}
                     </Box>
                 </>
             }
