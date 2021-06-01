@@ -522,7 +522,7 @@ const Staking = () => {
                                     <Alert status="success" className="mod" py="2rem" px="3rem" mx="auto" mt="1rem">
                                         <i className="fal fa-check-circle"></i>
                                         <p>
-                                            Deposit successfully completed !
+                                            Successfully completed !
                                             <br />
                                             <small>
                                                 Transaction hash :{" "}
