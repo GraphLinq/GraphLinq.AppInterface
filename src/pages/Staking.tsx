@@ -306,6 +306,15 @@ const Staking = () => {
     const [pending, setPending] = React.useState("");
     const [success, setSuccess] = React.useState("");
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            refreshBalance();
+            loadDatas();
+        }, 60000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <>
             <div id="stk">
@@ -393,7 +402,7 @@ const Staking = () => {
                                         <p>
                                             <strong>{balance.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                             <small>{formatCur(balance * glqPrice, 0, 2)}</small>
-                                            <StakingModalWithdraw withdrawAmount={balance} tx={tx} setTx={setTx} />
+                                            <StakingModalWithdraw withdrawAmount={balance} tx={tx} setTx={setTx} claimable={claimable} />
                                         </p>
                                     </div>
                                     <div>

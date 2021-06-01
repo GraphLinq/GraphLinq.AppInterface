@@ -14,14 +14,13 @@ import {
     Spinner,
     useDisclosure,
 } from "@chakra-ui/react";
-import { useActiveWeb3React } from "../../hooks/index";
-import { ResponseSuccess } from "../../providers/responses/success";
 import { useStakingContract } from "../../hooks/useContract";
 
 interface StakingModalWithdrawProps {
     withdrawAmount: any;
     tx: number;
     setTx: any;
+    claimable: any;
 }
 
 export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props: any) => {
@@ -35,6 +34,11 @@ export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props:
     async function doWithdraw() {
         try {
             setDisabled(true);
+            if (props.claimable <= 0) {
+                setError(`You need to have claimable rewards to withdraw your staked GLQ.`);
+                setDisabled(false);
+                return;
+            }
             if (props.withdrawAmount <= 0) {
                 setError(`Invalid amount to withdraw from the staking contract: ${props.withdrawAmount} GLQ`);
                 setDisabled(false);
