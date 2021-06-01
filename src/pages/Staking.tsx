@@ -28,6 +28,7 @@ const Staking = () => {
     const [rank, setRank] = useState(0);
     const [stakers, setStakers] = useState(0);
     const [totalStaked, setTotalStaked] = useState(0);
+    const [oldTotalStaked, setOldTotalStaked] = useState(0);
     const [claimable, setClaimable] = useState(0);
     const [waitingPercentAPR, setWaitingPercentAPR] = useState(0);
     const [totalStakedTier1, setTotalStakedTier1] = useState(0);
@@ -102,6 +103,21 @@ const Staking = () => {
                 }
                 const totalStaked: number = (await stakingContract.getTotalStaked()).toString();
                 setTotalStaked(parseFloat(utils.formatUnits(totalStaked, 18)));
+            } catch (e) {
+                console.error(e);
+            }
+            res();
+        });
+    };
+
+    const refreshOldTotalStaked = async () => {
+        return new Promise(async (res: any, _: any) => {
+            try {
+                if (oldStakingContract == null) {
+                    return;
+                }
+                const oldTotalStaked: number = (await oldStakingContract.getTotalStaked()).toString();
+                setOldTotalStaked(parseFloat(utils.formatUnits(oldTotalStaked, 18)));
             } catch (e) {
                 console.error(e);
             }
@@ -269,6 +285,7 @@ const Staking = () => {
         await refreshTotalStakers();
         await refreshClaimable();
         await refreshTotalStaked();
+        await refreshOldTotalStaked();
         await refreshWaitingPercentAPR();
         await refreshWalletCurrentTier();
         await refreshTopStakers();
@@ -327,6 +344,7 @@ const Staking = () => {
             await refreshTotalStakers();
             await refreshClaimable();
             await refreshTotalStaked();
+            await refreshOldTotalStaked();
             await refreshWaitingPercentAPR();
             await refreshWalletCurrentTier();
             await refreshTopStakers();
@@ -632,7 +650,7 @@ const Staking = () => {
                                     <div className="sub">Stake your GLQ</div>
                                         <StakingDeposit tx={tx} setTx={setTx} />
                                     <Box w="full" m="auto" mt="1rem">
-                                        {totalStaked > 0 ? (
+                                        {oldTotalStaked > 0 ? (
                                             <Button size="sm" rounded="full" colorScheme="red" onClick={migrateFunds}>
                                                 Migrate from v1
                                             </Button>
