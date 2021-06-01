@@ -310,20 +310,14 @@ const Staking = () => {
         const totalIndex = stakers;
         const currentIndex = rank;
         const t1MaxIndex = totalIndex * 0.15;
-        const t2MaxIndex = t1MaxIndex + totalIndex * 0.55;
-        const t3MaxIndex = t2MaxIndex + totalIndex * 0.3;
+        const t2MaxIndex = totalIndex * 0.55;
 
         if (currentIndex <= t1MaxIndex) {
             ahead = currentIndex - 1;
-        } else if (currentIndex <= t2MaxIndex) {
+        } else if (currentIndex > t1MaxIndex && currentIndex <= t2MaxIndex) {
             ahead = currentIndex - t1MaxIndex;
-        } else if (currentIndex <= t3MaxIndex) {
-            ahead = currentIndex - t2MaxIndex;
         } else {
-            ahead = 0;
-        }
-        if (ahead < 0) {
-            ahead = 0;
+            ahead = currentIndex - t2MaxIndex;
         }
 
         setStakersAhead(Math.round(ahead));
