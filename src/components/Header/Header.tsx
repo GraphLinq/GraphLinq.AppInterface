@@ -80,6 +80,11 @@ export const Header: React.FC<HeaderProps> = ({}) => {
             <div className="r">
                 {account !== undefined && (
                     <div className="rt">
+                        <Button as={NavLink} exact to="staking" className="bt">
+                            Stake your GLQ
+                            <i className="fal fa-cube"></i>
+                        </Button>
+
                         <Button as={NavLink} exact to="buy-glq" className="bt">
                             Buy GLQ with FIAT
                             <i className="fal fa-shopping-cart"></i>

@@ -297,6 +297,7 @@ const Staking = () => {
         } else {
             ahead = 0;
         }
+        if (ahead < 0) { ahead = 0 }
 
         setStakersAhead(Math.round(ahead));
     }, [tx, stakers, glqPrice]);
