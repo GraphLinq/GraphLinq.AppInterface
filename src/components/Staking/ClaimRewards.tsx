@@ -89,12 +89,12 @@ export const ClaimRewards: React.FC<ClaimRewardsProps> = (props) => {
         <>
             <div className="sub">My claimable rewards</div>
             <p>
-                <strong>{props.claimable.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                <strong>{props.claimable.toFixed(4)}</strong> GLQ
                 <small>{props.rewardValue}</small>
                 <button style={{ marginTop: 10, marginBottom: 10 }} className="bt" onClick={doClaim}>
                     Claim Rewards
                 </button>
-                <small>~ {props.waitingPercentAPR}% of staked GLQ</small>
+                <small>~ {props.waitingPercentAPR.toFixed(8)}% of staked GLQ</small>
             </p>
         </>
     );

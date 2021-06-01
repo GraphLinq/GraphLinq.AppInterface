@@ -34,18 +34,18 @@ export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props:
     async function doWithdraw() {
         try {
             setDisabled(true);
-            if (props.claimable <= 0) {
-                setError(`You need to have claimable rewards to withdraw your staked GLQ.`);
-                setDisabled(false);
-                return;
-            }
+            // if (props.claimable <= 0) {
+            //     setError(`You need to have claimable rewards to withdraw your staked GLQ.`);
+            //     setDisabled(false);
+            //     return;
+            // }
             if (props.withdrawAmount <= 0) {
                 setError(`Invalid amount to withdraw from the staking contract: ${props.withdrawAmount} GLQ`);
                 setDisabled(false);
                 return;
             }
 
-            setPending("Pending, waiting for server response...");
+            setPending("Pending, waiting for response...");
             if (stakingContract == null) {
                 setDisabled(false);
                 return;
@@ -71,7 +71,7 @@ export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props:
                 props.setTx(props.tx + 1);
             }, 1000);
         } catch (e) {
-            if (e.data?.originalError.message) {
+            if (e.data?.originalError?.message) {
                 setPending("");
                 setError(`Error: ${e.data?.originalError.message}`);
                 return;
