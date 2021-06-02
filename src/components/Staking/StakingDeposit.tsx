@@ -1,5 +1,19 @@
 import React, { useState } from "react";
-import { Alert, createStandaloneToast, Image, Spacer, Spinner } from "@chakra-ui/react";
+import {
+    Alert,
+    Button,
+    chakra,
+    createStandaloneToast,
+    Image,
+    Input,
+    InputGroup,
+    InputLeftElement,
+    InputRightElement,
+    NumberInput,
+    NumberInputField,
+    Spacer,
+    Spinner,
+} from "@chakra-ui/react";
 import { ToastSuccess } from "../Toasts/ToastSuccess";
 import { ToastError } from "../Toasts/ToastError";
 import { ToastWarning } from "../Toasts/ToastWarning";
@@ -19,7 +33,7 @@ interface StakingDepositProps {
 export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
     const { account } = useActiveWeb3React();
     const { balance, refreshBalance } = useBalance();
-    const [amountToStake, setAmountToStake] = useState("");
+    const [amountToStake, setAmountToStake] = useState(0);
     const toast = createStandaloneToast();
     const [error, setError] = useState("");
     const [pending, setPending] = useState("");
@@ -30,6 +44,14 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
 
     const { refreshBalanceContract } = useWalletContract();
 
+    const format = (val: string) => val + ` GLQ`;
+    const parse = (val: string) => val.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1");
+
+    const maxAmount = () => {
+        console.log(balance.amount);
+        setAmountToStake(balance.amount);
+    };
+
     async function doStake(e: any) {
         e.preventDefault();
         if (stakingContract == null || tokenContract == null) {
@@ -37,7 +59,7 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
         }
         refreshBalance();
 
-        const asNumber: number = parseFloat(amountToStake);
+        const asNumber: number = amountToStake;
         if (asNumber <= 0) {
             setError(`Invalid amount to deposit on the staking contract: ${asNumber} GLQ`);
             toast({
@@ -47,7 +69,7 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
             return;
         }
 
-        const decimalAmount: any = utils.parseEther(amountToStake);
+        const decimalAmount: any = utils.parseEther(amountToStake.toString());
         try {
             const allowance = await tokenContract.allowance(account, process.env.REACT_APP_STAKING_CONTRACT);
             const wei = utils.parseEther("10000000");
@@ -156,15 +178,28 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
                     </p>
                 </Alert>
             )}
-            <div className="inp val in">
-                <input
-                    type="number"
-                    placeholder="0.00"
-                    value={amountToStake}
-                    onChange={(e) => {
-                        setAmountToStake(e.target.value);
-                    }}
-                />
+            <div>
+                <InputGroup rounded="full">
+                    <NumberInput
+                        className="in"
+                        placeholder="0.00"
+                        variant="unstyled"
+                        onChange={(value) => {
+                            parse(value);
+                            setAmountToStake(parseFloat(value));
+                        }}
+                        value={format(amountToStake.toString())}
+                        defaultValue={0.0}
+                        min={0.0}
+                    >
+                        <NumberInputField />
+                    </NumberInput>
+                    <InputRightElement width="4.5rem" top="50%" transform="translateY(-50%)">
+                        <Button rounded="full" colorScheme="blackAlpha" h="1.75rem" size="sm" onClick={maxAmount}>
+                            Max
+                        </Button>
+                    </InputRightElement>
+                </InputGroup>
             </div>
             <button className="bt" onClick={doStake}>
                 Stake now

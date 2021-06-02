@@ -376,7 +376,7 @@
     #stk .depo form{width:100%;}
     #stk .depo form .in{width:100%;margin:15px 0;}
     #stk .depo form .bt + .bt{margin-left:10px;}
-    #stk .depo form .in:after{opacity:.5;content:'GLQ';position:absolute;right:15px;top:50%;transform:translateY(-50%);}
+  /*   #stk .depo form .in:after{opacity:.5;content:'GLQ';position:absolute;right:15px;top:50%;transform:translateY(-50%);} */
     #stk .depo form .val{height:50px;flex:1;margin-right:15px;}
     #stk .intr{text-align:center;font-size:calc(14px + 2 * (100vw - 320px) / 1080);margin-top:calc(20px + 10 * (100vw - 320px) / 1080);}
     #stk .evol{min-width:150px;position:absolute;right:-25px;top:20%;transform:translateY(-50%);font-size:calc(14px + 2 * (100vw - 320px) / 1080);background-color:#2722b1;border-radius:100px;padding:8px 50px 5px 15px;line-height:1;}
