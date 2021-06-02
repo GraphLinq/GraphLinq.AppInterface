@@ -29,7 +29,7 @@ export function getNetworkLibrary() {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [1, 3]
+  supportedChainIds: [1, 3, 1337]
 })
 
 export const bsc = new BscConnector({

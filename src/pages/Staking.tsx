@@ -357,7 +357,7 @@ const Staking = () => {
 
     async function migrateFunds() {
         try {
-            setPending("Pending, waiting for server response...");
+            setPending("Pending, waiting for response...");
             if (oldStakingContract == null) {
                 return;
             }
@@ -455,7 +455,7 @@ const Staking = () => {
                                                                     <div className="ladd">
                                                                         <div>{staker.wallet}</div>
                                                                         <div>
-                                                                            <strong>{staker.amount.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
+                                                                            <strong>{Number(staker.amount).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -522,7 +522,7 @@ const Staking = () => {
                                     <Alert status="success" className="mod" py="2rem" px="3rem" mx="auto" mt="1rem">
                                         <i className="fal fa-check-circle"></i>
                                         <p>
-                                            Deposit successfully completed !
+                                            Successfully completed !
                                             <br />
                                             <small>
                                                 Transaction hash :{" "}
