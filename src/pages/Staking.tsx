@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Box, Button, Image, Spacer, Spinner } from "@chakra-ui/react";
+import { Alert, Box, Button, chakra, Image, Spacer, Spinner } from "@chakra-ui/react";
 import { useWeb3React } from "@web3-react/core";
 import Trophy from "../assets/trophy.png";
 import T1 from "../assets/t1.gif";
@@ -302,10 +302,8 @@ const Staking = () => {
 
     const [stakersAhead, setStakersAhead] = useState(0);
 
-    useEffect(() => {
-        refreshBalance();
-        loadDatas();
 
+    function calcAhead() {
         let ahead;
         const totalIndex = stakers;
         const currentIndex = rank;
@@ -321,6 +319,12 @@ const Staking = () => {
         }
 
         setStakersAhead(Math.round(ahead));
+    }
+
+    useEffect(() => {
+        refreshBalance();
+        loadDatas();
+        calcAhead();
     }, [tx, stakers, glqPrice]);
 
     const [error, setError] = useState("");
@@ -333,22 +337,8 @@ const Staking = () => {
         const interval = setInterval(async () => {
             setDataRefreshed(false);
             refreshBalance();
-            await refreshTiersAPY();
-            await refreshRankPosition();
             await refreshTotalStakers();
-            await refreshClaimable();
-            await refreshTotalStaked();
-            await refreshOldTotalStaked();
-            await refreshWaitingPercentAPR();
-            await refreshWalletCurrentTier();
-            await refreshTopStakers();
-            await refreshTotalStakedTierOne();
-            await refreshTotalStakedTierTwo();
-            await refreshTotalStakedTierThree();
             await refreshGlqPrice();
-            await refreshTotalStakedTierThreeUsd();
-            await refreshTotalStakedTierTwoUsd();
-            await refreshTotalStakedTierOneUsd();
             setDataRefreshed(true);
         }, 60000); //one minute
 
@@ -414,15 +404,15 @@ const Staking = () => {
                             <div>
                                 <div className="stk-p">
                                     <div className="stk-pt">
-                                        <Image src={Trophy} />
-                                        <div>
-                                            <div className="sub">Your ranking position</div>
+                                        <Image display={["none", "block"]} src={Trophy} />
+                                        <chakra.div h={["100px", "auto"]}>
+                                            <chakra.div className="sub" maxW={["100px", "none"]}>Your ranking position</chakra.div>
                                             <div className="pos">
                                                 <strong>{rank}</strong>
                                                 <small>/ {stakers}</small>
                                             </div>
                                             <div className="rank"></div>
-                                        </div>
+                                        </chakra.div>
                                         <div className="evol">
                                             <strong>Tier {walletTier}</strong>
                                             <small>Current Rank</small>
@@ -445,21 +435,21 @@ const Staking = () => {
                                                 {topStakers !== undefined &&
                                                     topStakers.stakers.map((staker: Staker, i: any) => {
                                                         return (
-                                                            <tr key={`${staker.wallet}`}>
+                                                            <chakra.tr key={`${staker.wallet}`}>
                                                                 <td>
                                                                     {i === 0 && <Image src={T1} />}
                                                                     {i === 1 && <Image src={T2} />}
                                                                     {i === 2 && <Image src={T3} />}
                                                                 </td>
-                                                                <td>
+                                                                <chakra.td>
                                                                     <div className="ladd">
-                                                                        <div>{staker.wallet}</div>
+                                                                        <Box maxW={["125px", "200px", "100%"]} pr="1rem" isTruncated>{staker.wallet}</Box>
                                                                         <div>
                                                                             <strong>{Number(staker.amount).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                                                         </div>
                                                                     </div>
-                                                                </td>
-                                                            </tr>
+                                                                </chakra.td>
+                                                            </chakra.tr>
                                                         );
                                                     })}
                                             </tbody>
