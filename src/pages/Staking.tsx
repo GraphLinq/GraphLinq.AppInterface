@@ -443,7 +443,7 @@ const Staking = () => {
                                                                 </td>
                                                                 <chakra.td>
                                                                     <div className="ladd">
-                                                                        <Box maxW={["125px", "200px", "100%"]} pr="1rem" isTruncated>{staker.wallet}</Box>
+                                                                        <Box className="laddN" isTruncated>{staker.wallet}</Box>
                                                                         <div>
                                                                             <strong>{Number(staker.amount).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</strong> GLQ
                                                                         </div>
@@ -457,7 +457,7 @@ const Staking = () => {
                                     </div>
                                 </div>
                                 <div className="stk-pe">
-                                    <div style={{ marginTop: 30 }}>
+                                    <div>
                                         <div className="sub">Total Staked GLQ</div>
                                         <p>
                                             <strong>
@@ -523,6 +523,27 @@ const Staking = () => {
                                         </p>
                                     </Alert>
                                 )}
+                                <div className="tier">
+                                    <h2>Tiers ranking</h2>
+                                    <div title={walletTier == 1 ? "You're current tier rewards" : ""}>
+                                        <div className={walletTier == 1 ? "tro act" : "tro"}>
+                                            <div className="sub">Tier 1</div>
+                                            <strong>{tiersAPY?.tier_1.toFixed(2)} %</strong>
+                                        </div>
+                                    </div>
+                                    <div title={walletTier == 2 ? "You're current tier rewards" : ""}>
+                                        <div className={walletTier == 2 ? "tro act" : "tro"}>
+                                            <div className="sub">Tier 2</div>
+                                            <strong>{tiersAPY?.tier_2.toFixed(2)} %</strong>
+                                        </div>
+                                    </div>
+                                    <div title={walletTier == 3 ? "You're current tier rewards" : ""}>
+                                        <div className={walletTier == 3 ? "tro act" : "tro"}>
+                                            <div className="sub">Tier 3</div>
+                                            <strong>{tiersAPY?.tier_3.toFixed(2)} %</strong>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div>
                                 <ul className="uln">
@@ -604,46 +625,22 @@ const Staking = () => {
                                     Your first withdrawal will decrease your APY by half (if you're not on tier 3), and the second will take you back to the
                                     last tier with the least APY.
                                 </p>
-                            </div>
-                        </div>
-                        <div className="stkb">
-                            <div className="tier">
-                                <h2>Tiers ranking</h2>
-                                <div title={walletTier == 1 ? "You're current tier rewards" : ""}>
-                                    <div className={walletTier == 1 ? "tro act" : "tro"}>
-                                        <div className="sub">Tier 1</div>
-                                        <strong>{tiersAPY?.tier_1.toFixed(2)} %</strong>
+                                <div className="depo">
+                                    <div>
+                                        <div className="sub">Stake your GLQ</div>
+                                            <StakingDeposit tx={tx} setTx={setTx} />
+                                        <Box w="full" m="auto" mt="1rem">
+                                            {oldTotalStaked > 0 ? (
+                                                <Button size="sm" rounded="full" colorScheme="red" onClick={migrateFunds}>
+                                                    Migrate from v1
+                                                </Button>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </Box>
                                     </div>
                                 </div>
-                                <div title={walletTier == 2 ? "You're current tier rewards" : ""}>
-                                    <div className={walletTier == 2 ? "tro act" : "tro"}>
-                                        <div className="sub">Tier 2</div>
-                                        <strong>{tiersAPY?.tier_2.toFixed(2)} %</strong>
-                                    </div>
-                                </div>
-                                <div title={walletTier == 3 ? "You're current tier rewards" : ""}>
-                                    <div className={walletTier == 3 ? "tro act" : "tro"}>
-                                        <div className="sub">Tier 3</div>
-                                        <strong>{tiersAPY?.tier_3.toFixed(2)} %</strong>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="depo">
-                                <div>
-                                    <div className="sub">Stake your GLQ</div>
-                                        <StakingDeposit tx={tx} setTx={setTx} />
-                                    <Box w="full" m="auto" mt="1rem">
-                                        {oldTotalStaked > 0 ? (
-                                            <Button size="sm" rounded="full" colorScheme="red" onClick={migrateFunds}>
-                                                Migrate from v1
-                                            </Button>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Box>
-                                </div>
-                            </div>
+                            </div>                            
                         </div>
                     </div>
                 )}
