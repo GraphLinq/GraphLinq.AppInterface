@@ -2,6 +2,7 @@ import { lazy } from 'react'
 
 const Home = lazy(() => import('../pages/Templates'))
 const Graphs = lazy(() => import('../pages/Graphs'))
+const Wallets = lazy(() => import('../pages/Wallets'))
 const PriceMonitoring = lazy(() => import('../pages/Home'))
 const BuyGlq = lazy(() => import('../pages/BuyGlq'))
 const Presale = lazy(() => import('../pages/Presale'))
@@ -22,6 +23,10 @@ const routes = [
   {
     path: '/graphs',
     component: Graphs,
+  },
+  {
+    path: '/wallets',
+    component: Wallets,
   },
   {
     path: '/price-monitoring',

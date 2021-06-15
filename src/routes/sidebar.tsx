@@ -16,6 +16,11 @@ const routes = [
       name: 'My Graphs',
     },
     {
+      path: '/app/wallets',
+      icon: 'HiOutlineCollection',
+      name: 'My Wallets',
+    },
+    {
       path: '/app/staking',
       icon: 'HiCube',
       name: 'Staking Interface',
