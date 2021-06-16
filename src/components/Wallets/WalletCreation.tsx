@@ -24,11 +24,6 @@ export const WalletCreation: React.FC<WalletCreationProps> = ({}) => {
                             <FormLabel>Wallet Name :</FormLabel>
                             <Input variant="unstyled" bgColor="#090812" h="1.5rem" py="0.5rem" px="1rem" rounded="xl" type="text" />
                         </FormControl>
-
-                        <FormControl mt={4}>
-                            <FormLabel>Password :</FormLabel>
-                            <Input variant="unstyled" bgColor="#090812" h="1.5rem" py="0.5rem" px="1rem" rounded="xl" type="password" />
-                        </FormControl>
                     </ModalBody>
 
                     <ModalFooter>
