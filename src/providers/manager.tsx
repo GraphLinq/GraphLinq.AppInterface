@@ -1,6 +1,8 @@
 import AuthRequest from "./requests/auth"
 import { DeployGraphRequest } from "./requests/deploy";
+import { CreateManagedRequest } from "./requests/managed";
 import { DeployGraphResponse } from "./responses/deploy"
+import { ManagedResponse } from "./responses/managed"
 import AuthResponse from "./responses/auth"
 import { ErrorResponse } from "./error";
 import { GraphResponse } from "./responses/graph";
@@ -251,6 +253,41 @@ export default class ManagerProvider
             })
             .then((res: any) => {
                 (res.status === 200) ? resolve(res.json()) : reject(res.json() as ErrorResponse)
+            })
+            .catch((error: any) => reject(error));
+        })
+    }
+
+    public static fetchManagedWallets(accessToken: string): Promise<ManagedResponse[]>
+    {
+        return new Promise<ManagedResponse[]>((resolve, reject) => {
+            fetch(`${this.baseUrl}/wallets/listManaged`, {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+            })
+            .then((res: any) => {
+                (res.status === 200) ? resolve(res.json() as ManagedResponse[]) : reject(res.json() as ErrorResponse)
+            })
+            .catch((error: any) => reject(error));
+        })
+    }
+
+    public static createManagedWallet(walletRequest: CreateManagedRequest, accessToken: string): Promise<ManagedResponse>
+    {
+        return new Promise<any>((resolve, reject) => {
+            fetch(`${this.baseUrl}/wallets/createManaged`, {
+                method: 'post',
+                body:    JSON.stringify(walletRequest),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+            })
+            .then((res: any) => {
+                (res.status === 200) ? resolve(res.json() as ManagedResponse) : reject(res.json() as ErrorResponse)
             })
             .catch((error: any) => reject(error));
         })

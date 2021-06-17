@@ -1,12 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import WalletService from "../../services/walletService";
 
-interface WalletCreationProps {}
+interface WalletCreationProps {
+    setError: any
+    setSuccess: any
+}
 
-export const WalletCreation: React.FC<WalletCreationProps> = ({}) => {
+export const WalletCreation: React.FC<WalletCreationProps> = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const createWallet = () => {
-        console.log('create wallet')
+    const [walletName, setWalletName] = useState("");
+    const handleChange = (event: any) => setWalletName(event.target.value)
+
+    const createWallet = async () => {
+        props.setSuccess("")
+        props.setError("")
+        try {
+            const result: String | undefined = await WalletService.createWallet({
+                name: walletName,
+            })
+
+            if (result instanceof String) {
+                props.setSuccess(result)
+                onClose();
+            } else {
+                props.setError('Error while creating managed wallet')
+            }
+        }
+        catch (e) {
+            console.error(e)
+            props.setError('An error occured while creating your wallet: ${e}')
+        }
     }
 
     return (
@@ -22,7 +46,7 @@ export const WalletCreation: React.FC<WalletCreationProps> = ({}) => {
                     <ModalBody>
                         <FormControl>
                             <FormLabel>Wallet Name :</FormLabel>
-                            <Input variant="unstyled" bgColor="#090812" h="1.5rem" py="0.5rem" px="1rem" rounded="xl" type="text" />
+                            <Input variant="unstyled" bgColor="#090812" h="1.5rem" py="0.5rem" px="1rem" rounded="xl" type="text" value={walletName} onChange={handleChange} />
                         </FormControl>
                     </ModalBody>
 
