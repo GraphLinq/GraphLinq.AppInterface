@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Text, Button, Box, Spacer, Icon, useClipboard, Input, Alert } from "@chakra-ui/react";
+import { Text, Button, Box, Spacer, Icon, useClipboard, Input, Alert, Link } from "@chakra-ui/react";
 import { WalletCreation } from "../components/Wallets/WalletCreation";
-import { HiOutlineClipboardCopy } from "react-icons/hi";
+import { HiExternalLink, HiOutlineClipboardCopy } from "react-icons/hi";
 import WalletService from "../services/walletService";
 import { useDispatch, useSelector } from "react-redux";
 import { WALLET_UPDATE } from "../redux/actions";
@@ -107,7 +107,7 @@ const Wallets: React.FC<WalletsProps> = ({}) => {
                                     {wallet.name}
                                 </Box>
                                 <Box display="flex" width={["30%", "55%"]} px={2}>
-                                    <Text isTruncated>{wallet.publicKey}</Text>
+                                    <Link href={`https://etherscan.io/address/${wallet.publicKey}`} isExternal isTruncated>{wallet.publicKey} <Icon as={HiExternalLink} mx="2px" /></Link>
                                 </Box>
                                 <Spacer />
                                 <Box display="flex" width="10%" px={2}>
