@@ -48,8 +48,7 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
     const parse = (val: string) => val.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1");
 
     const maxAmount = () => {
-        console.log(balance.amount);
-        setAmountToStake(balance.amount);
+        setAmountToStake(Math.floor(balance.amount));
     };
 
     async function doStake(e: any) {
