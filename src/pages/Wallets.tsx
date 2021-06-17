@@ -20,6 +20,7 @@ const Wallets: React.FC<WalletsProps> = ({}) => {
     const dispatch = useDispatch();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const { hasCopied, onCopy } = useClipboard(success)
 
     const walletList: ManagedResponse[] = useSelector((state: any) => state.modals.wallets.list);
 
@@ -70,8 +71,24 @@ const Wallets: React.FC<WalletsProps> = ({}) => {
                     </Alert>
                     <Alert textAlign="left" status="info" className="mod" py="2rem" px="3rem" mx="auto" my="1rem" flexDir="column" flexWrap="nowrap">
                         <i className="fal fa-info-circle"></i>
-                        <Text my="0.5">Please save your private key as it won't be available again and therefore encrypted in our network.</Text>
-                        <br/><Text w="80%">{success}</Text>
+                        <Text my="1rem">Please save your private key as it won't be available again and therefore encrypted in our network.</Text>
+                        <Box w="full">
+                            <Input
+                                variant="unstyled"
+                                bgColor="#09081280"
+                                h="1.5rem"
+                                py="0.5rem"
+                                px="1rem"
+                                rounded="xl"
+                                type="text"
+                                w="90%"
+                                value={success}
+                                isReadOnly
+                            />
+                            <Button onClick={onCopy} ml={2}>
+                                {hasCopied ? "Copied" : "Copy"}
+                            </Button>
+                        </Box>
                     </Alert>
                 </>
             )}
@@ -106,8 +123,11 @@ const Wallets: React.FC<WalletsProps> = ({}) => {
                                 <Box display="flex" width="25%" px={2}>
                                     {wallet.name}
                                 </Box>
-                                <Box display="flex" width={["30%", "55%"]} px={2}>
-                                    <Link href={`https://etherscan.io/address/${wallet.publicKey}`} isExternal isTruncated>{wallet.publicKey} <Icon as={HiExternalLink} mx="2px" /></Link>
+                                <Box display="flex" width={["30%", "55%"]} px={2} alignItems="center">
+                                    <Link href={`https://etherscan.io/address/${wallet.publicKey}`} isExternal isTruncated>
+                                        {wallet.publicKey}
+                                    </Link>
+                                    <Icon as={HiExternalLink} mx="4px" />
                                 </Box>
                                 <Spacer />
                                 <Box display="flex" width="10%" px={2}>
