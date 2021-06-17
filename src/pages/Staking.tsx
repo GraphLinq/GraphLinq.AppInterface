@@ -619,7 +619,7 @@ const Staking = () => {
                                     tier with higher APY.
                                     <br />
                                     <br />
-                                    <u>At each withdrawal you will loose your rank advantages, benefitting the hodlers the most.</u>
+                                    <u>At each withdrawal you will lose your rank advantages, benefitting the hodlers the most.</u>
                                     <br />
                                     <br />
                                     Your first withdrawal will decrease your APY by half (if you're not on tier 3), and the second will take you back to the

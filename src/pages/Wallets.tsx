@@ -131,7 +131,7 @@ const Wallets: React.FC<WalletsProps> = ({}) => {
                                 </Box>
                                 <Spacer />
                                 <Box display="flex" width="10%" px={2}>
-                                    -
+                                    {wallet.balance} ETH
                                 </Box>
                             </Box>
                         );
