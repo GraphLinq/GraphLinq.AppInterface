@@ -2,7 +2,7 @@ import ManagerProvider from "../providers/manager"
 import { CreateManagedRequest } from "../providers/requests/managed";
 import AuthResponse from "../providers/responses/auth"
 import { WalletBalanceResponse } from "../providers/responses/balance";
-import { ManagedResponse } from "../providers/responses/managed";
+import { CreateManagedResponse, ManagedResponse } from "../providers/responses/managed";
 import { ResponseSuccess } from "../providers/responses/success";
 
 
@@ -91,18 +91,18 @@ export default class WalletService {
         }
     }
 
-    public static async createWallet(request: CreateManagedRequest): Promise<String | undefined>
+    public static async createWallet(request: CreateManagedRequest): Promise<String | Error>
     {
         try
         {
             const session = JSON.parse(localStorage.getItem("session") as string)
-            const result: any = await ManagerProvider.createManagedWallet(request, session.token)
+            const result: CreateManagedResponse = await ManagerProvider.createManagedWallet(request, session.token)
             return new String(result.private_key)
         }
         catch (error)
         {
             console.error(error)
-            return undefined;
+            return error as Error;
         }
     }
 

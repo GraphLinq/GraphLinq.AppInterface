@@ -16,7 +16,7 @@ export const WalletCreation: React.FC<WalletCreationProps> = (props) => {
         props.setSuccess("")
         props.setError("")
         try {
-            const result: String | undefined = await WalletService.createWallet({
+            const result: String | Error = await WalletService.createWallet({
                 name: walletName,
             })
 
@@ -24,12 +24,12 @@ export const WalletCreation: React.FC<WalletCreationProps> = (props) => {
                 props.setSuccess(result)
                 onClose();
             } else {
-                props.setError('Error while creating managed wallet')
+                props.setError(result)
             }
         }
         catch (e) {
             console.error(e)
-            props.setError('An error occured while creating your wallet: ${e}')
+            props.setError(`An error occured while creating your wallet: ${e}`)
         }
     }
 

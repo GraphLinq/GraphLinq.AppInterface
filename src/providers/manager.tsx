@@ -2,7 +2,7 @@ import AuthRequest from "./requests/auth"
 import { DeployGraphRequest } from "./requests/deploy";
 import { CreateManagedRequest } from "./requests/managed";
 import { DeployGraphResponse } from "./responses/deploy"
-import { ManagedResponse } from "./responses/managed"
+import { CreateManagedResponse, ManagedResponse } from "./responses/managed"
 import AuthResponse from "./responses/auth"
 import { ErrorResponse } from "./error";
 import { GraphResponse } from "./responses/graph";
@@ -275,7 +275,7 @@ export default class ManagerProvider
         })
     }
 
-    public static createManagedWallet(walletRequest: CreateManagedRequest, accessToken: string): Promise<ManagedResponse>
+    public static createManagedWallet(walletRequest: CreateManagedRequest, accessToken: string): Promise<CreateManagedResponse>
     {
         return new Promise<any>((resolve, reject) => {
             fetch(`${this.baseUrl}/wallets/createManaged`, {
@@ -287,9 +287,9 @@ export default class ManagerProvider
                 },
             })
             .then((res: any) => {
-                (res.status === 200) ? resolve(res.json() as ManagedResponse) : reject(res.json() as ErrorResponse)
+                (res.status === 200) ? resolve(res.json() as ManagedResponse) : reject(res.text() as ErrorResponse)
             })
-            .catch((error: any) => reject(error));
+            .catch((error: any) => reject(error as Error));
         })
     }
 }

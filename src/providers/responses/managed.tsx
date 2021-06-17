@@ -8,3 +8,10 @@ export interface ManagedResponse {
     updatedAt: Date,
     walletId: number,
 }
+
+export interface CreateManagedResponse {
+    createdAt: Date,
+    password: string,
+    private_key: string,
+    public_key: string,
+}
