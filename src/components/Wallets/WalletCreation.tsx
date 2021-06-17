@@ -25,11 +25,13 @@ export const WalletCreation: React.FC<WalletCreationProps> = (props) => {
                 onClose();
             } else {
                 props.setError(result)
+                onClose();
             }
         }
         catch (e) {
             console.error(e)
             props.setError(`An error occured while creating your wallet: ${e}`)
+            onClose();
         }
     }
 
