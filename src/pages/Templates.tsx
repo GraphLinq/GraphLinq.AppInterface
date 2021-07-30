@@ -129,7 +129,7 @@ const TemplatesList = (props: any) => {
                 : <SuspenseSpinner />
             }
             {
-                props.template.loaded && props.graphName !== "" &&
+                props.template.loaded &&
                 <Box ml="auto" mt="0.75rem">
                     <Button as="a"
                         bgColor="transparent" variant="outline" borderColor="#aba1ca" color="#aba1ca" _hover={{ bgColor: "#2334ff", borderColor: '#2334ff', color: "white" }} mr="1rem"
@@ -145,7 +145,7 @@ const TemplatesList = (props: any) => {
                     >
                         Edit on IDE
                     </Button>
-                    <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={() => props.updateStep()} isLoading={props.isLoading} loadingText="Loading">Next</Button>
+                    <Button bgColor="#2334ff" color="white" _hover={{ bgColor: "#202cc3" }} onClick={() => props.updateStep()} isDisabled={!props.graphName} isLoading={props.isLoading} loadingText="Loading">Next</Button>
                 </Box>
             }
         </>
