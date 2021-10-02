@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Flex, Text, Link, Spacer, Button, Icon, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Menu, MenuButton, IconButton, MenuList, MenuItem, useDisclosure, Portal, Box, LinkOverlay, LinkBox, MenuDivider, Skeleton } from '@chakra-ui/react';
+import { Flex, Text, Link, Spacer, Button, Icon, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Menu, MenuButton, IconButton, MenuList, MenuItem, useDisclosure, Portal, Box, LinkOverlay, LinkBox, MenuDivider, Skeleton, useClipboard } from '@chakra-ui/react';
 import { HiOutlineEye, HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { MotionBox } from '../MotionBox'
 import { GraphStatus } from './GraphStatus';
@@ -50,6 +50,8 @@ export const GraphCard: React.FC<GraphCardProps> = ({
     const [logs, setLogs] = React.useState([])
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [inLogs, setInLogs] = React.useState<boolean>(false);
+    const [value, setValue] = React.useState("https://api-hosted.graphlinq.io/" + GraphInfo?.hashGraph ?? "");
+    const { hasCopied, onCopy } = useClipboard(value);
 
     const bottomRef = useRef<HTMLInputElement>(null);
 
@@ -144,7 +146,7 @@ export const GraphCard: React.FC<GraphCardProps> = ({
     async function exportGlqFile()
     {
         const element = document.createElement("a");
-        const file = new Blob([(GraphInfo?.lastLoadedBytes as any)], 
+        const file = new Blob([(GraphInfo?.lastLoadedBytes as any)],
                     {type: 'text/plain;charset=utf-8'});
         element.href = URL.createObjectURL(file);
         element.download = `${GraphInfo?.alias}.glq`;
@@ -165,16 +167,13 @@ export const GraphCard: React.FC<GraphCardProps> = ({
                     </Flex>
                     <Spacer />
                 </Box>
-
                 <Box display="flex" width="48px" minH="48px" justifyContent="center" px={2} />
                 {GraphInfo?.hostedApi &&
                 <Box display="flex" width="200px" px={2}>
                     <Skeleton isLoaded={!isLoading}>
-                    
-                        <Link fontSize="xs" fontWeight="semibold" textColor="#aba1ca" href={`https://api-hosted.graphlinq.io/${GraphInfo?.hashGraph}`} isExternal>
-                        api-hosted.graphlinq.io/{GraphInfo?.hashGraph.substr(0, 6)}..
-                        </Link>
-                          
+                        <Button className="sbt" size="xs" onClick={onCopy} ml={2}>
+                            {hasCopied ? "Link Copied" : "Copy API Link"}
+                        </Button>
                         <Spacer />
                     </Skeleton>
                 </Box>
@@ -239,3 +238,4 @@ export const GraphCard: React.FC<GraphCardProps> = ({
 }
 
 export default GraphCard;
+
