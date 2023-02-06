@@ -21,6 +21,7 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
     const { balance, refreshBalance } = useBalance();
     const [amountToDepositFromETH, setAmountToDepositFromETH] = useState(0);
     const [amountToClaimFromGLQ, setAmountToClaimFromGLQ] = useState(0);
+    const [amountClaimedFromGLQ, setAmountClaimedFromGLQ] = useState(0);
 
     const toast = createStandaloneToast();
     const [error, setError] = useState("");
@@ -207,6 +208,7 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
             const alreadyClaimed = parseFloat(utils.formatUnits(addrInfo[1], 18))
             const leftToClaim = total - alreadyClaimed;
 
+            setAmountClaimedFromGLQ(alreadyClaimed);
             setAmountToClaimFromGLQ(leftToClaim);
         }
         fetchData();
@@ -348,6 +350,13 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
                             <button className="bt" disabled={amountToClaimFromGLQ <= 0} onClick={doClaim}>
                                 Claim GLQ from GLQ Network
                             </button>
+
+                            <Alert status="info" className="mod" py="2rem" px="3rem" mx="auto" my="1rem">
+                                <i className="fal fa-info-circle"></i>
+                                <p>
+                                    Total already claimed: <span style={{fontSize:18, fontWeight:"bold"}}>{amountClaimedFromGLQ} GLQ</span>
+                                </p>
+                            </Alert>
                         </form>
                     </Box>
                     <button className='bt' onClick={switchToETHNetwork}>
