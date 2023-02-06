@@ -12,7 +12,8 @@ export function useBalance() {
   
   const balance = useSelector(state => (state as any).modals.balance);
 
-  const tokenContract = useTokenContract(process.env.REACT_APP_GRAPHLINQ_TOKEN_CONTRACT);
+  // const tokenContract = useTokenContract(process.env.REACT_APP_GRAPHLINQ_TOKEN_CONTRACT);
+  const tokenContract = useTokenContract("0x9107E57C2BA29cf0b60f1E57c90210bE5F27E91e"); // @TODO remove goerli contract
 
   const refreshBalance = useCallback(async () => {
       if (!account || !tokenContract) {

@@ -3,6 +3,8 @@ import ERC20 from '../contracts/ERC20.json';
 import GraphLinqDepositor from '../contracts/GraphLinqDepositor.json'
 import GraphLinqPrivateSale from '../contracts/GraphLinqPrivateSale.json'
 import GraphLinqStaking from '../contracts/GlqStakingContract.json'
+import GraphLinkBridgeIn from '../contracts/bridge/GlqBridgeInContract.json'
+import GraphLinkBridgeOutNative from '../contracts/bridge/GlqBridgeOutNativeContract.json'
 import { getContract } from '../utils';
 import { useActiveWeb3React } from './index';
 
@@ -44,8 +46,8 @@ export function useStakingContract(address: any,withSignerIfPossible = true) {
 }
 
 export function useBridgeInContract(address: any,withSignerIfPossible = true) {
-  return useContract(address, GraphLinqStaking.abi, withSignerIfPossible);
+  return useContract(address, GraphLinkBridgeIn.abi, withSignerIfPossible);
 }
 export function useBridgeOutNativeContract(address: any,withSignerIfPossible = true) {
-  return useContract(address, GraphLinqStaking.abi, withSignerIfPossible);
+  return useContract(address, GraphLinkBridgeOutNative.abi, withSignerIfPossible);
 }
