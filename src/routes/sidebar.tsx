@@ -35,6 +35,11 @@ const routes = [
       icon: 'HiOutlineShoppingCart',
       name: 'Buy GLQ',
     },
+    {
+      path: '/app/bridge',
+      icon: 'HiOutlineShoppingCart',
+      name: 'Bridge',
+    },
     /* {
       path: '/app/private-sale',
       icon: 'HiOutlineDatabase',

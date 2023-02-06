@@ -473,3 +473,20 @@
     body .ls-g > *{width:50%;}
 
 }
+
+
+/*----------------------------------------------------< BRIDGE >---------------------------------------------------*/
+.bridge-desc svg {
+    display: inline-block;
+    margin: 0 4px;
+}
+.bridge form {
+    text-align: center;
+    margin-top: 20px;
+}
+.bridge form .in {
+    width: 100%;
+}
+.bridge form .bt {
+    margin: 20px auto;
+}

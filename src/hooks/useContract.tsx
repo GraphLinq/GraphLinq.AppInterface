@@ -42,3 +42,10 @@ export function usePresaleContract(address: any,withSignerIfPossible = true) {
 export function useStakingContract(address: any,withSignerIfPossible = true) {
   return useContract(address, GraphLinqStaking.abi, withSignerIfPossible);
 }
+
+export function useBridgeInContract(address: any,withSignerIfPossible = true) {
+  return useContract(address, GraphLinqStaking.abi, withSignerIfPossible);
+}
+export function useBridgeOutNativeContract(address: any,withSignerIfPossible = true) {
+  return useContract(address, GraphLinqStaking.abi, withSignerIfPossible);
+}
