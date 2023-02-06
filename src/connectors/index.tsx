@@ -29,7 +29,7 @@ export function getNetworkLibrary() {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [1, 3, 5, 1337] // @TODO remove goerli
+  supportedChainIds: [1, 3, 5, parseInt(process.env.REACT_APP_GLQ_CHAIN_ID), 1337] // @TODO remove goerli
 })
 
 export const bsc = new BscConnector({

@@ -476,6 +476,12 @@
 
 
 /*----------------------------------------------------< BRIDGE >---------------------------------------------------*/
+.bridge {
+    text-align: center;
+}
+.bridge p {
+    text-align: left;
+}
 .bridge-desc svg {
     display: inline-block;
     margin: 0 4px;
@@ -487,6 +493,6 @@
 .bridge form .in {
     width: 100%;
 }
-.bridge form .bt {
+.bridge .bt {
     margin: 20px auto;
 }
