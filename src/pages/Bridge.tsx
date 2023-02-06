@@ -345,7 +345,7 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
                                     </InputRightElement>
                                 </InputGroup>
                             </div>
-                            <button className="bt" onClick={doClaim}>
+                            <button className="bt" disabled={amountToClaimFromGLQ <= 0} onClick={doClaim}>
                                 Claim GLQ from GLQ Network
                             </button>
                         </form>
