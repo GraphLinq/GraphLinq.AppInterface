@@ -173,7 +173,9 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
 
     async function switchToGLQNetwork() {
         resetFeedback();
-        window.ethereum ? await window.ethereum.request({
+        const windowObject: any = window;
+
+        var res = windowObject.ethereum ? await windowObject.ethereum.request({
             method: "wallet_addEthereumChain",
             params: [{
                 chainId: '0x266',
@@ -190,7 +192,8 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
 
     async function switchToETHNetwork() {
         resetFeedback();
-        window.ethereum ? await window.ethereum.request({
+        const windowObject: any = window;
+        var res = windowObject.ethereum ? await windowObject.ethereum.request({
             method: 'wallet_switchEthereumChain',
             params: [{ chainId: '0x1' }],
           }) : null;
@@ -218,7 +221,7 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
         <Box className='bridge' maxW={{ sm: 'xl' }} mx={{ sm: 'auto' }} w={{ sm: 'full' }}>
             {chainId === 5 && (
                 <>
-                    <h1 className="tc">Bridge your GQL tokens from ETH Network to Graphlink Network</h1>
+                    <h1 className="tc">Bridge your GLQ tokens from ETH Network to GraphLinq Network</h1>
                     <Box className="priv">
                         <p className='bridge-desc'>
                             You first need to deposit your GLQ by switching to 
@@ -335,7 +338,6 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
                                         className="in"
                                         placeholder="0.00"
                                         variant="unstyled"
-                                        _disabled={true}
                                         value={format(amountToClaimFromGLQ.toString())}
                                     >
                                         <NumberInputField />
