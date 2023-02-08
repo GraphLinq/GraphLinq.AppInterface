@@ -179,7 +179,7 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
             method: "wallet_addEthereumChain",
             params: [{
                 chainId: '0x266',
-                rpcUrls: ["http://34.122.85.128:8545/", "https://node1.graphlinq.io/"],
+                rpcUrls: ["https://node1.graphlinq.io/","https://node2.graphlinq.io/","https://node3.graphlinq.io/"],
                 chainName: "Graphlinq",
                 nativeCurrency: {
                     name: "GLQ",
@@ -296,7 +296,7 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
             )}
             {chainId === parseInt(process.env.REACT_APP_GLQ_CHAIN_ID) && (
                 <>
-                    <h1 className="tc">Claim your GQL tokens from Graphlink Network</h1>
+                    <h1 className="tc">Claim your GLQ tokens from GraphLink Network</h1>
                     <Box className="priv">
                         <p className='bridge-desc'>
                             You may know claim your tokens on the GLK network.
