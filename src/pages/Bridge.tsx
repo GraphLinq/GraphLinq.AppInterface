@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react'
 import { Alert, Box, Grid, GridItem, Heading, Icon, createStandaloneToast, Spacer, Image } from '@chakra-ui/react';
 import { HiArrowRight, HiArrowLeft, HiOutlineInformationCircle } from 'react-icons/hi';
 import { useHistory } from 'react-router-dom';
-import GLQLogo from "../assets/logo.svg"
-
+import GLQLogoChain from "../assets/logo_chain.png"
+;
 interface BridgeProps {
 
 }
@@ -24,7 +24,8 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
                     name: "GLQ",
                     symbol: "GLQ",
                     decimals: 18
-                }
+                },
+                blockExplorerUrls: ['https://explorer.graphlinq.io/']
             }]
         }) : null;
     }
@@ -59,7 +60,7 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
                     <div className="bridge-logos">
                         <svg width="20" height="20" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><path fill="#343434" d="M127.961 0l-2.795 9.5v275.668l2.795 2.79 127.962-75.638z"></path><path fill="#8C8C8C" d="M127.962 0L0 212.32l127.962 75.639V154.158z"></path><path fill="#3C3C3B" d="M127.961 312.187l-1.575 1.92v98.199l1.575 4.6L256 236.587z"></path><path fill="#8C8C8C" d="M127.962 416.905v-104.72L0 236.585z"></path><path fill="#141414" d="M127.961 287.958l127.96-75.637-127.96-58.162z"></path><path fill="#393939" d="M0 212.32l127.96 75.638v-133.8z"></path></svg>
                         <Icon as={HiArrowRight} color="#2334ff" w={8} h={8} />
-                        <Image src={GLQLogo}/>
+                        <Image src={GLQLogoChain}/>
                     </div>
                     <Box mt="auto" mx="auto" textAlign="center">
                         <button className='bt' onClick={goToBridgeIn}>Bridge in my GLQ</button>
@@ -74,7 +75,7 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
                     <div className="bridge-logos">
                         <svg width="20" height="20" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><path fill="#343434" d="M127.961 0l-2.795 9.5v275.668l2.795 2.79 127.962-75.638z"></path><path fill="#8C8C8C" d="M127.962 0L0 212.32l127.962 75.639V154.158z"></path><path fill="#3C3C3B" d="M127.961 312.187l-1.575 1.92v98.199l1.575 4.6L256 236.587z"></path><path fill="#8C8C8C" d="M127.962 416.905v-104.72L0 236.585z"></path><path fill="#141414" d="M127.961 287.958l127.96-75.637-127.96-58.162z"></path><path fill="#393939" d="M0 212.32l127.96 75.638v-133.8z"></path></svg>
                         <Icon as={HiArrowLeft} color="#2334ff" w={8} h={8} />
-                        <Image src={GLQLogo}/>
+                        <Image src={GLQLogoChain}/>
                     </div>
                     <Box mt="auto" mx="auto" textAlign="center">
                         <button className='bt' onClick={goToBridgeOut}>Bridge out my GLQ</button>

@@ -184,7 +184,8 @@ const BridgeIn: React.FC<BridgeInProps> = ({}) => {
                     name: "GLQ",
                     symbol: "GLQ",
                     decimals: 18
-                }
+                },
+                blockExplorerUrls: ['https://explorer.graphlinq.io/']
             }]
         }) : null;
     }
@@ -268,7 +269,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({}) => {
                                         variant="unstyled"
                                         onChange={(value) => {
                                             parse(value);
-                                            setAmountToDepositFromETH(parseFloat(value));
+                                            setAmountToDepositFromETH(parseFloat(value !== '' ? value : '0'));
                                         }}
                                         value={format(amountToDepositFromETH.toString())}
                                         defaultValue={0.0}

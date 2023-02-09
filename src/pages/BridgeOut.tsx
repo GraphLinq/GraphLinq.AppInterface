@@ -148,7 +148,8 @@ const BridgeOut: React.FC<BridgeOutProps> = ({}) => {
                     name: "GLQ",
                     symbol: "GLQ",
                     decimals: 18
-                }
+                },
+                blockExplorerUrls: ['https://explorer.graphlinq.io/']
             }]
         }) : null;
     }
@@ -234,7 +235,7 @@ const BridgeOut: React.FC<BridgeOutProps> = ({}) => {
                                         variant="unstyled"
                                         onChange={(value) => {
                                             parse(value);
-                                            setAmountToDepositFromGLQ(parseFloat(value));
+                                            setAmountToDepositFromGLQ(parseFloat(value !== '' ? value : '0'));
                                         }}
                                         value={format(amountToDepositFromGLQ.toString())}
                                         defaultValue={0.0}

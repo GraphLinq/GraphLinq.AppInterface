@@ -504,9 +504,11 @@
     margin: 40px 0;
 }
 .bridge-logos svg {
-    width: 64px;
+    width: 48px;
     height: auto;
+    flex-shrink: 0;
 }
 .bridge-logos img {
-    max-width: 256px;
+    width: 320px;
+    max-width: 100%;
 }
