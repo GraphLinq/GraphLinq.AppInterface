@@ -8,6 +8,8 @@ const BuyGlq = lazy(() => import('../pages/BuyGlq'))
 const Presale = lazy(() => import('../pages/Presale'))
 const Staking = lazy(() => import('../pages/Staking'))
 const Bridge = lazy(() => import('../pages/Bridge'))
+const BridgeIn = lazy(() => import('../pages/BridgeIn'))
+const BridgeOut = lazy(() => import('../pages/BridgeOut'))
 const Page404 = lazy(() => import('../pages/404'))
 
 /**
@@ -48,6 +50,14 @@ const routes = [
   {
     path: '/bridge',
     component: Bridge,
+  },
+  {
+    path: '/bridge/in',
+    component: BridgeIn,
+  },
+  {
+    path: '/bridge/out',
+    component: BridgeOut,
   },
   {
     path: '/404',

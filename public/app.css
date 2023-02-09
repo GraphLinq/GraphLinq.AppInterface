@@ -496,3 +496,17 @@
 .bridge .bt {
     margin: 20px auto;
 }
+.bridge-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin: 40px 0;
+}
+.bridge-logos svg {
+    width: 64px;
+    height: auto;
+}
+.bridge-logos img {
+    max-width: 256px;
+}
