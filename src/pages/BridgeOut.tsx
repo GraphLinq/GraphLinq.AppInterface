@@ -143,7 +143,7 @@ const BridgeOut: React.FC<BridgeOutProps> = ({}) => {
             params: [{
                 chainId: '0x266',
                 rpcUrls: ["https://glq-dataseed.graphlinq.io/"],
-                chainName: "GraphLinq Network",
+                chainName: "GraphLinq Chain Mainnet",
                 nativeCurrency: {
                     name: "GLQ",
                     symbol: "GLQ",
