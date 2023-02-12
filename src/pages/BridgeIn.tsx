@@ -178,7 +178,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({}) => {
             method: "wallet_addEthereumChain",
             params: [{
                 chainId: '0x266',
-                rpcUrls: ["https://node1.graphlinq.io/","https://node2.graphlinq.io/","https://node3.graphlinq.io/"],
+                rpcUrls: ["https://glq-dataseed.graphlinq.io/"],
                 chainName: "GraphLinq Network",
                 nativeCurrency: {
                     name: "GLQ",
