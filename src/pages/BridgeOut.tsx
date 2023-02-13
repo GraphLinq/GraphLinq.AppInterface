@@ -319,6 +319,7 @@ const BridgeOut: React.FC<BridgeOutProps> = ({}) => {
                                     Total already claimed: <span style={{fontSize:18, fontWeight:"bold"}}>{amountClaimedFromETH} GLQ</span>
                                 </p>
                             </Alert>
+                            Your claim amount available could be sometimes taking higher delays, so please wait & come back later if you don't see them!
                         </form>
                     </Box>
                     <button className='bt' onClick={switchToGLQNetwork}>
