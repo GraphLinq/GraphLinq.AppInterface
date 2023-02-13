@@ -34,7 +34,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({}) => {
         setSuccess("");
     };
 
-    const tokenContract = useTokenContract("0x9107E57C2BA29cf0b60f1E57c90210bE5F27E91e"); // @TODO remove goerli contract
+    const tokenContract = useTokenContract(process.env.REACT_APP_GRAPHLINQ_TOKEN_CONTRACT);
     const bridgeInContract = useBridgeInContract(process.env.REACT_APP_BRIDGE_IN_CONTRACT);
     const bridgeOutNativeContract = useBridgeOutNativeContract(process.env.REACT_APP_BRIDGE_OUT_NATIVE_CONTRACT);
 
@@ -66,8 +66,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({}) => {
 
         const decimalAmount: any = utils.parseEther(amountToDepositFromETH.toString());
         try {
-            // const allowance = await tokenContract.allowance(account, process.env.REACT_APP_STAKING_CONTRACT);
-            const allowance = await tokenContract.allowance(account, process.env.REACT_APP_BRIDGE_IN_CONTRACT); // @TODO remove goerli contract
+            const allowance = await tokenContract.allowance(account, process.env.REACT_APP_BRIDGE_IN_CONTRACT); 
             const wei = utils.parseEther("10000000");
             if (parseFloat(allowance) < parseFloat(decimalAmount)) {
                 setPending("Allowance pending, please allow the use of your token balance for the contract...");
@@ -75,8 +74,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({}) => {
                     position: "bottom-right",
                     render: () => <ToastWarning description="Allowance pending, please allow the use of your token balance for the contract..." />,
                 });
-                // const approveTx = await tokenContract.approve(process.env.REACT_APP_STAKING_CONTRACT, wei.toString());
-                const approveTx = await tokenContract.approve(process.env.REACT_APP_BRIDGE_IN_CONTRACT, wei.toString()); // @TODO remove goerli contract
+                const approveTx = await tokenContract.approve(process.env.REACT_APP_BRIDGE_IN_CONTRACT, wei.toString());
                 setPending("Waiting for confirmations...");
                 toast({
                     position: "bottom-right",
@@ -195,7 +193,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({}) => {
         const windowObject: any = window;
         var res = windowObject.ethereum ? await windowObject.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x5' }], // @TODO remove goerli
+            params: [{ chainId: '0x1' }], // @TODO remove goerli
           }) : null;
     }
 
@@ -219,7 +217,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({}) => {
 
     return (
         <Box className='bridge' maxW={{ sm: 'xl' }} mx={{ sm: 'auto' }} w={{ sm: 'full' }}>
-            {chainId === 5 && (
+            {chainId === 1 && (
                 <>
                     <h1 className="tc">Bridge your GLQ tokens from ETH Network to GraphLinq Network</h1>
                     <Box className="priv">
@@ -296,7 +294,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({}) => {
             )}
             {chainId === parseInt(process.env.REACT_APP_GLQ_CHAIN_ID) && (
                 <>
-                    <h1 className="tc">Claim your GLQ tokens from GraphLink Network</h1>
+                    <h1 className="tc">Claim your GLQ tokens from GraphLinq Network</h1>
                     <Box className="priv">
                         <p className='bridge-desc'>
                             You may now claim your tokens on the GraphLinq Network.
@@ -358,7 +356,9 @@ const BridgeIn: React.FC<BridgeInProps> = ({}) => {
                                 <p>
                                     Total already claimed: <span style={{fontSize:18, fontWeight:"bold"}}>{amountClaimedFromGLQ} GLQ</span>
                                 </p>
+                                
                             </Alert>
+                            Your claim amount available could be sometimes taking higher delays, so please wait & come back later if you don't see them!
                         </form>
                     </Box>
                     <button className='bt' onClick={switchToETHNetwork}>

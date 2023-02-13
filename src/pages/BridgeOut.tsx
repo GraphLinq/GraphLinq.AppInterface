@@ -36,7 +36,6 @@ const BridgeOut: React.FC<BridgeOutProps> = ({}) => {
         setSuccess("");
     };
 
-    const tokenContract = useTokenContract("0x9107E57C2BA29cf0b60f1E57c90210bE5F27E91e"); // @TODO remove goerli contract
     const bridgeInNativeContract = useBridgeInContract(process.env.REACT_APP_BRIDGE_IN_NATIVE_CONTRACT);
     const bridgeOutContract = useBridgeOutNativeContract(process.env.REACT_APP_BRIDGE_OUT_CONTRACT);
 
@@ -159,13 +158,13 @@ const BridgeOut: React.FC<BridgeOutProps> = ({}) => {
         const windowObject: any = window;
         var res = windowObject.ethereum ? await windowObject.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x5' }], // @TODO remove goerli
+            params: [{ chainId: '0x1' }], // @TODO remove goerli
           }) : null;
     }
 
     useEffect(() => {
         const fetchData = async () => {
-            if (chainId !== 5) {
+            if (chainId !== 1) {
                 return;
             }
     
@@ -260,7 +259,7 @@ const BridgeOut: React.FC<BridgeOutProps> = ({}) => {
                     </button>
                 </>
             )}
-            {chainId === 5 && (
+            {chainId === 1 && (
                 <>
                     <h1 className="tc">Claim your GLQ tokens from ETH Network</h1>
                     <Box className="priv">

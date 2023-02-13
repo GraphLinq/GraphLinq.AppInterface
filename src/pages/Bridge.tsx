@@ -34,17 +34,17 @@ const Bridge: React.FC<BridgeProps> = ({}) => {
         const windowObject: any = window;
         var res = windowObject.ethereum ? await windowObject.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x5' }], // @TODO remove goerli
+            params: [{ chainId: '0x1' }], // @TODO remove goerli
           }) : null;
     }
 
     async function goToBridgeIn() {
-        await switchToETHNetwork();
+        //await switchToETHNetwork(); useless cause ppl are stuck if they refresh and already send for claiming
         history.push('/app/bridge/in');
     }
 
     async function goToBridgeOut() {
-        await switchToGLQNetwork();
+        //await switchToGLQNetwork(); useless cause ppl are stuck if they refresh and already send for claiming
         history.push('/app/bridge/out');
     }
 
