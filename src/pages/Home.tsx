@@ -60,7 +60,7 @@ const Home: React.FC<HomeProps> = ({}) => {
         <>
             <h1>
                 Price Monitoring
-                <Link href="https://analytics.graphlinq.io/" to="/app/templates" className="bt">
+                <Link href="https://analytics.graphlinq.io/" className="bt">
                     Go to Analytics <i className="fal fa-arrow-right"></i>
                 </Link>
             </h1>

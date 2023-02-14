@@ -72,7 +72,7 @@ export const ModalWithdraw: React.FC<ModalWithdrawProps> = ({ }) => {
                 <ModalContent className="mod mod-dep">
                     <header><h2>Cloud Balance Withdraw</h2></header>
                     <ModalCloseButton className="clo" />
-                    <ModalBody class="fred">
+                    <ModalBody className="fred">
                         <Stack spacing={3} p="4">
                             {error &&
                             <Alert status="error">

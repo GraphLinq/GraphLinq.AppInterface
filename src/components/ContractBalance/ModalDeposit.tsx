@@ -85,7 +85,7 @@ export const ModalDeposit: React.FC<ModalDepositProps> = ({ }) => {
                 <ModalContent className="mod mod-dep">
                     <header><h2>Cloud Balance Deposit</h2></header>
                     <ModalCloseButton className="clo" />
-                    <ModalBody class="fred">
+                    <ModalBody className="fred">
                         <Stack spacing={3} p="4">
                             {error &&
                             <Alert status="error">
