@@ -153,29 +153,26 @@ const BridgeOut: React.FC<BridgeOutProps> = ({ }) => {
         }) : null;
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (chainId !== 1) {
-                return;
-            }
-
-            const addrInfo = await bridgeOutContract.getAddressInfos(account);
-            console.log(addrInfo);
-
-            const total = parseFloat(utils.formatUnits(addrInfo[0], 18))
-            const alreadyClaimed = parseFloat(utils.formatUnits(addrInfo[1], 18))
-            const leftToClaim = total - alreadyClaimed;
-
-            setAmountClaimedFromETH(alreadyClaimed);
-            setAmountToClaimFromETH(leftToClaim);
+    async function fetchData() {
+        if (chainId !== 1) {
+            return;
         }
-        fetchData();
-        refreshBalance();
-    })
+
+        const addrInfo = await bridgeOutContract.getAddressInfos(account);
+
+        const total = parseFloat(utils.formatUnits(addrInfo[0], 18))
+        const alreadyClaimed = parseFloat(utils.formatUnits(addrInfo[1], 18))
+        const leftToClaim = total - alreadyClaimed;
+
+        setAmountClaimedFromETH(alreadyClaimed);
+        setAmountToClaimFromETH(leftToClaim);
+    }
+
 
     useEffect(() => {
         window.setInterval(() => {
             refreshBalance();
+            fetchData();
         }, 60000);
     }, []);
 
