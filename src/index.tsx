@@ -13,7 +13,7 @@ import theme from './theme'
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
 if ('ethereum' in window) {
-  (window as any).ethereum.autoRefreshOnNetworkChange = false;
+  (window as any).ethereum.autoRefreshOnNetworkChange = true;
 }
 
 ReactDOM.render(

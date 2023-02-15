@@ -22,6 +22,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
     const [amountToDepositFromETH, setAmountToDepositFromETH] = useState(0);
     const [amountToClaimFromGLQ, setAmountToClaimFromGLQ] = useState(0);
     const [amountClaimedFromGLQ, setAmountClaimedFromGLQ] = useState(0);
+    const [refreshInterval, setRefreshInterval] = useState(null);
 
     const toast = createStandaloneToast();
     const [error, setError] = useState("");
@@ -43,10 +44,6 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
 
     const maxDeposit = () => {
         setAmountToDepositFromETH(balance.amount);
-    }
-
-    const maxClaim = () => {
-        setAmountToClaimFromGLQ(balance.amount);
     }
 
     async function doDeposit(e: any) {
@@ -119,8 +116,6 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
                 });
             }
 
-            refreshBalance();
-
             switchToGLQNetwork();
         } catch (e) {
             //console.error(e);
@@ -155,6 +150,8 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
                 resetFeedback();
                 setSuccess(txReceipt.transactionHash);
             }
+
+            globalRefresh();
         } catch (e: any) {
             resetFeedback();
             if (e && e?.data?.message !== undefined) {
@@ -212,12 +209,21 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
         setAmountToClaimFromGLQ(leftToClaim);
     }
 
+    function globalRefresh() {
+        refreshBalance();
+        fetchData();
+    }
+
+    function resetRefresh() {
+        globalRefresh();
+
+        window.clearInterval(refreshInterval);
+        setRefreshInterval(window.setInterval(globalRefresh, 60000));
+    }
+
     useEffect(() => {
-        window.setInterval(() => {
-            refreshBalance();
-            fetchData();
-        }, 60000);
-    }, []);
+        resetRefresh();
+    }, [chainId])
 
     return (
         <Box className='bridge' maxW={{ sm: 'xl' }} mx={{ sm: 'auto' }} w={{ sm: 'full' }}>
@@ -344,11 +350,6 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
                                     >
                                         <NumberInputField />
                                     </NumberInput>
-                                    <InputRightElement width="4.5rem" top="50%" transform="translateY(-50%)">
-                                        <Button rounded="full" colorScheme="blackAlpha" h="1.75rem" size="sm" onClick={maxClaim}>
-                                            Max
-                                        </Button>
-                                    </InputRightElement>
                                 </InputGroup>
                             </div>
                             <button className="bt" disabled={amountToClaimFromGLQ <= 0} onClick={doClaim}>

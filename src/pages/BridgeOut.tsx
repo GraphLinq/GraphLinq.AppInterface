@@ -23,6 +23,7 @@ const BridgeOut: React.FC<BridgeOutProps> = ({ }) => {
     const [amountToDepositFromGLQ, setAmountToDepositFromGLQ] = useState(0);
     const [amountToClaimFromETH, setAmountToClaimFromETH] = useState(0);
     const [amountClaimedFromETH, setAmountClaimedFromETH] = useState(0);
+    const [refreshInterval, setRefreshInterval] = useState(null);
 
     const toast = createStandaloneToast();
     const [error, setError] = useState("");
@@ -40,6 +41,7 @@ const BridgeOut: React.FC<BridgeOutProps> = ({ }) => {
 
     const format = (val: string) => val + ` GLQ`;
     const parse = (val: string) => val.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1");
+
 
     const maxDeposit = () => {
         setAmountToDepositFromGLQ(balance.amount);
@@ -75,8 +77,6 @@ const BridgeOut: React.FC<BridgeOutProps> = ({ }) => {
                 });
             }
 
-            refreshBalance();
-
             switchToETHNetwork();
         } catch (e) {
             //console.error(e);
@@ -111,7 +111,8 @@ const BridgeOut: React.FC<BridgeOutProps> = ({ }) => {
                 resetFeedback();
                 setSuccess(txReceipt.transactionHash);
             }
-            refreshBalance();
+
+            globalRefresh();
         } catch (e: any) {
             resetFeedback();
             if (e && e?.data?.message !== undefined) {
@@ -168,13 +169,21 @@ const BridgeOut: React.FC<BridgeOutProps> = ({ }) => {
         setAmountToClaimFromETH(leftToClaim);
     }
 
+    function globalRefresh() {
+        refreshBalance();
+        fetchData();
+    }
+
+    function resetRefresh() {
+        globalRefresh();
+
+        window.clearInterval(refreshInterval);
+        setRefreshInterval(window.setInterval(globalRefresh, 60000));
+    }
 
     useEffect(() => {
-        window.setInterval(() => {
-            refreshBalance();
-            fetchData();
-        }, 60000);
-    }, []);
+        resetRefresh();
+    }, [chainId])
 
     return (
         <Box className='bridge' maxW={{ sm: 'xl' }} mx={{ sm: 'auto' }} w={{ sm: 'full' }}>
