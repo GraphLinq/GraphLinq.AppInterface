@@ -21,7 +21,7 @@
   <h3 align="center">GraphLinq.AppInterface</h3>
 
   <p align="center">
-    {Description}
+    Main app interface for graphlinq.io - used to manage graph states and interact with other GraphLinq services like staking.
     <br />
     <a target="_blank" href="https://docs.graphlinq.io"><strong>Explore the docs »</strong></a>
     <br />
