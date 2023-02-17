@@ -13,6 +13,7 @@ import { useStakingContract, useTokenContract } from "../hooks/useContract";
 
 import { ClaimRewards } from "../components/Staking/ClaimRewards";
 import { StakingDeposit } from "../components/Staking/StakingDeposit";
+import { MigrationClaim } from "../components/Staking/MigrationClaim";
 import { StakingModalWithdraw } from "../components/Staking/StakingModalWithdraw";
 import { SuspenseSpinner } from "../components/SuspenseSpinner";
 import { BigNumber } from "@ethersproject/bignumber";
@@ -21,7 +22,7 @@ import { utils } from "ethers";
 import TopStakers, { Staker } from "../contracts/objects/topStakers";
 
 const Staking = () => {
-    const { account } = useActiveWeb3React();
+    const { account, chainId, library } = useActiveWeb3React();
     const [loaded, setLoaded] = useState(false);
     const [tiersAPY, setTiersAPY] = useState<TiersAPY | undefined>(undefined);
     const [topStakers, setTopStakers] = useState<TopStakers | undefined>(undefined);
@@ -30,6 +31,7 @@ const Staking = () => {
     const [totalStaked, setTotalStaked] = useState(0);
     const [oldTotalStaked, setOldTotalStaked] = useState(0);
     const [claimable, setClaimable] = useState(0);
+    const [migration, setMigration] = useState(0);
     const [waitingPercentAPR, setWaitingPercentAPR] = useState(0);
     const [totalStakedTier1, setTotalStakedTier1] = useState(0);
     const [totalStakedTier2, setTotalStakedTier2] = useState(0);
@@ -87,6 +89,22 @@ const Staking = () => {
             try {
                 const claimable: number = (await stakingContract.getGlqToClaim(account)).toString();
                 setClaimable(parseFloat(utils.formatUnits(claimable, 18)));
+            } catch (e) {
+                console.error(e);
+            }
+
+            res();
+        });
+    };
+
+    const refreshMigration = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            try {
+                const claimable: number = (await stakingContract.getClaimFromMigration(account)).toString();
+                setMigration(parseFloat(utils.formatUnits(claimable, 18)));
             } catch (e) {
                 console.error(e);
             }
@@ -279,7 +297,31 @@ const Staking = () => {
         });
     };
 
+    async function switchToGLQNetwork() {
+        const windowObject: any = window;
+
+        var res = windowObject.ethereum ? await windowObject.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [{
+                chainId: '0x266',
+                rpcUrls: ["https://glq-dataseed.graphlinq.io/"],
+                chainName: "GraphLinq Chain Mainnet",
+                nativeCurrency: {
+                    name: "GLQ",
+                    symbol: "GLQ",
+                    decimals: 18
+                },
+                blockExplorerUrls: ['https://explorer.graphlinq.io/']
+            }]
+        }) : null;
+        return res;
+    }
+
     const loadDatas = async () => {
+        if (chainId != 614) {
+            await switchToGLQNetwork()
+        }
+
         await refreshTiersAPY();
         await refreshRankPosition();
         await refreshTotalStakers();
@@ -296,6 +338,10 @@ const Staking = () => {
         await refreshTotalStakedTierThreeUsd();
         await refreshTotalStakedTierTwoUsd();
         await refreshTotalStakedTierOneUsd();
+
+        try {
+            await refreshMigration();
+        } catch (e) { console.error(e); }
 
         setLoaded(true);
     };
@@ -388,17 +434,43 @@ const Staking = () => {
                 <header>
                     <div>
                         <h1>Staking Dashboard</h1>
-                        <p>Stake now your GLQ, earn rewards and participate in the community activities.</p>
+                        <p>Stake now your GLQ on the GraphLinq Chain, earn rewards and participate in the community activities.</p>
                     </div>
                 </header>
 
-                {!loaded && (
+        
+                {chainId != 614 &&
+                <div style={{ margin: 50 }}>
+                    
+                    <Alert status="error">
+                    <i className="fal fa-exclamation-triangle"></i>
+                    <p>You need to switch to the GraphLinq network, please look at your browser extension.</p>
+                </Alert></div>}
+
+                {migration != 0 && loaded && chainId == 614 &&
+                <div style={{ margin: 50 }}>
+                    
+                    <Alert status="info">
+                    <i className="fal fa-exclamation-triangle"></i>
+                    <span style={{fontSize:'16px'}}>The staking contract has been migrated from Ethereum to the GraphLinq Blockchain, as a reward for our community and true believers, <u>we decided to airdrop 10% of GLQ as bonus from your staking value from 17th February, 2023!</u></span>
+                </Alert>
+                
+                <div className="depo">
+                                    <div>
+                                        <div className="sub">Your GLQ from the ETH chain migration</div>
+                                            <MigrationClaim claimAmount={migration} tx={tx} setTx={setTx} />
+                                    </div>
+                                </div>
+
+            </div>}
+
+                {!loaded && chainId == 614 && (
                     <div style={{ margin: 50 }}>
                         <SuspenseSpinner />
                     </div>
                 )}
 
-                {loaded && (
+                {migration == 0 && loaded && chainId == 614 && (
                     <div>
                         <div className="stk-m">
                             <div>
@@ -516,7 +588,7 @@ const Staking = () => {
                                             <br />
                                             <small>
                                                 Transaction hash :{" "}
-                                                <a href={`https://etherscan.com/tx/${success}`} target="_blank">
+                                                <a href={`https://explorer.graphlinq.io/tx/${success}`} target="_blank">
                                                     {success}
                                                 </a>
                                             </small>
@@ -619,11 +691,8 @@ const Staking = () => {
                                     tier with higher APY.
                                     <br />
                                     <br />
-                                    <u>At each withdrawal you will lose your rank advantages, benefitting the hodlers the most.</u>
                                     <br />
-                                    <br />
-                                    Your first withdrawal will decrease your APY by half (if you're not on tier 3), and the second will take you back to the
-                                    last tier with the least APY.
+                                    If you withdraw <span style={{color:"#b12a2a"}}><u>only ONCE your GLQ</u></span> from the staking contract, <span style={{color:"#b12a2a"}}><u>you will lose FOREVER your rank bonus</u></span> and will be always in T3 with the same wallet, you will have to stake with a new one to get back in the queue system and increase your staking rank, rest assured that you can deposit & claim at any convenience without impacting your staking rewards or tiers.
                                 </p>
                                 <div className="depo">
                                     <div>

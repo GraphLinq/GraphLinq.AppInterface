@@ -261,7 +261,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
                                         <br />
                                         <small>
                                             Transaction hash :{" "}
-                                            <a href={`https://etherscan.com/tx/${success}`} target="_blank">
+                                            <a href={`https://explorer.graphlinq.io/tx/${success}`} target="_blank">
                                                 {success}
                                             </a>
                                         </small>
@@ -332,7 +332,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
                                         <br />
                                         <small>
                                             Transaction hash :{" "}
-                                            <a href={`https://etherscan.com/tx/${success}`} target="_blank">
+                                            <a href={`https://explorer.graphlinq.io/tx/${success}`} target="_blank">
                                                 {success}
                                             </a>
                                         </small>
