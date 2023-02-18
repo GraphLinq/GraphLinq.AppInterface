@@ -438,8 +438,14 @@ const Staking = () => {
                     </div>
                 </header>
 
+                <div style={{ margin: 50 }}>
+                    
+                    <Alert status="error">
+                    <i className="fal fa-exclamation-triangle"></i>
+                    <p>The staking is currently in migration to the GLQ Mainnet network, please come back later. If you staked before seeing this message, it means that you are eligible to the 10% staking bonus over the GLQ network!</p>
+                </Alert></div>
         
-                {chainId != 614 &&
+                {/* {chainId != 614 &&
                 <div style={{ margin: 50 }}>
                     
                     <Alert status="error">
@@ -712,7 +718,7 @@ const Staking = () => {
                             </div>                            
                         </div>
                     </div>
-                )}
+                )} */}
             </div>
         </>
     );
