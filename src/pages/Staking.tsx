@@ -40,6 +40,7 @@ const Staking = () => {
     const [totalStakedTier3, setTotalStakedTier3] = useState(0);
     const [walletTier, setWalletTier] = useState(3);
     const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT);
+    const migrationContract = useStakingContract(process.env.REACT_APP_MIGRATION_STAKING_CONTRACT);
     const oldStakingContract = useStakingContract(process.env.REACT_APP_OLD_STAKING_CONTRACT);
 
     const [tx, setTx] = useState(0);
@@ -138,7 +139,7 @@ const Staking = () => {
                 return;
             }
             try {
-                const claimable: number = (await stakingContract.getClaimFromMigration(account)).toString();
+                const claimable: number = (await migrationContract.getClaimFromMigration(account)).toString();
                 setMigration(parseFloat(utils.formatUnits(claimable, 18)));
             } catch (e) {
                 console.error(e);

@@ -40,7 +40,7 @@ export const MigrationClaim: React.FC<StakingDepositProps> = (props: any) => {
     const [pending, setPending] = useState("");
     const [success, setSuccess] = useState("");
 
-    const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT);
+    const stakingContract = useStakingContract(process.env.REACT_APP_MIGRATION_STAKING_CONTRACT);
     const tokenContract = useTokenContract(process.env.REACT_APP_GRAPHLINQ_TOKEN_CONTRACT);
 
     const { refreshBalanceContract } = useWalletContract();
