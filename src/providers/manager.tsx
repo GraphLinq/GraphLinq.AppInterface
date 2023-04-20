@@ -177,6 +177,7 @@ export default class ManagerProvider
                 },
             })
             .then((res: any) => {
+                console.log(res);
                 (res.status === 200) ? resolve(res.json() as WalletBalanceResponse) : reject(res.json() as ErrorResponse)
             })
             .catch((error: any) => reject(error));

@@ -28,10 +28,12 @@ const Staking = () => {
     const [topStakers, setTopStakers] = useState<TopStakers | undefined>(undefined);
     const [rank, setRank] = useState(0);
     const [stakers, setStakers] = useState(0);
+    const [staker, setStaker] = useState(undefined);
     const [totalStaked, setTotalStaked] = useState(0);
     const [oldTotalStaked, setOldTotalStaked] = useState(0);
     const [claimable, setClaimable] = useState(0);
     const [migration, setMigration] = useState(0);
+    const [withdrawed, setWithdrawed] = useState(0);
     const [waitingPercentAPR, setWaitingPercentAPR] = useState(0);
     const [totalStakedTier1, setTotalStakedTier1] = useState(0);
     const [totalStakedTier2, setTotalStakedTier2] = useState(0);
@@ -63,6 +65,39 @@ const Staking = () => {
             try {
                 const rank: number = (await stakingContract.getPosition(account)).toString();
                 setRank(rank);
+            } catch (e) {
+                console.error(e);
+            }
+            res();
+        });
+    };
+
+
+
+    const refreshWithdrawed = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            try {
+                const withdrawed = await stakingContract._indexWithdrawed();
+                setWithdrawed(withdrawed.toString());
+
+            } catch (e) {
+                console.error(e);
+            }
+            res();
+        });
+    };
+
+    const refreshStaker = async () => {
+        return new Promise(async (res: any, _: any) => {
+            if (stakingContract == null) {
+                return;
+            }
+            try {
+                const staker: number = (await stakingContract.getStaker(account)).toString();
+                setStaker(staker);
             } catch (e) {
                 console.error(e);
             }
@@ -322,6 +357,8 @@ const Staking = () => {
             await switchToGLQNetwork()
         }
 
+        await refreshWithdrawed();
+        await refreshStaker();
         await refreshTiersAPY();
         await refreshRankPosition();
         await refreshTotalStakers();
@@ -437,15 +474,15 @@ const Staking = () => {
                         <p>Stake now your GLQ on the GraphLinq Chain, earn rewards and participate in the community activities.</p>
                     </div>
                 </header>
-
-                <div style={{ margin: 50 }}>
+{/* 
+                { <div style={{ margin: 50 }}>
                     
                     <Alert status="error">
                     <i className="fal fa-exclamation-triangle"></i>
-                    <p>The staking is currently in migration to the GLQ Mainnet network, please come back later. If you staked before seeing this message, it means that you are eligible to the 10% staking bonus over the GLQ network!</p>
-                </Alert></div>
+                    <p>The staking is currently in update for the tier system issue, please come back later. </p>
+                </Alert></div> } */}
         
-                {/* {chainId != 614 &&
+                {chainId != 614 &&
                 <div style={{ margin: 50 }}>
                     
                     <Alert status="error">
@@ -497,7 +534,7 @@ const Staking = () => {
                                         </div>
 
                                         <div className="evol1">
-                                            <strong>{stakersAhead} Ahead</strong>
+                                            <strong>{staker !== undefined  && Number(staker.split(",")[3]) === 0 && <div>Out of rank</div> || <div> {stakersAhead} Ahead</div>}</strong>
                                             <small>Until Next Rank</small>
                                         </div>
                                     </div>
@@ -508,6 +545,7 @@ const Staking = () => {
                                                     <th></th>
                                                     <th>
                                                         <span className="sub">Top 3 stakers</span>
+                                                        <span style={{float:"right", fontSize:14}}><b>{withdrawed}</b> are out of rank due to withdrawal requests</span>
                                                     </th>
                                                 </tr>
                                                 {topStakers !== undefined &&
@@ -718,7 +756,7 @@ const Staking = () => {
                             </div>                            
                         </div>
                     </div>
-                )} */}
+                )}
             </div>
         </>
     );
