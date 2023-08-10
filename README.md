@@ -121,7 +121,7 @@ Project Home: [https://graphlinq.io](https://graphlinq.io)
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-<a href="https://github.com/jrbgit/GraphLinq.AppInterface/graphs/contributors">
+<a href="https://github.com/GraphLinq/GraphLinq.AppInterface/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=GraphLinq/GraphLinq.AppInterface" />
 </a>
 
