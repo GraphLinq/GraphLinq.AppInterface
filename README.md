@@ -133,11 +133,11 @@ Made with [contributors-img](https://contrib.rocks).
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 <!-- GitHub -->
-[contributors-shield]: https://img.shields.io/github/contributors/GraphLinq/GraphLinq.Documentation.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/GraphLinq/GraphLinq.AppInterface.svg?style=for-the-badge
 [contributors-url]: https://github.com/GraphLinq/GraphLinq.AppInterface/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/GraphLinq/GraphLinq.Documentation.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/GraphLinq/GraphLinq.AppInterface.svg?style=for-the-badge
 [forks-url]: https://github.com/GraphLinq/GraphLinq.AppInterface/network/members
-[stars-shield]: https://img.shields.io/github/stars/GraphLinq/GraphLinq.Documentation.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/GraphLinq/GraphLinq.AppInterface.svg?style=for-the-badge
 [stars-url]: https://github.com/GraphLinq/GraphLinq.AppInterface/stargazers
-[issues-shield]: https://img.shields.io/github/issues/GraphLinq/GraphLinq.Documentation.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/GraphLinq/GraphLinq.AppInterface.svg?style=for-the-badge
 [issues-url]: https://github.com/GraphLinq/GraphLinq.AppInterface/issues
