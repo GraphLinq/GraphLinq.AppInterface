@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Icon, Text, Alert, AlertDescription, AlertIcon, AlertTitle, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Stack, useDisclosure } from '@chakra-ui/react';
-import { FiArrowUpRight } from 'react-icons/fi';
+import { Button, Alert, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Stack, useDisclosure } from '@chakra-ui/react';
 import { useBalanceContract, useTokenContract } from '../../hooks/useContract';
-import { getDecimalsAmount } from '../../utils';
 import { useActiveWeb3React } from '../../hooks';
 import { utils } from 'ethers';
 import { useBalance } from '../../hooks/useBalance';
@@ -103,7 +101,7 @@ export const ModalDeposit: React.FC<ModalDepositProps> = ({ }) => {
                             <Alert status="success" className="alert-m">
                                 <i className="fal fa-check-circle"></i> 
                                 <p>Deposit successfully completed !
-                                <br/><small>Transaction hash : <a href={`https://etherscan.com/tx/${success}`} target="_blank">{success}</a></small></p>
+                                <br/><small>Transaction hash : <a href={`https://etherscan.com/tx/${success}`} target="_blank" rel="noreferrer">{success}</a></small></p>
                             </Alert>
                             }
                             <NumberInput className="fd in"

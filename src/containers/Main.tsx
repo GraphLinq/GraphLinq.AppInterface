@@ -2,7 +2,7 @@ import React from 'react'
 import { Box } from '@chakra-ui/react';
 
 interface MainProps {
-
+children: any;
 }
 
 export const Main: React.FC<MainProps> = ({ children }) => {

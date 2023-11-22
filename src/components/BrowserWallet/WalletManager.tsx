@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
 
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
-import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -36,7 +34,7 @@ const WalletManager = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { active, account, connector, activate, error, library } = useWeb3React();
+  const { active, account, connector, activate, error } = useWeb3React();
 
   const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT);
 
@@ -158,12 +156,12 @@ const WalletManager = () => {
     setWalletView(WALLET_VIEWS.PENDING);
 
     // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
-    if (
-      connector instanceof WalletConnectConnector &&
-      connector.walletConnectProvider?.wc?.uri
-    ) {
-      connector.walletConnectProvider = undefined;
-    }
+    //if (
+      //connector instanceof WalletConnectConnector &&
+      //connector.walletConnectProvider?.wc?.uri
+    //) {
+    //  connector.walletConnectProvider = undefined;
+   // }
 
     connector &&
       activate(connector, undefined, true).catch((error) => {

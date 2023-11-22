@@ -42,7 +42,7 @@ export const WalletCreation: React.FC<WalletCreationProps> = (props) => {
             </Button>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
-                <ModalContent bg="linear-gradient(to bottom, #1d1938, #15122b)" rounded="xl" size="xl">
+                <ModalContent bg="linear-gradient(to bottom, #1d1938, #15122b)" rounded="xl">
                     <ModalHeader color="">Create Wallet :</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>

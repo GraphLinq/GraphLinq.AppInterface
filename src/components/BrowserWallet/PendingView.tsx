@@ -1,6 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
-import { darken } from 'polished'
 import { SUPPORTED_WALLETS } from '../../constants/index'
 import { injected } from '../../connectors/index'
 import Option from './Option'

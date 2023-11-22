@@ -119,7 +119,7 @@ export const StakingModalWithdraw: React.FC<StakingModalWithdrawProps> = (props:
                                     <br />
                                     <small>
                                         Transaction hash :{" "}
-                                        <a href={`https://etherscan.com/tx/${success}`} target="_blank">
+                                        <a href={`https://etherscan.com/tx/${success}`} target="_blank" rel="noreferrer">
                                             {success}
                                         </a>
                                     </small>

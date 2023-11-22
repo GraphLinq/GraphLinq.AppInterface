@@ -1,9 +1,7 @@
-import { Box, Button, ButtonGroup, Icon, Text } from '@chakra-ui/react';
-import { FiArrowDownLeft } from 'react-icons/fi';
 import { ModalDeposit } from './ModalDeposit';
 import { ModalWithdraw } from './ModalWithdraw';
 import React, { useEffect, useState } from "react";
-import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
+import { useWeb3React } from "@web3-react/core";
 import { useWalletContract } from "../../hooks/useWalletContract"
 
 interface ContractCardProps {

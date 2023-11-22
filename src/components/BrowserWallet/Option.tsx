@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Text, Box, Icon, Spacer, Link } from '@chakra-ui/react';
+import { Button, Icon, Link } from '@chakra-ui/react';
 import * as WalletIcons from "../../assets/icons";
 
 export default function Option({

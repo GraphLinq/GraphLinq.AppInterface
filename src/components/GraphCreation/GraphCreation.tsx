@@ -156,7 +156,7 @@ export const GraphCreation = (props: any) => {
                             </Box>
                         }
                         <input ref={inputFileRef as any} id="files" hidden={true} type="file" onClick={onInputClick} onChange={onFileChange} />
-                        {!fileUpload.loaded && <Button onClick={() => { (inputFileRef as any).current.click() }} htmlFor="files" className="sbt" hidden={!step}>Import .GLQ</Button>}
+                        {!fileUpload.loaded && <Button onClick={() => { (inputFileRef as any).current.click() }} className="sbt" hidden={!step}>Import .GLQ</Button>}
                         {!step || fileUpload.loaded &&
                             <Button onClick={() => { resetEntry() }} className="sbt">Cancel</Button>}
                         {!step &&

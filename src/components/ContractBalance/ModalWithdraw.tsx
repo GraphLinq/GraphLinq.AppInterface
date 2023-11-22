@@ -90,7 +90,7 @@ export const ModalWithdraw: React.FC<ModalWithdrawProps> = ({ }) => {
                             <Alert status="success">
                                 <i className="fal fa-check-circle"></i>
                                 <p>Withdraw successfully completed !</p>
-                                <p><small>Transaction hash : <a href={`https://etherscan.com/tx/${success}`} target="_blank">{success}</a></small></p>
+                                <p><small>Transaction hash : <a href={`https://etherscan.com/tx/${success}`} target="_blank" rel="noreferrer">{success}</a></small></p>
                             </Alert>
                             }
                             <Alert status="info" className="alert-m">

@@ -44,7 +44,7 @@ const Staking = () => {
 
     const refreshTiersAPY = async () => {
         return new Promise(async (res: any, _: any) => {
-            if (stakingContract == null) {
+            if (stakingContract === null) {
                 return;
             }
             const tiers: BigNumber[] = await stakingContract.getTiersAPY();
@@ -55,7 +55,7 @@ const Staking = () => {
 
     const refreshRankPosition = async () => {
         return new Promise(async (res: any, _: any) => {
-            if (stakingContract == null) {
+            if (stakingContract === null) {
                 return;
             }
             try {
@@ -70,7 +70,7 @@ const Staking = () => {
 
     const refreshTotalStakers = async () => {
         return new Promise(async (res: any, _: any) => {
-            if (stakingContract == null) {
+            if (stakingContract === null) {
                 return;
             }
             const stakers: number = (await stakingContract.getTotalStakers()).toString();
@@ -81,7 +81,7 @@ const Staking = () => {
 
     const refreshClaimable = async () => {
         return new Promise(async (res: any, _: any) => {
-            if (stakingContract == null) {
+            if (stakingContract === null) {
                 return;
             }
             try {
@@ -98,7 +98,7 @@ const Staking = () => {
     const refreshTotalStaked = async () => {
         return new Promise(async (res: any, _: any) => {
             try {
-                if (stakingContract == null) {
+                if (stakingContract === null) {
                     return;
                 }
                 const totalStaked: number = (await stakingContract.getTotalStaked()).toString();
@@ -113,7 +113,7 @@ const Staking = () => {
     const refreshOldTotalStaked = async () => {
         return new Promise(async (res: any, _: any) => {
             try {
-                if (oldStakingContract == null) {
+                if (oldStakingContract === null) {
                     return;
                 }
                 const oldTotalStaked: number = (await oldStakingContract.getTotalStaked()).toString();
@@ -127,7 +127,7 @@ const Staking = () => {
 
     const refreshWaitingPercentAPR = async () => {
         return new Promise(async (res: any, _: any) => {
-            if (stakingContract == null) {
+            if (stakingContract === null) {
                 return;
             }
             try {
@@ -142,7 +142,7 @@ const Staking = () => {
 
     const refreshWalletCurrentTier = async () => {
         return new Promise(async (res: any, _: any) => {
-            if (stakingContract == null) {
+            if (stakingContract === null) {
                 return;
             }
             try {
@@ -157,7 +157,7 @@ const Staking = () => {
 
     const refreshTopStakers = async () => {
         return new Promise(async (res: any, _: any) => {
-            if (stakingContract == null) {
+            if (stakingContract === null) {
                 return;
             }
             const datas: any = await stakingContract.getTopStakers();
@@ -170,7 +170,7 @@ const Staking = () => {
 
     const refreshTotalStakedTierOne = async () => {
         return new Promise(async (res: any, _: any) => {
-            if (stakingContract == null) {
+            if (stakingContract === null) {
                 return;
             }
             try {
@@ -185,7 +185,7 @@ const Staking = () => {
 
     const refreshTotalStakedTierTwo = async () => {
         return new Promise(async (res: any, _: any) => {
-            if (stakingContract == null) {
+            if (stakingContract === null) {
                 return;
             }
             try {
@@ -200,7 +200,7 @@ const Staking = () => {
 
     const refreshTotalStakedTierThree = async () => {
         return new Promise(async (res: any, _: any) => {
-            if (stakingContract == null) {
+            if (stakingContract === null) {
                 return;
             }
             try {
@@ -348,7 +348,7 @@ const Staking = () => {
     async function migrateFunds() {
         try {
             setPending("Pending, waiting for response...");
-            if (oldStakingContract == null) {
+            if (oldStakingContract === null) {
                 return;
             }
             const result = await oldStakingContract.emergencyWithdraw();
@@ -516,7 +516,7 @@ const Staking = () => {
                                             <br />
                                             <small>
                                                 Transaction hash :{" "}
-                                                <a href={`https://etherscan.com/tx/${success}`} target="_blank">
+                                                <a href={`https://etherscan.com/tx/${success}`} target="_blank" rel="noreferrer">
                                                     {success}
                                                 </a>
                                             </small>
@@ -525,20 +525,20 @@ const Staking = () => {
                                 )}
                                 <div className="tier">
                                     <h2>Tiers ranking</h2>
-                                    <div title={walletTier == 1 ? "You're current tier rewards" : ""}>
-                                        <div className={walletTier == 1 ? "tro act" : "tro"}>
+                                    <div title={walletTier === 1 ? "You're current tier rewards" : ""}>
+                                        <div className={walletTier === 1 ? "tro act" : "tro"}>
                                             <div className="sub">Tier 1</div>
                                             <strong>{tiersAPY?.tier_1.toFixed(2)} %</strong>
                                         </div>
                                     </div>
-                                    <div title={walletTier == 2 ? "You're current tier rewards" : ""}>
-                                        <div className={walletTier == 2 ? "tro act" : "tro"}>
+                                    <div title={walletTier === 2 ? "You're current tier rewards" : ""}>
+                                        <div className={walletTier === 2 ? "tro act" : "tro"}>
                                             <div className="sub">Tier 2</div>
                                             <strong>{tiersAPY?.tier_2.toFixed(2)} %</strong>
                                         </div>
                                     </div>
-                                    <div title={walletTier == 3 ? "You're current tier rewards" : ""}>
-                                        <div className={walletTier == 3 ? "tro act" : "tro"}>
+                                    <div title={walletTier === 3 ? "You're current tier rewards" : ""}>
+                                        <div className={walletTier === 3 ? "tro act" : "tro"}>
                                             <div className="sub">Tier 3</div>
                                             <strong>{tiersAPY?.tier_3.toFixed(2)} %</strong>
                                         </div>

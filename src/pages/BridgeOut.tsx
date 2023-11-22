@@ -221,7 +221,7 @@ const BridgeOut: React.FC<BridgeOutProps> = ({ }) => {
                                         <br />
                                         <small>
                                             Transaction hash :{" "}
-                                            <a href={`https://etherscan.com/tx/${success}`} target="_blank">
+                                            <a href={`https://etherscan.com/tx/${success}`} target="_blank" rel="noreferrer">
                                                 {success}
                                             </a>
                                         </small>
@@ -292,7 +292,7 @@ const BridgeOut: React.FC<BridgeOutProps> = ({ }) => {
                                         <br />
                                         <small>
                                             Transaction hash :{" "}
-                                            <a href={`https://etherscan.com/tx/${success}`} target="_blank">
+                                            <a href={`https://etherscan.com/tx/${success}`} target="_blank" rel="noreferrer">
                                                 {success}
                                             </a>
                                         </small>

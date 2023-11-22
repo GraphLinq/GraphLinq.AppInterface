@@ -15,7 +15,7 @@ const Home: React.FC<HomeProps> = ({}) => {
                 applyCss()
                 return;
             }
-            var sheet = new CSSStyleSheet
+            var sheet = new CSSStyleSheet()
             host.adoptedStyleSheets = [ sheet ];
             host.querySelector(".cg-container .cg-widget .cg-absolute").style.display = "none";
             host.querySelector("style").innerHTML += `
