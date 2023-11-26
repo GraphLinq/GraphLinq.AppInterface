@@ -33,7 +33,7 @@ export default function Web3ReactManager({ children }: any) {
   useEffect(() => {
     // setting account and refreshing glq balance
     refreshBalance();
-  }, [chainId, account]);
+  }, [chainId, account, refreshBalance]);
 
   return children;
 }
