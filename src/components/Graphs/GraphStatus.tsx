@@ -1,4 +1,4 @@
-import { Tooltip, Box } from '@chakra-ui/react';
+import { Tooltip } from '@chakra-ui/react';
 import React from 'react'
 import { GraphStateEnum } from '../../enums/graphState';
 

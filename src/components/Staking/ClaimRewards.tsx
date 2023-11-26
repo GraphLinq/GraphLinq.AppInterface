@@ -2,7 +2,6 @@ import React from "react";
 import { createStandaloneToast } from "@chakra-ui/react";
 import { ToastSuccess } from "../Toasts/ToastSuccess";
 import { ToastError } from "../Toasts/ToastError";
-import { ToastWarning } from "../Toasts/ToastWarning";
 import { ToastInfo } from "../Toasts/ToastInfo";
 
 import { useStakingContract } from "../../hooks/useContract";
