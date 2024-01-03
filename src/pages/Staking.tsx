@@ -368,7 +368,7 @@ const Staking = () => {
         await refreshOldTotalStaked();
         await refreshWaitingPercentAPR();
         await refreshWalletCurrentTier();
-        await refreshTopStakers();
+        // await refreshTopStakers();
         await refreshTotalStakedTierOne();
         await refreshTotalStakedTierTwo();
         await refreshTotalStakedTierThree();
@@ -545,7 +545,7 @@ const Staking = () => {
                                                 <tr>
                                                     <th></th>
                                                     <th>
-                                                        <span className="sub">Top 3 stakers</span>
+                                                        {/* <span className="sub">Top 3 stakers</span> */}
                                                         <span style={{float:"right", fontSize:14}}><b>{withdrawed}</b> are out of rank due to withdrawal requests</span>
                                                     </th>
                                                 </tr>

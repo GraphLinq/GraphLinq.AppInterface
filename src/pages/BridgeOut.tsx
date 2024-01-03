@@ -253,13 +253,13 @@ const BridgeOut: React.FC<BridgeOutProps> = ({ }) => {
                                     </InputRightElement>
                                 </InputGroup>
                             </div>
-                            {/* <div style={{cursor: "not-allowed"}} className="bt" onClick={doDeposit}> */}
-                            <div style={{cursor: "not-allowed"}} className="bt">
+                            <div className="bt" onClick={doDeposit}>
+                            {/* <div style={{cursor: "not-allowed"}} className="bt"> */}
                                 Deposit GLQ from GraphLinq Network
                             </div>
                             
                         </form>
-                        <div style={{fontSize: '10px', fontWeight: 'bold', color:'#3cc8b6'}}>not live yet</div>
+                        {/* <div style={{fontSize: '10px', fontWeight: 'bold', color:'#3cc8b6'}}>not live yet</div> */}
                     </Box>
                     <button className='bt' onClick={switchToETHNetwork}>
                         Switch to ETH Network
@@ -326,7 +326,7 @@ const BridgeOut: React.FC<BridgeOutProps> = ({ }) => {
                                     Total already claimed: <span style={{ fontSize: 18, fontWeight: "bold" }}>{amountClaimedFromETH} GLQ</span>
                                 </p>
                             </Alert>
-                            Your claim amount available could be sometimes taking higher delays, so please wait & come back later if you don't see them!
+                            Your claim amount available could be taking delays (max ~72h) please wait & come back later if you don't see them!
                         </form>
                     </Box>
                     <button className='bt' onClick={switchToGLQNetwork}>
