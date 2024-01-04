@@ -25,8 +25,5 @@ yarn-error.log*
 .env
 .prod
 .pre
-package-lock.json
 dist/
 .eslintcache
-public/
-.dev
