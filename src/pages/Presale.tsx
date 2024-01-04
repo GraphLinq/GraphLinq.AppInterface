@@ -86,7 +86,7 @@ const Presale = () => {
                 <Alert status="success">
                     <i className="fal fa-check-circle"></i>
                     <p>You successfully claimed your GLQ tokens from the Private sale, Congratulations!</p>
-                    <p><small>Transaction hash : <a href={`https://etherscan.com/tx/${success}`} target="_blank" rel="noreferrer">{success}</a></small></p>
+                    <p><small>Transaction hash : <a href={`https://explorer.graphlinq.io/tx/${success}`} target="_blank" rel="noreferrer">{success}</a></small></p>
                 </Alert>
                 }
                 <Box className="priv">

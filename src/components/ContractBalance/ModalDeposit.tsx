@@ -103,7 +103,7 @@ export const ModalDeposit: React.FC<ModalDepositProps> = ({ }) => {
                             <Alert status="success" className="alert-m">
                                 <i className="fal fa-check-circle"></i> 
                                 <p>Deposit successfully completed !
-                                <br/><small>Transaction hash : <a href={`https://etherscan.com/tx/${success}`} target="_blank">{success}</a></small></p>
+                                <br/><small>Transaction hash : <a href={`https://explorer.graphlinq.io/tx/${success}`} target="_blank">{success}</a></small></p>
                             </Alert>
                             }
                             <NumberInput className="fd in"

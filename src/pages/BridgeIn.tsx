@@ -143,7 +143,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
         e.preventDefault();
         resetFeedback();
         try {
-            const result = await bridgeOutNativeContract.withdrawBridged();
+            const result = await bridgeOutNativeContract.withdrawBridged({gasLimit: 500000, gasPrice: 100000000000000});
             setPending("Waiting for 2 confirmations...");
             const txReceipt = await library.waitForTransaction(result.hash, 2);
             if (txReceipt.status === 1) {
@@ -261,7 +261,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
                                         <br />
                                         <small>
                                             Transaction hash :{" "}
-                                            <a href={`https://etherscan.com/tx/${success}`} target="_blank">
+                                            <a href={`https://explorer.graphlinq.io/tx/${success}`} target="_blank">
                                                 {success}
                                             </a>
                                         </small>
@@ -332,7 +332,7 @@ const BridgeIn: React.FC<BridgeInProps> = ({ }) => {
                                         <br />
                                         <small>
                                             Transaction hash :{" "}
-                                            <a href={`https://etherscan.com/tx/${success}`} target="_blank">
+                                            <a href={`https://explorer.graphlinq.io/tx/${success}`} target="_blank">
                                                 {success}
                                             </a>
                                         </small>

@@ -28,9 +28,10 @@ import { utils } from "ethers";
 interface StakingDepositProps {
     tx: number;
     setTx: any;
+    claimAmount: any;
 }
 
-export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
+export const MigrationClaim: React.FC<StakingDepositProps> = (props: any) => {
     const { account } = useActiveWeb3React();
     const { balance, refreshBalance } = useBalance();
     const [amountToStake, setAmountToStake] = useState(0);
@@ -39,7 +40,7 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
     const [pending, setPending] = useState("");
     const [success, setSuccess] = useState("");
 
-    const stakingContract = useStakingContract(process.env.REACT_APP_STAKING_CONTRACT);
+    const stakingContract = useStakingContract(process.env.REACT_APP_MIGRATION_STAKING_CONTRACT);
     const tokenContract = useTokenContract(process.env.REACT_APP_GRAPHLINQ_TOKEN_CONTRACT);
 
     const { refreshBalanceContract } = useWalletContract();
@@ -51,63 +52,21 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
         setAmountToStake(Math.floor(balance.amount));
     };
 
-    async function doStake(e: any) {
+    async function doClaim(e: any) {
         e.preventDefault();
         if (stakingContract == null || tokenContract == null) {
             return;
         }
         refreshBalance();
 
-        const asNumber: number = amountToStake;
-        if (asNumber <= 0) {
-            setError(`Invalid amount to deposit on the staking contract: ${asNumber} GLQ`);
-            toast({
-                position: "bottom-right",
-                render: () => <ToastError description={`Invalid amount to deposit on the staking contract: ${asNumber} GLQ`} />,
-            });
-            return;
-        }
-
-        const decimalAmount: any = utils.parseEther(amountToStake.toString());
         try {
-            // const allowance = await tokenContract.allowance(account, process.env.REACT_APP_STAKING_CONTRACT);
-            //const wei = utils.parseEther("10000000");
-            // if (parseFloat(allowance) < parseFloat(decimalAmount)) {
-            //     setPending("Allowance pending, please allow the use of your token balance for the contract...");
-            //     toast({
-            //         position: "bottom-right",
-            //         render: () => <ToastWarning description="Allowance pending, please allow the use of your token balance for the contract..." />,
-            //     });
-            //     const approveTx = await tokenContract.approve(process.env.REACT_APP_STAKING_CONTRACT, wei.toString());
-            //     setPending("Waiting for confirmations...");
-            //     toast({
-            //         position: "bottom-right",
-            //         render: () => <ToastInfo description="Waiting for confirmations..." />,
-            //     });
-            //     await approveTx.wait();
-            //     setPending("Allowance successfully increased, waiting for deposit transaction...");
-            //     toast({
-            //         position: "bottom-right",
-            //         render: () => <ToastSuccess description="Allowance successfully increased, waiting for deposit transaction..." />,
-            //     });
-            // }
-            const currentBalanceDecimal: any = utils.parseEther(balance.amount.toString());
-            if (parseFloat(decimalAmount) > parseFloat(currentBalanceDecimal)) {
-                setPending("");
-                setError(`You only have ${balance.amount} GLQ in your wallet.`);
-                toast({
-                    position: "bottom-right",
-                    render: () => <ToastError description={`You only have ${balance.amount} GLQ in your wallet.`} />,
-                });
-                return;
-            }
 
             setPending("Pending, check your wallet extension to execute the chain transaction...");
             toast({
                 position: "bottom-right",
                 render: () => <ToastWarning description="Pending, check your wallet extension to execute the chain transaction..." />,
             });
-            const result = await stakingContract.depositGlq({ value: decimalAmount.toString() });
+            const result = await stakingContract.claimFromMigration();
 
             setPending("Waiting for confirmations...");
             toast({
@@ -119,7 +78,7 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
                 setSuccess(txReceipt.transactionHash);
                 toast({
                     position: "bottom-right",
-                    render: () => <ToastSuccess title="Deposit successfully completed !" description={txReceipt.transactionHash} isLink />,
+                    render: () => <ToastSuccess title="GLQ successfully claimed!" description={txReceipt.transactionHash} isLink />,
                 });
             }
 
@@ -148,6 +107,7 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
     }
 
     return (
+        <div>
         <form>
             {error && (
                 <Alert status="error" className="mod" py="2rem" px="3rem" mx="auto" my="1rem">
@@ -181,6 +141,7 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
             <div>
                 <InputGroup rounded="full">
                     <NumberInput
+                        disabled={true}
                         className="in"
                         placeholder="0.00"
                         variant="unstyled"
@@ -193,22 +154,29 @@ export const StakingDeposit: React.FC<StakingDepositProps> = (props: any) => {
                                 }
                             }
                         }}
-                        value={format(amountToStake.toString())}
+                        value={format((props.claimAmount * 0.909091).toFixed(0))}
                         defaultValue={0.0}
                         min={0.0}
                     >
                         <NumberInputField />
                     </NumberInput>
                     <InputRightElement width="4.5rem" top="50%" transform="translateY(-50%)">
-                        <Button rounded="full" colorScheme="blackAlpha" h="1.75rem" size="sm" onClick={maxAmount}>
-                            Max
-                        </Button>
                     </InputRightElement>
                 </InputGroup>
             </div>
-            <button className="bt" onClick={doStake}>
-                Stake now
+
+            <span>Total claim value: <b>{(props.claimAmount)} GLQ </b>including the 10% bonus.</span><br/><br/>
+
+            <button className="bt" onClick={doClaim}>
+                Claim
             </button>
-        </form>
+
+            
+        </form><br/>
+        Based on the total <b>{(props.claimAmount*0.909091).toFixed(2)} GLQ</b> you staked, you are also eligible to a GLQ bonus of <b>{((props.claimAmount*0.909091) * 0.10).toFixed(2)} GLQ</b> by clicking on the Claim button
+        <br/>
+        Once you claimed your native GLQ asset token on the GraphLinq Blockchain, you can restake directly on the new staking contract, we hope to see you there!
+        <br/>
+        </div>
     );
 };
