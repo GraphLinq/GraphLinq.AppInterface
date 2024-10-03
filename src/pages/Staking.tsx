@@ -288,9 +288,9 @@ const Staking = () => {
     const refreshGlqPrice = async () => {
         return new Promise(async (res: any, _: any) => {
             try {
-                let response = await fetch("https://api.graphlinq.io/front/token");
+                let response = await fetch("https://api-hub.graphlinq.io/stats");
                 let responseJson = await response.json();
-                setGlqPrice(responseJson.uni.glqPrice.toFixed(5));
+                setGlqPrice(responseJson.prices.GLQ);
             } catch (error) {
                 console.error(error);
             }

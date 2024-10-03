@@ -40,9 +40,9 @@ export const Header: React.FC<HeaderProps> = ({}) => {
     const [glqPrice, setGlqPrice] = useState("");
     const refreshGlqPrice = async () => {
         try {
-            let response = await fetch("https://api.graphlinq.io/front/token");
+            let response = await fetch("https://api-hub.graphlinq.io/stats");
             let responseJson = await response.json();
-            setGlqPrice(formatCur(responseJson.uni.glqPrice, 0, 5));
+            setGlqPrice(formatCur(responseJson.prices.GLQ, 0, 5));
         } catch (error) {
             console.error(error);
         }
