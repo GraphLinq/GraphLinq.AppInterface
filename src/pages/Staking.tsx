@@ -578,13 +578,13 @@ const Staking = () => {
                                         <div className="sub">Total Staked GLQ</div>
                                         <p>
                                             <strong>
-                                                {totalStaked
+                                                {(totalStakedTier1 + totalStakedTier2 + totalStakedTier3)
                                                     .toFixed(2)
                                                     .toString()
                                                     .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}
                                             </strong>{" "}
                                             GLQ
-                                            <small>{formatCur(totalStaked * glqPrice, 0, 2)}</small>
+                                            <small>{formatCur((totalStakedTier1 + totalStakedTier2 + totalStakedTier3) * glqPrice, 0, 2)}</small>
                                         </p>
                                     </div>
                                     <div>
