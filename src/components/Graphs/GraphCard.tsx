@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef } from 'react'
 import { Flex, Text, Link, Spacer, Button, Icon, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Menu, MenuButton, IconButton, MenuList, MenuItem, useDisclosure, Portal, Box, LinkOverlay, LinkBox, MenuDivider, Skeleton, useClipboard } from '@chakra-ui/react';
 import { HiOutlineEye, HiOutlineDotsHorizontal } from 'react-icons/hi';

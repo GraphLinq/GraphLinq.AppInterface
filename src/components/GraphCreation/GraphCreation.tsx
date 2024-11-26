@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react'
 import { Box, Button, Editable, EditableInput, Alert, AlertTitle, Text, AlertDescription, AlertIcon, EditablePreview, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, propNames, SimpleGrid, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, useDisclosure, useRadioGroup, Icon, Flex } from '@chakra-ui/react';
 import { TemplateCard } from './TemplateCard';

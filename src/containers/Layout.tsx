@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { Suspense } from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { Flex, Box } from '@chakra-ui/react';

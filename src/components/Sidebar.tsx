@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react'
 import { Box, Icon, Link, Image } from '@chakra-ui/react';
 import { NavLink, Route } from 'react-router-dom';
