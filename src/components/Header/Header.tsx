@@ -108,7 +108,7 @@ export const Header: React.FC<HeaderProps> = ({}) => {
                         <MenuItem as={Link} icon={<FiBookOpen />} href="https://docs.graphlinq.io/" isExternal>
                             Documentation
                         </MenuItem>
-                        <MenuItem as={Link} icon={<FiMessageCircle />} href="https://discord.gg/k3tqWzub" isExternal>
+                        <MenuItem as={Link} icon={<FiMessageCircle />} href="https://discord.gg/cDkwXJcmry" isExternal>
                             Discord
                         </MenuItem>
                         <MenuItem as={Link} icon={<FiMessageSquare />} href="https://t.me/graphlinq" isExternal>
