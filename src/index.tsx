@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -7,43 +7,54 @@ import { createWeb3ReactRoot, Web3ReactProvider } from "@web3-react/core";
 import { NetworkContextName } from "./constants/index";
 import getLibrary from "./utils/getLibrary";
 
-import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript, Box, Text, Button } from "@chakra-ui/react";
 import theme from "./theme";
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
-// Function to check for Ethereum provider
-const checkEthereumProvider = () => {
-  const ethereum = (window as any)?.ethereum;
-  if (ethereum) {
-    // Safely access properties using optional chaining
-    ethereum.autoRefreshOnNetworkChange = true;
-    return true;
-  } else {
-    console.error("Ethereum provider (e.g., MetaMask) is not available.");
-    alert("Please install MetaMask or another Ethereum wallet provider.");
-    return false;
-  }
+const Root = () => {
+  const [isEthereumAvailable, setIsEthereumAvailable] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const ethereum = (window as any)?.ethereum;
+    if (ethereum) {
+      ethereum.autoRefreshOnNetworkChange = true;
+      setIsEthereumAvailable(true);
+    } else {
+      setIsEthereumAvailable(false);
+    }
+  }, []);
+
+  return (
+    <React.StrictMode>
+      <ColorModeScript />
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <Web3ProviderNetwork getLibrary={getLibrary}>
+          <ChakraProvider theme={theme}>
+            {isEthereumAvailable === null && (
+              <Box textAlign="center" mt="4">
+                <Text>Checking for Ethereum provider...</Text>
+              </Box>
+            )}
+            {isEthereumAvailable === false && (
+              <Box textAlign="center" mt="4">
+                <Text fontSize="lg" color="red.500">
+                  Ethereum provider (e.g., MetaMask) is not available.
+                </Text>
+                <Text mt="2">
+                  Please install <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer">MetaMask</a> or another Ethereum wallet provider to use this application.
+                </Text>
+              </Box>
+            )}
+            {isEthereumAvailable === true && <App />}
+          </ChakraProvider>
+        </Web3ProviderNetwork>
+      </Web3ReactProvider>
+    </React.StrictMode>
+  );
 };
 
-// Run the check for Ethereum provider
-if (!checkEthereumProvider()) {
-  console.log("No Ethereum provider detected.");
-}
-
-ReactDOM.render(
-  <React.StrictMode>
-    <ColorModeScript />
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <Web3ProviderNetwork getLibrary={getLibrary}>
-        <ChakraProvider theme={theme}>
-          <App />
-        </ChakraProvider>
-      </Web3ProviderNetwork>
-    </Web3ReactProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+ReactDOM.render(<Root />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
