@@ -35,17 +35,16 @@ const routes = [
       icon: 'HiOutlineShoppingCart',
       name: 'Buy GLQ',
     },
-    {
+    /* {
       path: '/app/bridge',
       icon: 'HiOutlineSwitchHorizontal',
       name: 'Bridge',
     },
-    /* {
+    {
       path: '/app/private-sale',
       icon: 'HiOutlineDatabase',
       name: 'Private Sale',
     }, */
-  ]
-  
-  export default routes
-  
+]
+
+export default routes
