@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({}) => {
         try {
             let response = await fetch("https://api-hub.graphlinq.io/stats");
             let responseJson = await response.json();
-            setGlqPrice(formatCur(responseJson.prices.GLQ, 0, 5));
+            setGlqPrice(formatCur(responseJson.swaps[0].price, 0, 5));
         } catch (error) {
             console.error(error);
         }
