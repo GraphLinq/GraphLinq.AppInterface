@@ -290,7 +290,7 @@ const Staking = () => {
             try {
                 let response = await fetch("https://api-hub.graphlinq.io/stats");
                 let responseJson = await response.json();
-                setGlqPrice(responseJson.prices.GLQ);
+                setGlqPrice(responseJson.swaps[0].price);
             } catch (error) {
                 console.error(error);
             }
