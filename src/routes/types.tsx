@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { useWeb3React } from "@web3-react/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import WalletService from "../services/walletService";
 import { useHistory } from "react-router-dom";
 import AuthComponent from "../pages/Auth"
@@ -15,7 +15,7 @@ export const CustomRoute = ({ component, ...rest }: any) => {
     if (!WalletService.verifySessionIntegrity(account)) {
       return history.push("/");
     }
-  }, [account])
+  }, [account, history])
   return (
     <Route
       {...rest}

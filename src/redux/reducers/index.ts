@@ -1,7 +1,9 @@
 import {diagrams} from './diagrams';
 import {modals} from './modals';
 
-export default {
+const reducers = {
   modals,
   diagrams,
 };
+
+export default reducers;

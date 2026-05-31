@@ -1,13 +1,10 @@
 import { GraphStateEnum } from "../enums/graphState";
-import { ErrorResponse } from "../providers/error";
 import ManagerProvider from "../providers/manager"
 import { DeployGraphRequest } from "../providers/requests/deploy";
-import AuthResponse from "../providers/responses/auth"
 import { DeployGraphResponse } from "../providers/responses/deploy";
 import { GraphResponse } from "../providers/responses/graph";
 import { GraphLogs, Log } from "../providers/responses/logs";
 import { GraphStateResponse } from "../providers/responses/state";
-import { GraphStateRequest } from "../providers/requests/state"
 import { ResponseSuccess } from "../providers/responses/success";
 import { CompressGraphResponse } from "../providers/responses/compress";
 import { DecompressGraphResponse } from "../providers/responses/decompress";
@@ -20,7 +17,7 @@ export default class GraphService {
         {
             const session = JSON.parse(localStorage.getItem("session") as string)
             const result: DeployGraphResponse = await ManagerProvider.deployGraph(request, session.token)
-            return new String(result.hash)
+            return String(result.hash)
         }
         catch (error)
         {

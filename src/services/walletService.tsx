@@ -66,7 +66,7 @@ export default class WalletService {
         catch (error)
         {
             if (!error.success) {
-                var errorMsg: String = new String(error.msg)
+                var errorMsg: String = String(error.msg)
                 return errorMsg
             }
             console.error(JSON.stringify(error))
@@ -97,7 +97,7 @@ export default class WalletService {
         {
             const session = JSON.parse(localStorage.getItem("session") as string)
             const result: CreateManagedResponse = await ManagerProvider.createManagedWallet(request, session.token)
-            return new String(result.private_key)
+            return String(result.private_key)
         }
         catch (error)
         {
